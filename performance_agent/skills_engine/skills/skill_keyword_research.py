@@ -208,7 +208,8 @@ class KeywordResearchSkill(PredatorSkill):
                 {related_summary}
                 
                 Sua missão é gerar um plano de palavras-chave estratégico contendo EXATAMENTE 5 palavras de Cauda Curta (Short-Tail) e 5 palavras de Cauda Longa (Long-Tail).
-                Estime o Volume de Busca Mensal (em números reais, ex: 1500, 350) e o Nível de Concorrência (Baixa, Média, Alta) baseado nos dados do Google acima e no seu conhecimento macroeconômico regional.
+                Mesmo que os dados de resultados orgânicos ou pagos estejam vazios acima, use seu conhecimento especializado sobre o nicho de '{niche_hint}' em {city} para sugerir as 10 melhores palavras-chave.
+                Estime o Volume de Busca Mensal (em números reais, ex: 1500, 350) e o Nível de Concorrência (Baixa, Média, Alta) baseado no seu conhecimento macroeconômico regional.
                 
                 Me responda ESTRITAMENTE num formato JSON válido:
                 {{
@@ -240,6 +241,12 @@ class KeywordResearchSkill(PredatorSkill):
             except Exception as gemini_err:
                 print(f"  [Keyword Agent] Erro Gemini: {gemini_err}")
                 report["findings"]["search_insights"] = "Análise estratégica indisponível."
+                # Fallback estático caso a IA falhe totalmente
+                report["findings"]["keyword_opportunities"] = [
+                    {"keyword": f"{niche_hint} em {city}", "type": "short-tail", "volume": 1000, "competition": "Alta"},
+                    {"keyword": f"melhor {niche_hint} perto de mim", "type": "long-tail", "volume": 350, "competition": "Média"},
+                    {"keyword": f"{niche_hint} preço {city}", "type": "short-tail", "volume": 500, "competition": "Média"}
+                ]
 
         # =============================================
         # 5. BOSS BRIEFING

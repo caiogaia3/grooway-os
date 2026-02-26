@@ -94,11 +94,11 @@ class GMBAuditorSkill(PredatorSkill):
                         "imageCount": item.get('imageCount', item.get('totalPhotos', 0)),
                         "reviewsList": [
                             {
-                                "text": r.get('text', ''),
+                                "text": r.get('text', r.get('textTranslated', '')),
                                 "stars": r.get('stars', 0),
                                 "publishedAtDate": r.get('publishedAtDate', '')
                             }
-                            for r in item.get('reviews', [])[:8] if r.get('text')
+                            for r in item.get('reviews', [])[:10] if r.get('text') or r.get('textTranslated')
                         ]
                     }
                     break
