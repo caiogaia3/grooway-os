@@ -1,0 +1,25 @@
+# Next.js
+node_modules/
+.next/
+out/
+build/
+.DS_Store
+*.pem
+
+# Python
+venv/
+__pycache__/
+*.pyc
+.env
+.env.local
+.env.*.local
+predator_report.json
+
+# IDE
+.vscode/
+.idea/
+
+# Artifacts
+.gemini/
+.agents/
+brain/
