@@ -196,7 +196,7 @@ class KeywordResearchSkill(PredatorSkill):
                 
                 prompt = f"""
                 Você é um Estrategista de Google Ads analisando oportunidades reais de busca para a empresa '{company_name}' na cidade de {city}.
-                O nicho identificado é: {niche_hint}.
+                O nicho/segmento identificado é: {niche_hint}.
                 
                 RESULTADOS ORGÂNICOS REAIS DO GOOGLE:
                 {organic_summary}
@@ -207,16 +207,20 @@ class KeywordResearchSkill(PredatorSkill):
                 BUSCAS RELACIONADAS SUGERIDAS PELO GOOGLE:
                 {related_summary}
                 
-                Sua missão é gerar um plano de palavras-chave estratégico contendo EXATAMENTE 5 palavras de Cauda Curta (Short-Tail) e 5 palavras de Cauda Longa (Long-Tail).
-                Mesmo que os dados de resultados orgânicos ou pagos estejam vazios acima, use seu conhecimento especializado sobre o nicho de '{niche_hint}' em {city} para sugerir as 10 melhores palavras-chave.
-                Estime o Volume de Busca Mensal (em números reais, ex: 1500, 350) e o Nível de Concorrência (Baixa, Média, Alta) baseado no seu conhecimento macroeconômico regional.
+                SUA MISSÃO OBRIGATÓRIA:
+                Gerar um plano de palavras-chave estratégico contendo EXATAMENTE 5 palavras de Cauda Curta (Short-Tail) e 5 palavras de Cauda Longa (Long-Tail).
+                
+                REGRAS RÍGIDAS PARA AS PALAVRAS-CHAVE:
+                1. As palavras-chave DEVEM ser baseadas no SEGMENTO/NICHO ('{niche_hint}') e NUNCA no nome da empresa ('{company_name}').
+                2. O foco é capturar tráfego de pessoas que não conhecem a empresa, mas procuram pelo serviço. (Ex: se a empresa for 'Padaria do João', a keyword deve ser 'padaria artesanal {city}' e NUNCA 'padaria do joao').
+                3. Estime o Volume de Busca Mensal (em números reais, ex: 1500, 350) e o Nível de Concorrência (Baixa, Média, Alta) baseado no seu conhecimento macroeconômico regional.
                 
                 Me responda ESTRITAMENTE num formato JSON válido:
                 {{
-                    "search_insights": "Resumo de 3 linhas sobre o cenário de tráfego na cidade. Diga se a concorrência paga é alta.",
+                    "search_insights": "Resumo de 3 linhas sobre o cenário de tráfego de busca genérica/nicho na cidade. Diga se a concorrência paga é alta.",
                     "keyword_opportunities": [
-                        {{"keyword": "termo curto", "type": "short-tail", "volume": 2500, "competition": "Alta"}},
-                        {{"keyword": "termo especifico e longo", "type": "long-tail", "volume": 450, "competition": "Baixa"}}
+                        {{"keyword": "servico generico curto {city}", "type": "short-tail", "volume": 2500, "competition": "Alta"}},
+                        {{"keyword": "servico especifico longo e barato {city}", "type": "long-tail", "volume": 450, "competition": "Baixa"}}
                     ]
                 }}
                 """

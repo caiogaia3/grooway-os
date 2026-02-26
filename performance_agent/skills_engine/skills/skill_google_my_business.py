@@ -219,17 +219,21 @@ class GMBAuditorSkill(PredatorSkill):
                     Fotos: {photo_count}
                     Ficha Reivindicada: {'Sim' if map_data.get('isClaimed') else 'Não'}
                     
-                    Reviews (amostra real):
+                    Reviews (amostra real extraída):
                     {reviews_for_prompt}
                     
-                    PROIBIÇÃO: ANALISE APENAS os dados fornecidos. NÃO INVENTE reviews ou problemas.
+                    SUA MISSÃO OBRIGATÓRIA:
+                    1. LEIA com extrema atenção as reviews acima.
+                    2. Identifique os reais problemas e dores relatados pelos clientes nas avaliações.
+                    3. Se não houver reviews ou as reviews forem vazias/estáticas, analise a ficha como um todo (falta de fotos, campos vazios).
+                    4. NÃO INVENTE reviews. Use apenas os dados fornecidos.
                     
                     Responda ESTRITAMENTE em JSON válido, com a seguinte estrutura:
                     {{
-                        "review_sentiment_summary": "Resumo em 2-3 frases do que os clientes dizem. Cite trechos literais entre aspas.",
-                        "missing_keyword_in_title": "O título '{map_data.get('title')}' possui o serviço principal? Justifique.",
-                        "negative_points": ["Apenas dores REAIS baseadas nos dados acima"],
-                        "optimization_tips": ["Sugestão 1 baseada nos dados reais", "Sugestão 2"]
+                        "review_sentiment_summary": "Resumo de 2 linhas sobre o sentimento geral dos clientes nas avaliações reais. Cite como os clientes avaliam o serviço.",
+                        "missing_keyword_in_title": "O título '{map_data.get('title')}' possui a palavra-chave do segmento? Ex: Se for restaurante, tá escrito restaurante? Sim ou não, justifique.",
+                        "negative_points": ["Dor/Problema 1 (baseado nas reviews, citações ou falta de dados)", "Dor 2"],
+                        "optimization_tips": ["Sugestão 1 para o GMB", "Sugestão 2"]
                     }}
                     """
 
