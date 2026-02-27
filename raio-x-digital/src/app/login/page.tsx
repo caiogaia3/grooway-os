@@ -12,6 +12,16 @@ export default function LoginPage() {
 
     async function handleSubmit(formData: FormData) {
         setError(null)
+
+        if (mode === 'signup') {
+            const password = formData.get('password')
+            const confirmPassword = formData.get('confirmPassword')
+            if (password !== confirmPassword) {
+                setError('As senhas não coincidem.')
+                return
+            }
+        }
+
         setLoading(true)
 
         try {
@@ -123,6 +133,54 @@ export default function LoginPage() {
                                     className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-brand-purple/50 focus:ring-1 focus:ring-brand-purple/30 transition-all duration-300 text-sm"
                                 />
                             </div>
+                        </div>
+
+                        {mode === 'signup' && (
+                            <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                className="space-y-1.5"
+                            >
+                                <label htmlFor="confirmPassword" className="text-sm font-medium text-slate-300 pl-1">
+                                    Confirmar Senha
+                                </label>
+                                <div className="relative">
+                                    <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                                    <input
+                                        id="confirmPassword"
+                                        name="confirmPassword"
+                                        type="password"
+                                        required
+                                        minLength={6}
+                                        placeholder="••••••••"
+                                        className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-brand-purple/50 focus:ring-1 focus:ring-brand-purple/30 transition-all duration-300 text-sm"
+                                    />
+                                </div>
+                            </motion.div>
+                        )}
+
+                        <div className="flex items-center justify-between pt-1 pb-2">
+                            <label className="flex items-center gap-2 cursor-pointer group">
+                                <div className="relative flex items-center justify-center">
+                                    <input
+                                        type="checkbox"
+                                        name="rememberMe"
+                                        defaultChecked
+                                        className="peer sr-only"
+                                    />
+                                    <div className="w-4 h-4 rounded border border-white/20 bg-white/5 peer-checked:bg-brand-cyan peer-checked:border-brand-cyan transition-colors" />
+                                    <svg className="absolute w-3 h-3 text-brand-dark opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </div>
+                                <span className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">Lembre-se de mim</span>
+                            </label>
+
+                            {mode === 'login' && (
+                                <button type="button" className="text-sm text-brand-cyan hover:text-brand-cyan/80 transition-colors">
+                                    Esqueceu a senha?
+                                </button>
+                            )}
                         </div>
 
                         {/* Submit Button */}
