@@ -43,7 +43,12 @@ class PerformanceSkill(PredatorSkill):
         boss_ammo = ""
 
         if not self.soup:
-            return {"name": "Audit Site Expert", "score": 0, "critical_pains": ["Falha no Parser."]}
+            return {
+                "name": "Audit Site Expert", 
+                "score": 0, 
+                "critical_pains": ["Falha no Parser."],
+                "findings": {}
+            }
 
         # =============================================
         # 1. SEO BÁSICO (H1/Meta) - 20 pts

@@ -41,7 +41,12 @@ class SeniorAnalystSkill(PredatorSkill):
         evid = []
         
         if not self.api_key:
-            return {"name": "Senior CMO Agent", "score": 0, "critical_pains": ["API Key ausente."]}
+            return {
+                "name": "Senior CMO Agent", 
+                "score": 0, 
+                "critical_pains": ["API Key ausente."],
+                "findings": {}
+            }
 
         try:
             # =============================================
@@ -153,5 +158,10 @@ class SeniorAnalystSkill(PredatorSkill):
             }
 
         except Exception as e:
-            return {"name": "Senior CMO Agent", "score": 0, "critical_pains": [f"Erro no Tribunal: {str(e)}"]}
+            return {
+                "name": "Senior CMO Agent", 
+                "score": 0, 
+                "critical_pains": [f"Erro no Tribunal: {str(e)}"],
+                "findings": {}
+            }
 
