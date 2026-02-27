@@ -65,7 +65,7 @@ class KeywordResearchSkill(PredatorSkill):
                 try:
                     client = genai.Client(api_key=self.api_key)
                     niche_resp = client.models.generate_content(
-                        model='gemini-3-flash-preview',
+                        model='gemini-2.0-flash',
                         contents=f"Leia o texto abaixo e responda APENAS o serviço/produto principal da empresa em no máximo 3 palavras (ex: 'dentista', 'advogado trabalhista', 'hamburgueria artesanal'). Texto: \"{text}\"",
                         config=types.GenerateContentConfig(temperature=0.0)
                     )
@@ -202,19 +202,25 @@ class KeywordResearchSkill(PredatorSkill):
 
                 DADOS DE RECONHECIMENTO (LIVE SEARCH):
                 - Nicho Detectado: {niche_hint}
+                - Cidade/Região: {city}
                 - Orgânicos: {organic_summary[:1000]}
                 - Anúncios Pagos: {paid_summary}
                 - Buscas Sugeridas: {related_summary}
                 - Site do Alvo: {self.target_url}
 
                 SUA MISSÃO TÁTICA:
-                1. PLANO DE DOMINAÇÃO DE BUSCA: Liste 5-7 palavras-chave estratégicas para "sequestrar" o mercado.
-                2. VEREDITO DE PODER DE COMPRA: Onde está o dinheiro imediato? (Ex: 'Melhor [Serviço]' vs '[Serviço] Preço').
-                3. MAPEAMENTO DE INTENÇÃO: Qual a dor que o anúncio deve atacar para cada busca?
-                4. ESTRATEGIA DE RETARGETING: Como pegaremos o lead que o Agente 05 detectou que está 'vazando'?
+                1. TOP 10 KEYWORDS DA REGIÃO: Liste as 10 palavras-chave mais buscadas para o nicho '{niche_hint}' na cidade/região '{city}'. Categorize por intenção (Compra, Pesquisa, Comparação).
+                2. PLANO DE DOMINAÇÃO DE BUSCA: Liste 5-7 palavras-chave estratégicas para "sequestrar" o mercado.
+                3. VEREDITO DE PODER DE COMPRA: Onde está o dinheiro imediato? (Ex: 'Melhor [Serviço]' vs '[Serviço] Preço').
+                4. MAPEAMENTO DE INTENÇÃO: Qual a dor que o anúncio deve atacar para cada busca?
+                5. ESTRATEGIA DE RETARGETING: Como pegaremos o lead que o Agente 05 detectou que está 'vazando'?
 
                 JSON OUTPUT FORMAT:
                 {{
+                    "top_10_keywords_regiao": [
+                        {{"keyword": "palavra 1", "volume_estimado": "Alto/Médio/Baixo", "intencao": "Compra/Pesquisa/Comparação", "cidade": "{city}"}},
+                        {{"keyword": "palavra 2", "volume_estimado": "Alto/Médio/Baixo", "intencao": "Compra/Pesquisa/Comparação", "cidade": "{city}"}}
+                    ],
                     "search_domination_plan": ["Palavra 1", "Palavra 2"],
                     "purchasing_power_verdict": "Veredito sobre onde focar para lucro rápido",
                     "funnel_architecture_brief": "Como deve ser a jornada do lead",

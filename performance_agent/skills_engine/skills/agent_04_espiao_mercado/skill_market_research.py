@@ -171,7 +171,7 @@ class MarketResearchSkill(PredatorSkill):
                     
                     commoditization = json_data.get("commoditization_verdict", "")
                     if "Commodity" in str(commoditization) or "Comoditizado" in str(commoditization):
-                        score -= 25
+                        report["score"] -= 25
                         briefing["pontos_negativos"].append(f"Veredito de Comoditização: {commoditization}")
                     
                     blue_ocean = json_data.get("blue_ocean_map", "")
@@ -203,6 +203,6 @@ class MarketResearchSkill(PredatorSkill):
                 for dor in dores:
                     briefing["pontos_negativos"].append(f"Dor Silenciosa do Mercado: {dor}")
         
-        report["score"] = max(0, score)
+        report["score"] = max(0, report["score"])
         report["boss_briefing"] = briefing
         return report

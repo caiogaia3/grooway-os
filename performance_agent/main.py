@@ -107,7 +107,15 @@ class PredatorOrchestrator:
             skill.setup(self.raw_html, self.load_time, previous_results_context)
         else:
             skill.setup(self.raw_html, self.load_time)
+        
+        # Passa o contexto para agentes de compilação que precisam dele
+        if isinstance(skill, (ValuePropositionSkill, CloserSkill, DesignTranslationSkill)):
+            skill.previous_results_context = previous_results_context
             
+        # DesignTranslation tem assinatura especial
+        if isinstance(skill, DesignTranslationSkill):
+            return skill.execute(previous_results_context=previous_results_context)
+        
         return skill.execute()
 
     def run(self):
@@ -126,7 +134,7 @@ class PredatorOrchestrator:
             try:
                 print(f"  -> Executando {skill.__class__.__name__}...")
                 # Se a skill da vez for estratégica, enviamos o boss_briefing de cada agente anterior
-                if isinstance(skill, (SeniorAnalystSkill, ValuePropositionSkill, CloserSkill)):
+                if isinstance(skill, (SeniorAnalystSkill, ValuePropositionSkill, CloserSkill, DesignTranslationSkill)):
                     previous_context = {}
                     for r in master_report["skills_results"]:
                         agent_name = r.get("name", "unknown")
@@ -143,7 +151,7 @@ class PredatorOrchestrator:
                     result = self._run_skill(skill)
                     
                 master_report["skills_results"].append(result)
-                time.sleep(2) # Reduzido de 5s para 2s para acelerar o motor (evitando timeouts de front)
+                time.sleep(4) # 4s entre agentes para evitar 429 (rate limit) da Gemini API
             except Exception as e:
                 print(f"  [!] Falha crítica no agente {skill.__class__.__name__}: {e}")
                 
