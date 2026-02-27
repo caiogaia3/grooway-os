@@ -159,7 +159,21 @@ class SeniorAnalystSkill(PredatorSkill):
                     "battle_plan_phases": battle_plan if "battle_plan" in locals() else {},
                     "plano_de_dominacao": plano,
                     "evidencias_de_guerra": evid,
-                    "cmo_verdict": verdict # Legacy compat
+                    "cmo_verdict": verdict, # Legacy compat
+                    "pontos_negativos_consolidados": [f"❌ {inc}" for inc in incoerencias] + ([f"❌ Dreno Financeiro Estimado: {mapeamento}"] if mapeamento else []),
+                    "pontos_positivos_consolidados": [f"✅ Resumo C-Level: {executive_summary}"] if executive_summary else [],
+                    "brechas_diferenciacao": [f"💡 {k.replace('_', ' ').title()}: {v}" for k, v in (battle_plan.items() if isinstance(battle_plan, dict) else [])],
+                    "cross_analysis": [f"🔗 {s}" for s in b_rec[:3]] if b_rec else ["🔗 O CEO analisou os dados dos outros agentes e arquitetou este plano de guerra."],
+                    "plano_comercial": {
+                        "servicos_recomendados": [
+                            {
+                                "nome_servico": s.get("servico_grooway", "Serviço Recomendado"),
+                                "por_que_vender": s.get("meta_de_resgate", ""),
+                                "impacto_esperado": "Aumento imediato de percepção de valor e fechamentos na região."
+                            }
+                            for s in plano.get("servicos_recomendados", [])
+                        ]
+                    }
                 },
                 "boss_briefing": {
                     "pontos_negativos": b_neg,

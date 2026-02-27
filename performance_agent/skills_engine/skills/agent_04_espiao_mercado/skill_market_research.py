@@ -127,20 +127,21 @@ class MarketResearchSkill(PredatorSkill):
             "{text_context}"
             
             SUA MISSÃO FORENSE EM JSON:
-            1. DORES, SONHOS E DESAFIOS: Liste exaustivamente as dores (o que tira o sono) e sonhos (o objetivo final) do cliente ideal (ICP), e também da empresa {company_name} (seus maiores gargalos para vendas).
-            2. BENCHMARKS E THREAT MATRIX: Use a lista real do 'Radar de Concorrência' da cidade de {city}. Preencha usando nomes e URLs REAIS encontrados. Mostre o ponto forte e a vulnerabilidade de cada rival local real.
-            3. CANVAS DO OCEANO AZUL & COMODITIZAÇÃO: O cliente atual briga por preço no oceano vermelho ou tem diferenciação? Qual a fuga estratégica?
-            4. DEEP RESEARCH MARKDOWN: Escreva um Dossiê profundo completo (em formatação Markdown) descrevendo a análise competitiva local minuciosamente para ser exibido ao cliente.
+            1. DORES, SONHOS E DESAFIOS DO CLIENTE FINAL (ICP): Liste exaustivamente as dores (o que tira o sono), sonhos (desejos profundos), e objeções (por que não compram) do cliente que compra dessa empresa. Seja extremamente específico ao nicho.
+            2. DORES, SONHOS E DESAFIOS DA PRÓPRIA EMPRESA: Liste exaustivamente as dores comerciais (gargalos de vendas, perda de clientes), sonhos (para onde a empresa quer crescer), e objeções (o que os impede de fechar mais vendas ou melhorar marketing) da PRÓPRIA EMPRESA alvo.
+            3. BENCHMARKS E THREAT MATRIX: Use a lista real do 'Radar de Concorrência' da cidade de {city}. Preencha usando nomes e URLs REAIS encontrados. Mostre o ponto forte e a vulnerabilidade de cada rival local real.
+            4. CANVAS DO OCEANO AZUL & COMODITIZAÇÃO: O cliente atual briga por preço no oceano vermelho ou tem diferenciação? Qual a fuga estratégica?
+            5. DEEP RESEARCH MARKDOWN: Escreva um Dossiê profundo completo (em formatação Markdown) descrevendo a análise competitiva local minuciosamente para ser exibido ao cliente.
 
             JSON OUTPUT FORMAT:
             {{
                 "niche": "Nome técnico do nicho",
                 "target_icp": "Perfil detalhado do cliente ideal (ICP)",
-                "dores_icp": ["Dor profunda 1", "Dor profunda 2", "Dor 3"],
-                "sonhos_icp": ["Sonho profundo 1", "Sonho 2"],
-                "objecoes_icp": ["Objeção Real 1", "Objeção Real 2", "Objeção Real 3"],
-                "dores_empresa_marketing": ["Dor comercial da empresa atuando nesse nicho na região", "Dor 2"],
-                "desafios_empresa_marketing": ["Gargalo de vendas da empresa 1", "Gargalo 2"],
+                "dores_icp": ["Dor profunda 1 do cliente", "Dor profunda 2", "Dor 3"],
+                "sonhos_icp": ["Sonho profundo 1 do cliente", "Sonho 2"],
+                "objecoes_icp": ["Objeção Real 1 do cliente na hora de comprar", "Objeção Real 2", "Objeção Real 3"],
+                "dores_empresa_marketing": ["Dor comercial 1 DA EMPRESA (ex: lead frio, ciclo longo)", "Dor 2 DA EMPRESA"],
+                "desafios_empresa_marketing": ["Gargalo de marketing 1 DA EMPRESA", "Gargalo 2 DA EMPRESA"],
                 "commoditization_verdict": "Veredito incisivo se brigam por preço ou valor (Mercado Comoditizado x Premium)",
                 "blue_ocean_map": "Canvas de Oceano Azul: Como se diferenciar dos rivais de {city}?",
                 "competitor_benchmarks": ["Rival REAL A de {city} (Ponto Forte | Vulnerabilidade)", "Rival REAL B de {city} (Ponto Forte | Vulnerabilidade)"],
