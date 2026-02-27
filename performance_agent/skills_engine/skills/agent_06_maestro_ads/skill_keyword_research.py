@@ -178,9 +178,9 @@ class KeywordResearchSkill(PredatorSkill):
         # =============================================
         # 4. ANÁLISE ESTRATÉGICA VIA LLM
         # =============================================
-        if self.api_key:
+        if self.api_key or os.getenv("OPENAI_API_KEY"):
             try:
-                client = genai.Client(api_key=self.api_key)
+                client = genai.Client(api_key=self.api_key) if self.api_key else None
                 
                 organic_summary = "\n".join([
                     f"- [{r['keyword']}] {r['title']} ({r['url'][:50]})"
@@ -233,18 +233,9 @@ class KeywordResearchSkill(PredatorSkill):
                 }}
                 """
 
-                response = client.models.generate_content(
-                    model='gemini-2.0-flash',
-                    contents=prompt,
-                    config=types.GenerateContentConfig(
-                        temperature=0.1,
-                        response_mime_type="application/json"
-                    )
-                )
+                json_data = self._call_llm_json(prompt)
 
-                if response.text:
-                    json_data = json.loads(response.text)
-                    if isinstance(json_data, dict):
+                if json_data and isinstance(json_data, dict):
                         report["findings"].update(json_data)
                         
                         verdict = json_data.get("maestro_verdict", "")

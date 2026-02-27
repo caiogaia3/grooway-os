@@ -109,14 +109,9 @@ class SeniorAnalystSkill(PredatorSkill):
             }}
             """
 
-            response = client.models.generate_content(
-                model='gemini-2.0-flash',
-                config=types.GenerateContentConfig(temperature=0.1, response_mime_type="application/json"),
-                contents=prompt
-            )
+            res = self._call_llm_json(prompt)
 
-            if response.text:
-                res = json.loads(response.text)
+            if res:
                 verdict = res.get("martelo_do_veredito", "")
                 mapeamento = res.get("mapeamento_lucro_invisivel", "")
                 incoerencias = res.get("incoerencias_detectadas", [])

@@ -149,19 +149,10 @@ class MarketResearchSkill(PredatorSkill):
             }}
             """
 
-            # Ativação do Gemini 2.0 Flash
-            response = client.models.generate_content(
-                model='gemini-2.0-flash',
-                contents=prompt,
-                config=types.GenerateContentConfig(
-                    temperature=0.1,
-                    response_mime_type="application/json"
-                )
-            )
+            # Ativação do LLM (Gemini com fallback OpenAI)
+            json_data = self._call_llm_json(prompt)
 
-            if response.text:
-                json_data = json.loads(response.text)
-                if isinstance(json_data, dict):
+            if json_data and isinstance(json_data, dict):
                     report["findings"] = json_data
                     
                     # Injeção no Briefing do Arsenal

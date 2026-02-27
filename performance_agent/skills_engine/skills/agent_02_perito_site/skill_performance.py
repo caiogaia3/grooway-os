@@ -137,10 +137,9 @@ class PerformanceSkill(PredatorSkill):
         # =============================================
         # 6. ANÁLISE FORENSE DE ROI VIA LLM
         # =============================================
-        if self.api_key:
+        if self.api_key or os.getenv("OPENAI_API_KEY"):
             try:
                 headings = [h.get_text(strip=True) for h in self.soup.find_all(['h1', 'h2', 'h3'])[:10]]
-                client = genai.Client(api_key=self.api_key)
                 prompt = f"""
                 ARSENAL DO 'PERITO DE CONVERSÃO' (AGENTE 02). 
                 DADOS: {pts}% Efficacy | {round(lt, 2)}s Load | {hemorrhage}% ROI Hemorrhage.
@@ -157,13 +156,8 @@ class PerformanceSkill(PredatorSkill):
                   "tactical_actions": ["Ação 1", "2"]
                 }}
                 """
-                response = client.models.generate_content(
-                    model='gemini-2.0-flash',
-                    config=types.GenerateContentConfig(temperature=0.1, response_mime_type="application/json"),
-                    contents=prompt
-                )
-                if response.text:
-                    res = json.loads(response.text)
+                res = self._call_llm_json(prompt)
+                if res:
                     ui_analysis = res.get("roi_verdict", "")
                     boss_ammo = res.get("internal_boss_ammo", "")
                     b_rec.append(f"VEREDITO: {ui_analysis}")
