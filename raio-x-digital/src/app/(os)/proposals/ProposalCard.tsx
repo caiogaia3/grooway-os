@@ -4,11 +4,14 @@ import { useState } from "react";
 import { Proposal } from "@/features/proposals/lib/types";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { Calendar, Eye, ExternalLink, MoreVertical, CheckCircle, XCircle, RotateCcw, Copy, FileEdit, CheckCircle2, Send, TrendingUp, PlaySquare } from "lucide-react";
+import {
+    Calendar, Eye, ExternalLink, MoreVertical,
+    CheckCircle, XCircle, RotateCcw, FileEdit,
+    PlaySquare, Trash2, Loader2, RefreshCcw
+} from "lucide-react";
 import Link from "next/link";
-import { updateProposalStatus } from "@/features/proposals/actions/update_proposal";
+import { updateProposalStatus, deleteProposal } from "@/features/proposals/actions/update_proposal";
 import { renewProposal } from "@/features/proposals/actions/renew_proposal";
-import { RefreshCcw } from "lucide-react";
 
 function StatusBadge({ status }: { status: string }) {
     const statusStyles: Record<string, string> = {
@@ -27,7 +30,7 @@ function StatusBadge({ status }: { status: string }) {
     };
 
     return (
-        <span className={`px - 2.5 py - 0.5 rounded - full text - xs font - medium border ${style} `}>
+        <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium border ${style}`}>
             {labels[status] || status}
         </span>
     );
@@ -39,8 +42,8 @@ type Props = {
 
 export default function ProposalCard({ proposal }: Props) {
     const [loading, setLoading] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
-    const [copied, setCopied] = useState(false); // Added for copy functionality
 
     const handleStatusUpdate = async (newStatus: string) => {
         setLoading(true);
@@ -52,13 +55,6 @@ export default function ProposalCard({ proposal }: Props) {
         setLoading(false);
     };
 
-    const handleCopyLink = () => {
-        const publicLink = `${window.location.origin}/p/${proposal.slug}?t=${proposal.share_token}`;
-        navigator.clipboard.writeText(publicLink);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-    };
-
     const handleRenew = async () => {
         setLoading(true);
         const success = await renewProposal(proposal.id);
@@ -68,11 +64,22 @@ export default function ProposalCard({ proposal }: Props) {
         setLoading(false);
     };
 
+    const handleDelete = async () => {
+        if (window.confirm("Tem certeza que deseja excluir esta proposta permanentemente?")) {
+            setIsDeleting(true);
+            const success = await deleteProposal(proposal.id);
+            if (!success) {
+                alert("Erro ao excluir proposta.");
+                setIsDeleting(false);
+            }
+        }
+    };
+
     const isExpired = proposal.expires_at && new Date(proposal.expires_at) < new Date();
 
     return (
         <div className="flex flex-col p-5 rounded-xl border border-white/10 bg-white/5 backdrop-blur-md hover:border-purple-500/50 hover:bg-white/[0.08] transition-all group relative">
-            {loading && (
+            {(loading || isDeleting) && (
                 <div className="absolute inset-0 bg-neutral-900/50 backdrop-blur-sm z-10 flex items-center justify-center rounded-xl">
                     <div className="w-5 h-5 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
                 </div>
@@ -185,8 +192,17 @@ export default function ProposalCard({ proposal }: Props) {
                         <FileEdit className="w-3.5 h-3.5" />
                         Editar
                     </Link>
+
+                    <button
+                        onClick={handleDelete}
+                        disabled={isDeleting}
+                        className="flex items-center justify-center p-2 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all border border-red-500/20 disabled:opacity-50"
+                        title="Excluir Proposta"
+                    >
+                        {isDeleting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
+                    </button>
                 </div>
-            </div >
-        </div >
+            </div>
+        </div>
     );
 }

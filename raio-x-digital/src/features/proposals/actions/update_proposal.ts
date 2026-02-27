@@ -218,3 +218,20 @@ export async function instantiateTemplate(templateId: string, clientName: string
     revalidatePath('/proposals');
     return newProposal.id;
 }
+
+export async function deleteProposal(proposalId: string): Promise<boolean> {
+    const supabase = await createClient();
+    const { error } = await supabase
+        .from('proposals')
+        .delete()
+        .eq('id', proposalId);
+
+    if (error) {
+        console.error("Error deleting proposal:", error);
+        return false;
+    }
+
+    revalidatePath('/proposals');
+    revalidatePath('/proposals/reference-bank');
+    return true;
+}
