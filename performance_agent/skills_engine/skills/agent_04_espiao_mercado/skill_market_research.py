@@ -115,36 +115,40 @@ class MarketResearchSkill(PredatorSkill):
             prompt = f"""
             PERSONA:
             Você é o 'Espião de Mercado' (Agente 04), um perito em espionagem industrial focado em mapear o 'Oceano Azul' do cliente.
-            Seu Arsenal inclui a 'Threat Matrix' (Matriz de Ameaças), o 'Canvas do Oceano Azul' e as 'Top 5 Objeções de Vendas'.
-            Sua missão é entregar o diagnóstico estratégico competitivo definitivo.
+            Seu Arsenal inclui a 'Threat Matrix' (Matriz de Ameaças), o 'Canvas do Oceano Azul' e a 'Pesquisa Profunda de Dores e Sonhos'.
+            Sua missão é entregar o diagnóstico estratégico competitivo mais detalhado, denso e verdadeiro possível.
 
             EQUIPAMENTO DE RECONHECIMENTO (DADOS):
             - Alvo: {company_name} em {city}
             - Site: {self.target_url}
-            - Radar de Concorrência (Top Players Reais via Apify Google Search):
+            - Radar de Concorrência (Top Players Reais da região de {city} via Google Search):
             {apify_context}
             - Contexto Semântico do Alvo:
             "{text_context}"
             
             SUA MISSÃO FORENSE EM JSON:
-            1. THREAT MATRIX (MATRIZ DE AMEAÇAS): Analise os concorrentes locais detectados. Quais são seus principais argumentos de venda e onde eles são vulneráveis? Preencha a matriz nomeando-os.
-            2. TOP 5 OBJEÇÕES DE VENDAS: O que o cliente final (lead local) mais usa como desculpa para NÃO comprar nesse nicho específico na região? Seja ultra-realista.
-            3. CANVAS DO OCEANO AZUL: Onde está a "fuga" estratégica? Onde o mercado atual está saturado (Oceano Vermelho) e qual o posicionamento inexplorado de lucros (Oceano Azul) para focar?
-            4. VEREDITO DE COMODITIZAÇÃO: O cliente atual é apenas "mais um" brigando por preço ou possui diferenciação clara?
+            1. DORES, SONHOS E DESAFIOS: Liste exaustivamente as dores (o que tira o sono) e sonhos (o objetivo final) do cliente ideal (ICP), e também da empresa {company_name} (seus maiores gargalos para vendas).
+            2. BENCHMARKS E THREAT MATRIX: Use a lista real do 'Radar de Concorrência' da cidade de {city}. Preencha usando nomes e URLs REAIS encontrados. Mostre o ponto forte e a vulnerabilidade de cada rival local real.
+            3. CANVAS DO OCEANO AZUL & COMODITIZAÇÃO: O cliente atual briga por preço no oceano vermelho ou tem diferenciação? Qual a fuga estratégica?
+            4. DEEP RESEARCH MARKDOWN: Escreva um Dossiê profundo completo (em formatação Markdown) descrevendo a análise competitiva local minuciosamente para ser exibido ao cliente.
 
             JSON OUTPUT FORMAT:
             {{
                 "niche": "Nome técnico do nicho",
-                "target_icp": "Perfil do cliente ideal (Quem compra?)",
-                "commoditization_verdict": "Veredito sobre ser ou não uma commodity (Brigando por preço vs Diferenciado)",
-                "blue_ocean_canvas": "Red Ocean: [onde todos brigam] -> Blue Ocean: [o posicionamento inexplorado]",
-                "threat_matrix": ["Rival A: [Argumento Forte] | [Vulnerabilidade]", "Rival B: [Argumento Forte] | [Vulnerabilidade]"],
-                "top_5_sales_objections": ["Objeção 1: Motivo real", "Objeção 2", "Objeção 3", "Objeção 4", "Objeção 5"],
+                "target_icp": "Perfil detalhado do cliente ideal (ICP)",
+                "dores_icp": ["Dor profunda 1", "Dor profunda 2", "Dor 3"],
+                "sonhos_icp": ["Sonho profundo 1", "Sonho 2"],
+                "objecoes_icp": ["Objeção Real 1", "Objeção Real 2", "Objeção Real 3"],
+                "dores_empresa_marketing": ["Dor comercial da empresa atuando nesse nicho na região", "Dor 2"],
+                "desafios_empresa_marketing": ["Gargalo de vendas da empresa 1", "Gargalo 2"],
+                "commoditization_verdict": "Veredito incisivo se brigam por preço ou valor (Mercado Comoditizado x Premium)",
+                "blue_ocean_map": "Canvas de Oceano Azul: Como se diferenciar dos rivais de {city}?",
+                "competitor_benchmarks": ["Rival REAL A de {city} (Ponto Forte | Vulnerabilidade)", "Rival REAL B de {city} (Ponto Forte | Vulnerabilidade)"],
                 "price_intelligence": "Análise de valor vs preço percebido (A comunicação atual sustenta cobrar caro?)",
-                "dores_icp": ["A maior dor n° 1 do cliente final", "Dor n° 2"],
-                "evidences": ["Trecho literal que prova a falta de diferenciação"],
+                "deep_research_markdown": "### Dossiê de Inteligência\n\n(Escreva pelo menos 3 parágrafos ricos em Markdown sobre a dinâmica do setor na região, concorrência e recomendações estratégicas)",
+                "evidences": ["Trecho literal do site que prova a miopia tática"],
                 "internal_boss_ammo": "Munição de mercado letal para o Boss fechar a venda de assessoria.",
-                "market_verdict": "Sentença implacável de 2-3 linhas sobre a miopia competitiva atual."
+                "market_verdict": "Sentença implacável sobre como eles perdem dinheiro com a atual miopia competitiva."
             }}
             """
 
@@ -152,10 +156,10 @@ class MarketResearchSkill(PredatorSkill):
             json_data = self._call_llm_json(prompt)
 
             if json_data and isinstance(json_data, dict):
-                    # Garantir campos padrão mesmo que o LLM omita
-                    json_data["competitor_benchmarks"] = json_data.get("threat_matrix", [])
-                    json_data["blue_ocean_map"] = json_data.get("blue_ocean_canvas", "")
-                    json_data["objecoes_icp"] = json_data.get("top_5_sales_objections", [])
+                    # Compatibilidade de arrays que o front espera iterar
+                    if "objecoes_icp" not in json_data:
+                        json_data["objecoes_icp"] = []
+                    
                     report["findings"] = json_data
                     
                     # Injeção no Briefing do Arsenal
@@ -168,11 +172,11 @@ class MarketResearchSkill(PredatorSkill):
                         report["score"] -= 25
                         briefing["pontos_negativos"].append(f"Veredito de Comoditização: {commoditization}")
                     
-                    blue_ocean = json_data.get("blue_ocean_canvas", "")
+                    blue_ocean = json_data.get("blue_ocean_map", "")
                     if blue_ocean:
                         briefing["brechas_diferenciacao"].append(f"Oceano Azul Identificado: {blue_ocean}")
                         
-                    threats = json_data.get("threat_matrix", [])
+                    threats = json_data.get("competitor_benchmarks", [])
                     if threats:
                         for idx, t in enumerate(threats[:3]):
                             briefing["pontos_negativos"].append(f"Ameaça Local {idx+1}: {t}")

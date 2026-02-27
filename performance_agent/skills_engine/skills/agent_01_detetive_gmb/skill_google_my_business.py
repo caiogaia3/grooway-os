@@ -93,8 +93,13 @@ class GMBAuditorSkill(PredatorSkill):
             
             if run and run.get("defaultDatasetId"):
                 for item in apify_client.dataset(run["defaultDatasetId"]).iterate_items():
-                    img_val = item.get('imageCount', item.get('totalPhotos', 0))
+                    img_val = item.get('imageCount') or item.get('totalPhotos') or 0
                     p_count = len(img_val) if isinstance(img_val, list) else int(img_val or 0)
+
+                    cats = item.get('categories') or []
+                    revs = item.get('reviews') or []
+                    menu_svcs = item.get('menu') or item.get('services') or []
+                    posts_arr = item.get('posts') or []
 
                     map_data = {
                         "title": item.get('title'),
@@ -104,15 +109,15 @@ class GMBAuditorSkill(PredatorSkill):
                         "website": item.get('website'),
                         "address": item.get('address'),
                         "isClaimed": item.get('isClaimed', True),
-                        "services": item.get('menu', item.get('services', [])),
+                        "services": menu_svcs,
                         "reviewsList": [
                             {"text": r.get('text', ''), "stars": r.get('stars', 0), "response": r.get('responseFromOwnerText', '')}
-                            for r in item.get('reviews', [])
+                            for r in revs
                         ],
-                        "hasPosts": bool(item.get('posts', [])),
-                        "addCats": item.get('categories', [])[1:] if len(item.get('categories', [])) > 1 else [],
-                        "mainCategory": item.get('categories', [''])[0] if item.get('categories') else '',
-                        "openingHours": item.get('openingHours', []),
+                        "hasPosts": bool(posts_arr),
+                        "addCats": cats[1:] if len(cats) > 1 else [],
+                        "mainCategory": cats[0] if cats else '',
+                        "openingHours": item.get('openingHours') or [],
                         "description": item.get('description', ''),
                     }
                     break
