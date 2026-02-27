@@ -7,11 +7,13 @@ import { LogIn, UserPlus, Mail, Lock, AlertCircle, Loader2 } from 'lucide-react'
 
 export default function LoginPage() {
     const [error, setError] = useState<string | null>(null)
+    const [successMsg, setSuccessMsg] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
     const [mode, setMode] = useState<'login' | 'signup'>('login')
 
     async function handleSubmit(formData: FormData) {
         setError(null)
+        setSuccessMsg(null)
 
         if (mode === 'signup') {
             const password = formData.get('password')
@@ -29,6 +31,11 @@ export default function LoginPage() {
             const result = await action(formData)
             if (result?.error) {
                 setError(result.error)
+            } else if (result?.success) {
+                setSuccessMsg(result.success)
+                setMode('login')
+                const form = document.getElementById('login-form') as HTMLFormElement
+                if (form) form.reset()
             }
         } catch {
             // redirect throws — this is expected on success
@@ -70,12 +77,14 @@ export default function LoginPage() {
                     >
                         <div className="flex justify-center mb-4">
                             <div className="relative">
-                                <img
-                                    src="/logo-gw.png"
-                                    alt="Grooway"
-                                    className="w-16 h-16 rounded-2xl object-cover shadow-lg shadow-brand-purple/30"
-                                />
-                                <div className="absolute -inset-1 bg-gradient-to-r from-brand-purple to-brand-cyan rounded-2xl blur opacity-20 -z-10" />
+                                <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center shadow-lg shadow-brand-purple/30 z-10 relative">
+                                    <img
+                                        src="/logo-gw.png"
+                                        alt="Grooway"
+                                        className="w-10 h-10 object-contain"
+                                    />
+                                </div>
+                                <div className="absolute -inset-1 bg-gradient-to-r from-brand-purple to-brand-cyan rounded-full blur opacity-40 -z-10" />
                             </div>
                         </div>
                         <h1 className="text-2xl font-bold text-white tracking-wide">
@@ -86,7 +95,7 @@ export default function LoginPage() {
                         </p>
                     </motion.div>
 
-                    {/* Error Message */}
+                    {/* Error / Success Messages */}
                     {error && (
                         <motion.div
                             initial={{ opacity: 0, y: -10 }}
@@ -97,9 +106,19 @@ export default function LoginPage() {
                             <span>{error}</span>
                         </motion.div>
                     )}
+                    {successMsg && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="flex items-center gap-2 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm mb-6"
+                        >
+                            <UserPlus className="w-4 h-4 flex-shrink-0" />
+                            <span>{successMsg}</span>
+                        </motion.div>
+                    )}
 
                     {/* Form */}
-                    <form action={handleSubmit} className="space-y-5">
+                    <form id="login-form" action={handleSubmit} className="space-y-5">
                         <div className="space-y-1.5">
                             <label htmlFor="email" className="text-sm font-medium text-slate-300 pl-1">
                                 Email
@@ -224,6 +243,7 @@ export default function LoginPage() {
                                 onClick={() => {
                                     setMode(mode === 'login' ? 'signup' : 'login')
                                     setError(null)
+                                    setSuccessMsg(null)
                                 }}
                                 className="ml-1.5 text-brand-cyan hover:text-brand-cyan/80 font-medium transition-colors duration-200"
                             >
