@@ -214,3 +214,38 @@ body {
   transform: scale(1.1);
   background-color: #36c779;
 }
+
+/* ========================================= */
+/* PDF / PRINT POLISHING (Phase 4)          */
+/* ========================================= */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .liquid-glass {
+    background: rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: black !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+
+  /* Hidden elements in PDF */
+  nav, 
+  footer, 
+  button,
+  .no-print,
+  .floating_btn,
+  .sidebar-glass {
+    display: none !important;
+  }
+
+  /* Page breaks */
+  .page-break {
+    page-break-before: always;
+  }
+}

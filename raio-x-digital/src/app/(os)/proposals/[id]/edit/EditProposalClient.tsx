@@ -125,6 +125,7 @@ export default function EditProposalClient({ proposal, initialVersion }: Props) 
                         <button
                             onClick={() => setShowTemplateModal(true)}
                             className="flex items-center justify-center gap-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 border border-amber-500/20 px-4 py-2 rounded-lg font-medium transition-colors text-sm"
+                            title="Salva o layout e conteúdo atual como um modelo reutilizável no Banco de Referências."
                         >
                             <BookmarkPlus className="w-4 h-4" />
                             Salvar como Modelo
@@ -134,6 +135,7 @@ export default function EditProposalClient({ proposal, initialVersion }: Props) 
                         onClick={() => handleSave(false)}
                         disabled={isSaving || isPublishing}
                         className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm disabled:opacity-50"
+                        title="Salva as alterações atuais no banco de dados sem enviá-las para o cliente."
                     >
                         {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                         Salvar Rascunho
