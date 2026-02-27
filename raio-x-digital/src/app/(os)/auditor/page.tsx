@@ -895,1042 +895,1042 @@ export default function DigitalPredatorScanner() {
                             <p className="text-sm text-slate-300 font-mono">{performanceSkill.findings.cta_examples.join(' • ')}</p>
                           </div>
                         )}
-                      </div>
 
                         {/* UI Clinical Analysis via LLM - Enhanced Contrast */}
-                    {performanceSkill.findings?.ui_clinical_analysis && (
-                      <div className="mt-4 mb-4 bg-fuchsia-500/10 border-l-4 border-fuchsia-500 p-5 rounded-r-2xl shadow-lg shadow-fuchsia-500/5">
-                        <h4 className="text-xs font-black text-fuchsia-400 mb-2 uppercase tracking-widest flex items-center gap-2">
-                          <Activity className="w-4 h-4 animate-pulse" /> Análise Clínica de UI (via Cérebro Grooway)
-                        </h4>
-                        <p className="text-sm text-slate-100 leading-relaxed font-semibold italic">{performanceSkill.findings.ui_clinical_analysis}</p>
+                        {performanceSkill.findings?.ui_clinical_analysis && (
+                          <div className="mt-4 mb-4 bg-fuchsia-500/10 border-l-4 border-fuchsia-500 p-5 rounded-r-2xl shadow-lg shadow-fuchsia-500/5">
+                            <h4 className="text-xs font-black text-fuchsia-400 mb-2 uppercase tracking-widest flex items-center gap-2">
+                              <Activity className="w-4 h-4 animate-pulse" /> Análise Clínica de UI (via Cérebro Grooway)
+                            </h4>
+                            <p className="text-sm text-slate-100 leading-relaxed font-semibold italic">{performanceSkill.findings.ui_clinical_analysis}</p>
+                          </div>
+                        )}
+
+                        {performanceSkill.findings?.blog_exploration_sample && (
+                          <div className="mt-4 mb-4 bg-blue-500/5 border-l-2 border-blue-500 p-4 rounded-r-xl">
+                            <h4 className="text-xs font-bold text-blue-400 mb-2 uppercase tracking-wider flex items-center gap-2">
+                              <FileText className="w-4 h-4" /> Amostra Tática P/ Blog (IA)
+                            </h4>
+                            <p className="text-sm text-slate-200 leading-relaxed font-medium italic">{performanceSkill.findings.blog_exploration_sample}</p>
+                          </div>
+                        )}
+
+                        {(performanceSkill.critical_pains?.length ?? 0) > 0 && (
+                          <div className="mt-5 bg-red-900/10 border-l-2 border-red-500 p-4 rounded-r-xl">
+                            <h4 className="text-sm font-bold text-red-400 flex items-center gap-2 mb-2 uppercase tracking-wider text-xs">
+                              <AlertTriangle className="w-4 h-4" /> Pontos Críticos de Atrito com o Cliente
+                            </h4>
+                            <ul className="list-disc pl-5 space-y-1.5 text-slate-300 text-sm">
+                              {performanceSkill.critical_pains.map((pain: string, idx: number) => (
+                                <li key={idx} className="leading-snug">{pain}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+
+                        {performanceSkill.findings?.evidences && performanceSkill.findings.evidences.length > 0 && (
+                          <div className="mt-4 bg-emerald-950/20 border-l-2 border-emerald-500 p-4 rounded-r-xl">
+                            <h4 className="text-sm font-bold text-emerald-400 flex items-center gap-2 mb-2 uppercase tracking-wider text-xs">
+                              <Smartphone className="w-4 h-4" /> Evidências Técnicas (Web Vitals / On-Page)
+                            </h4>
+                            <ul className="list-disc pl-5 space-y-1.5 text-emerald-200/80 text-sm italic">
+                              {performanceSkill.findings.evidences.map((evidence: string, idx: number) => (
+                                <li key={idx} className="leading-snug">{evidence}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
                       </div>
                     )}
 
-                    {performanceSkill.findings?.blog_exploration_sample && (
-                      <div className="mt-4 mb-4 bg-blue-500/5 border-l-2 border-blue-500 p-4 rounded-r-xl">
-                        <h4 className="text-xs font-bold text-blue-400 mb-2 uppercase tracking-wider flex items-center gap-2">
-                          <FileText className="w-4 h-4" /> Amostra Tática P/ Blog (IA)
-                        </h4>
-                        <p className="text-sm text-slate-200 leading-relaxed font-medium italic">{performanceSkill.findings.blog_exploration_sample}</p>
+                    {activeTab === 'performance' && performanceSkill && (!performanceSkill.findings || Object.keys(performanceSkill.findings).length === 0) && (
+                      <div className="liquid-glass p-8 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
+                        <Smartphone className="w-12 h-12 text-slate-600 mx-auto mb-4" />
+                        <p className="text-slate-400 text-lg font-semibold">Dados de UX/SEO não disponíveis</p>
+                        <p className="text-slate-500 text-sm mt-2">O agente de performance não conseguiu analisar a página (site pode estar offline ou inacessível).</p>
+                      </div>
+                    )}
+                    {activeTab === 'performance' && !performanceSkill && (
+                      <div className="liquid-glass p-8 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
+                        <Smartphone className="w-12 h-12 text-slate-600 mx-auto mb-4" />
+                        <p className="text-slate-400 text-lg font-semibold">Agente de UX/SEO não foi executado</p>
+                        <p className="text-slate-500 text-sm mt-2">Esta auditoria foi feita sem o motor de UX/SEO selecionado.</p>
                       </div>
                     )}
 
-                    {(performanceSkill.critical_pains?.length ?? 0) > 0 && (
-                      <div className="mt-5 bg-red-900/10 border-l-2 border-red-500 p-4 rounded-r-xl">
-                        <h4 className="text-sm font-bold text-red-400 flex items-center gap-2 mb-2 uppercase tracking-wider text-xs">
-                          <AlertTriangle className="w-4 h-4" /> Pontos Críticos de Atrito com o Cliente
-                        </h4>
-                        <ul className="list-disc pl-5 space-y-1.5 text-slate-300 text-sm">
-                          {performanceSkill.critical_pains.map((pain: string, idx: number) => (
-                            <li key={idx} className="leading-snug">{pain}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    {performanceSkill.findings?.evidences && performanceSkill.findings.evidences.length > 0 && (
-                      <div className="mt-4 bg-emerald-950/20 border-l-2 border-emerald-500 p-4 rounded-r-xl">
-                        <h4 className="text-sm font-bold text-emerald-400 flex items-center gap-2 mb-2 uppercase tracking-wider text-xs">
-                          <Smartphone className="w-4 h-4" /> Evidências Técnicas (Web Vitals / On-Page)
-                        </h4>
-                        <ul className="list-disc pl-5 space-y-1.5 text-emerald-200/80 text-sm italic">
-                          {performanceSkill.findings.evidences.map((evidence: string, idx: number) => (
-                            <li key={idx} className="leading-snug">{evidence}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-
-                  {activeTab === 'performance' && performanceSkill && (!performanceSkill.findings || Object.keys(performanceSkill.findings).length === 0) && (
-                    <div className="liquid-glass p-8 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
-                      <Smartphone className="w-12 h-12 text-slate-600 mx-auto mb-4" />
-                      <p className="text-slate-400 text-lg font-semibold">Dados de UX/SEO não disponíveis</p>
-                      <p className="text-slate-500 text-sm mt-2">O agente de performance não conseguiu analisar a página (site pode estar offline ou inacessível).</p>
-                    </div>
-                  )}
-                  {activeTab === 'performance' && !performanceSkill && (
-                    <div className="liquid-glass p-8 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
-                      <Smartphone className="w-12 h-12 text-slate-600 mx-auto mb-4" />
-                      <p className="text-slate-400 text-lg font-semibold">Agente de UX/SEO não foi executado</p>
-                      <p className="text-slate-500 text-sm mt-2">Esta auditoria foi feita sem o motor de UX/SEO selecionado.</p>
-                    </div>
-                  )}
-
-                  {/* Tela 3: Inteligência de Mercado (Gemini Grounding) */}
-                  {activeTab === 'market' && marketSkill && (
-                    <div className="liquid-glass p-0 overflow-hidden relative animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    {/* Tela 3: Inteligência de Mercado (Gemini Grounding) */}
+                    {activeTab === 'market' && marketSkill && (
+                      <div className="liquid-glass p-0 overflow-hidden relative animate-in fade-in slide-in-from-bottom-4 duration-500">
 
 
-                      <div className="p-6">
-                        <h3 className="text-lg font-bold mb-5 flex items-center justify-between border-b border-white/5 pb-3">
-                          <span className="flex items-center gap-2 text-white">
-                            <Search className="w-5 h-5 text-blue-400" />
-                            Cérebro Estratégico (Pesquisa Avançada com IA Grounding)
-                          </span>
-                          <span className="px-3 py-1 rounded-full text-[10px] font-black tracking-widest bg-blue-500/10 text-blue-300 border border-blue-500/20 uppercase">Inteligência Competitiva Ativada</span>
-                        </h3>
+                        <div className="p-6">
+                          <h3 className="text-lg font-bold mb-5 flex items-center justify-between border-b border-white/5 pb-3">
+                            <span className="flex items-center gap-2 text-white">
+                              <Search className="w-5 h-5 text-blue-400" />
+                              Cérebro Estratégico (Pesquisa Avançada com IA Grounding)
+                            </span>
+                            <span className="px-3 py-1 rounded-full text-[10px] font-black tracking-widest bg-blue-500/10 text-blue-300 border border-blue-500/20 uppercase">Inteligência Competitiva Ativada</span>
+                          </h3>
 
-                        <div className="grid md:grid-cols-3 gap-6 mb-8">
-                          <div className="md:col-span-1 bg-black/40 p-5 rounded-2xl border border-white/5">
-                            <h4 className="text-xs font-black text-brand-purple mb-2 uppercase tracking-widest">Nicho Global Detectado</h4>
-                            <p className="text-slate-100 font-medium text-sm leading-relaxed mb-6">{marketSkill.findings.niche}</p>
+                          <div className="grid md:grid-cols-3 gap-6 mb-8">
+                            <div className="md:col-span-1 bg-black/40 p-5 rounded-2xl border border-white/5">
+                              <h4 className="text-xs font-black text-brand-purple mb-2 uppercase tracking-widest">Nicho Global Detectado</h4>
+                              <p className="text-slate-100 font-medium text-sm leading-relaxed mb-6">{marketSkill.findings.niche}</p>
 
-                            <h4 className="text-xs font-black text-indigo-400 mb-2 uppercase tracking-widest">O Cliente Ideal Mapeado (ICP)</h4>
-                            <p className="text-slate-100 font-medium text-sm leading-relaxed">{marketSkill.findings.target_icp}</p>
+                              <h4 className="text-xs font-black text-indigo-400 mb-2 uppercase tracking-widest">O Cliente Ideal Mapeado (ICP)</h4>
+                              <p className="text-slate-100 font-medium text-sm leading-relaxed">{marketSkill.findings.target_icp}</p>
+                            </div>
+
+                            <div className="md:col-span-2 space-y-4">
+                              <h4 className="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2 mb-2 border-b border-white/10 pb-2"><Users className="w-4 h-4 text-blue-400" /> Raio-X do Cliente Final (ICP)</h4>
+
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="bg-black/40 p-4 rounded-2xl border border-red-500/10">
+                                  <h5 className="text-xs font-black text-red-400 mb-2 uppercase tracking-widest flex items-center gap-2"><Target className="w-3 h-3" /> Dores do Cliente Ideal</h5>
+                                  <ul className="space-y-1.5 text-slate-300 text-xs">
+                                    {marketSkill.findings.dores_icp?.map((pain: string, i: number) => (
+                                      <li key={i} className="flex gap-1.5 leading-snug">
+                                        <span className="text-red-500 font-bold">✕</span> {pain}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+
+                                <div className="bg-gradient-to-r from-orange-500/10 to-transparent p-4 rounded-2xl border border-orange-500/20">
+                                  <h5 className="text-xs font-black text-orange-400 mb-2 uppercase tracking-widest flex items-center gap-2"><ArrowRight className="w-3 h-3" /> Objeções Comuns do ICP</h5>
+                                  <ul className="space-y-1.5 text-slate-200 text-xs font-medium">
+                                    {marketSkill.findings.objecoes_icp?.map((arg: string, i: number) => (
+                                      <li key={i} className="flex gap-1.5 leading-snug">
+                                        <span className="text-orange-400 font-bold">⚠</span> {arg}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+
+                                <div className="md:col-span-2 bg-gradient-to-r from-spring-green-400/10 to-transparent p-4 rounded-2xl border border-spring-green-400/20">
+                                  <h5 className="text-xs font-black text-spring-green-400 mb-2 uppercase tracking-widest flex items-center gap-2"><Star className="w-3 h-3" /> Sonhos e Desejos do ICP</h5>
+                                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-slate-200 text-xs font-medium">
+                                    {marketSkill.findings.sonhos_icp?.map((arg: string, i: number) => (
+                                      <li key={i} className="flex gap-1.5 leading-snug">
+                                        <span className="text-spring-green-400 font-bold">⭐</span> {arg}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              </div>
+
+                              <h4 className="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2 mt-6 mb-2 border-b border-white/10 pb-2"><Building2 className="w-4 h-4 text-brand-purple" /> Desafios da Emrpesa e Marketing</h4>
+
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="bg-red-950/20 p-4 rounded-2xl border border-red-500/20">
+                                  <h5 className="text-xs font-black text-red-400 mb-2 uppercase tracking-widest flex items-center gap-2"><AlertTriangle className="w-3 h-3" /> Gargalos de Vendas</h5>
+                                  <ul className="space-y-1.5 text-slate-300 text-xs">
+                                    {marketSkill.findings.dores_empresa_marketing?.map((pain: string, i: number) => (
+                                      <li key={i} className="flex gap-1.5 leading-snug">
+                                        <span className="text-red-500 font-bold">❗</span> {pain}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                                <div className="bg-indigo-950/20 p-4 rounded-2xl border border-indigo-500/20">
+                                  <h5 className="text-xs font-black text-indigo-400 mb-2 uppercase tracking-widest flex items-center gap-2"><Target className="w-3 h-3" /> Desempenho e Aquisição</h5>
+                                  <ul className="space-y-1.5 text-slate-300 text-xs">
+                                    {marketSkill.findings.desafios_empresa_marketing?.map((pain: string, i: number) => (
+                                      <li key={i} className="flex gap-1.5 leading-snug">
+                                        <span className="text-indigo-400 font-bold">→</span> {pain}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              </div>
+
+                              <div className="bg-gradient-to-r from-brand-purple/10 to-transparent p-5 rounded-2xl border border-brand-purple/20">
+                                <h4 className="text-xs font-black text-brand-purple mb-3 uppercase tracking-widest flex items-center gap-2"><Activity className="w-3 h-3" /> Brechas de Diferenciação</h4>
+                                <ul className="space-y-2 text-slate-200 text-sm font-medium">
+                                  {marketSkill.findings.brechas_diferenciacao?.map((arg: string, i: number) => (
+                                    <li key={i} className="flex gap-2">
+                                      <span className="text-brand-purple font-bold">✓</span> {arg}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </div>
                           </div>
 
-                          <div className="md:col-span-2 space-y-4">
-                            <h4 className="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2 mb-2 border-b border-white/10 pb-2"><Users className="w-4 h-4 text-blue-400" /> Raio-X do Cliente Final (ICP)</h4>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              <div className="bg-black/40 p-4 rounded-2xl border border-red-500/10">
-                                <h5 className="text-xs font-black text-red-400 mb-2 uppercase tracking-widest flex items-center gap-2"><Target className="w-3 h-3" /> Dores do Cliente Ideal</h5>
-                                <ul className="space-y-1.5 text-slate-300 text-xs">
-                                  {marketSkill.findings.dores_icp?.map((pain: string, i: number) => (
-                                    <li key={i} className="flex gap-1.5 leading-snug">
-                                      <span className="text-red-500 font-bold">✕</span> {pain}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-
-                              <div className="bg-gradient-to-r from-orange-500/10 to-transparent p-4 rounded-2xl border border-orange-500/20">
-                                <h5 className="text-xs font-black text-orange-400 mb-2 uppercase tracking-widest flex items-center gap-2"><ArrowRight className="w-3 h-3" /> Objeções Comuns do ICP</h5>
-                                <ul className="space-y-1.5 text-slate-200 text-xs font-medium">
-                                  {marketSkill.findings.objecoes_icp?.map((arg: string, i: number) => (
-                                    <li key={i} className="flex gap-1.5 leading-snug">
-                                      <span className="text-orange-400 font-bold">⚠</span> {arg}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-
-                              <div className="md:col-span-2 bg-gradient-to-r from-spring-green-400/10 to-transparent p-4 rounded-2xl border border-spring-green-400/20">
-                                <h5 className="text-xs font-black text-spring-green-400 mb-2 uppercase tracking-widest flex items-center gap-2"><Star className="w-3 h-3" /> Sonhos e Desejos do ICP</h5>
-                                <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-slate-200 text-xs font-medium">
-                                  {marketSkill.findings.sonhos_icp?.map((arg: string, i: number) => (
-                                    <li key={i} className="flex gap-1.5 leading-snug">
-                                      <span className="text-spring-green-400 font-bold">⭐</span> {arg}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            </div>
-
-                            <h4 className="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2 mt-6 mb-2 border-b border-white/10 pb-2"><Building2 className="w-4 h-4 text-brand-purple" /> Desafios da Emrpesa e Marketing</h4>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              <div className="bg-red-950/20 p-4 rounded-2xl border border-red-500/20">
-                                <h5 className="text-xs font-black text-red-400 mb-2 uppercase tracking-widest flex items-center gap-2"><AlertTriangle className="w-3 h-3" /> Gargalos de Vendas</h5>
-                                <ul className="space-y-1.5 text-slate-300 text-xs">
-                                  {marketSkill.findings.dores_empresa_marketing?.map((pain: string, i: number) => (
-                                    <li key={i} className="flex gap-1.5 leading-snug">
-                                      <span className="text-red-500 font-bold">❗</span> {pain}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                              <div className="bg-indigo-950/20 p-4 rounded-2xl border border-indigo-500/20">
-                                <h5 className="text-xs font-black text-indigo-400 mb-2 uppercase tracking-widest flex items-center gap-2"><Target className="w-3 h-3" /> Desempenho e Aquisição</h5>
-                                <ul className="space-y-1.5 text-slate-300 text-xs">
-                                  {marketSkill.findings.desafios_empresa_marketing?.map((pain: string, i: number) => (
-                                    <li key={i} className="flex gap-1.5 leading-snug">
-                                      <span className="text-indigo-400 font-bold">→</span> {pain}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            </div>
-
-                            <div className="bg-gradient-to-r from-brand-purple/10 to-transparent p-5 rounded-2xl border border-brand-purple/20">
-                              <h4 className="text-xs font-black text-brand-purple mb-3 uppercase tracking-widest flex items-center gap-2"><Activity className="w-3 h-3" /> Brechas de Diferenciação</h4>
-                              <ul className="space-y-2 text-slate-200 text-sm font-medium">
-                                {marketSkill.findings.brechas_diferenciacao?.map((arg: string, i: number) => (
-                                  <li key={i} className="flex gap-2">
-                                    <span className="text-brand-purple font-bold">✓</span> {arg}
-                                  </li>
+                          {/* Benchmarks Section */}
+                          {marketSkill.findings.competitor_benchmarks && marketSkill.findings.competitor_benchmarks.length > 0 && (
+                            <div className="mt-2 pt-6 border-t border-white/10">
+                              <h4 className="text-sm font-black text-white mb-4 uppercase tracking-wider flex items-center gap-2"><Activity className="w-4 h-4 text-spring-green-400" /> Gigantes do Mercado (Benchmarks Referência)</h4>
+                              <div className="grid md:grid-cols-3 gap-4">
+                                {marketSkill.findings.competitor_benchmarks.map((bench: string, i: number) => (
+                                  <div key={i} className="bg-white/5 rounded-xl p-4 border border-white/5 hover:bg-white/10 transition-colors">
+                                    <p className="text-sm text-slate-300 leading-relaxed">{bench}</p>
+                                  </div>
                                 ))}
-                              </ul>
+                              </div>
                             </div>
+                          )}
+
+                          {/* Deep Research absorbed here */}
+                          {marketSkill.findings.deep_research_markdown && (
+                            <div className="mt-6 pt-6 border-t border-orange-500/20">
+                              <details className="group">
+                                <summary className="cursor-pointer flex items-center gap-3 mb-4 hover:opacity-80 transition-opacity">
+                                  <Shield className="w-5 h-5 text-orange-400" />
+                                  <span className="text-lg font-bold text-orange-300">Dossiê de Inteligência Corporativa (Deep Research)</span>
+                                  <span className="text-xs text-slate-500 ml-auto group-open:hidden">Clique para expandir ▸</span>
+                                  <span className="text-xs text-slate-500 ml-auto hidden group-open:inline">Clique para fechar ▾</span>
+                                </summary>
+                                <div className="prose prose-invert prose-orange max-w-none text-slate-300 leading-relaxed space-y-4 text-sm bg-[#0B0F19]/50 p-6 rounded-xl border border-white/5 whitespace-pre-wrap custom-scrollbar overflow-y-auto max-h-[60vh]">
+                                  {marketSkill.findings.deep_research_markdown.split('\n').map((line: string, i: number) => {
+                                    if (line.trim().match(/^#{1,3}\s/)) {
+                                      const level = line.match(/^#+/)?.[0].length;
+                                      const text = line.replace(/^#+\s/, '');
+                                      if (level === 1) return <h1 key={i} className="text-2xl font-black text-white mt-8 mb-3 pb-2 border-b border-white/10">{text.replace(/\*\*/g, '')}</h1>;
+                                      if (level === 2) return <h2 key={i} className="text-xl font-bold text-orange-400 mt-6 mb-3 border-l-4 border-orange-500 pl-3">{text.replace(/\*\*/g, '')}</h2>;
+                                      return <h3 key={i} className="text-lg font-bold text-amber-200 mt-5 mb-2">{text.replace(/\*\*/g, '')}</h3>;
+                                    }
+                                    if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
+                                      const text = line.replace(/^[-*]\s/, '');
+                                      const formattedText = text.split(/(\*\*.*?\*\*)/).map((part, idx) => {
+                                        if (part.startsWith('**') && part.endsWith('**')) return <strong key={idx} className="text-white font-bold">{part.slice(2, -2)}</strong>;
+                                        return part;
+                                      });
+                                      return <li key={i} className="ml-4 mb-2 list-disc marker:text-orange-500 text-slate-300">{formattedText}</li>;
+                                    }
+                                    if (line.includes('**')) {
+                                      const formattedText = line.split(/(\*\*.*?\*\*)/).map((part, idx) => {
+                                        if (part.startsWith('**') && part.endsWith('**')) return <strong key={idx} className="text-white font-bold">{part.slice(2, -2)}</strong>;
+                                        return part;
+                                      });
+                                      return <p key={i} className="mb-3 font-medium">{formattedText}</p>;
+                                    }
+                                    if (line.trim() === '') return <br key={i} />;
+                                    return <p key={i} className="mb-3 font-medium">{line}</p>;
+                                  })}
+                                </div>
+                              </details>
+                            </div>
+                          )}
+
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Tela 4: Redes Sociais (Apify Instaloader API) */}
+                    {activeTab === 'social' && socialSkill && (
+                      <div className="liquid-glass p-6 animate-in fade-in slide-in-from-bottom-4 duration-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)] border-brand-purple/20">
+                        <h3 className="text-lg font-bold mb-5 flex items-center justify-between border-b border-slate-800 pb-3">
+                          <span className="flex items-center gap-2 text-slate-100"><Instagram className="w-5 h-5 text-fuchsia-400" /> Inteligência de Posicionamento Frio (Apify Extraction)</span>
+                          {getScoreBadge(socialSkill.score)}
+                        </h3>
+
+                        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+                          <div className="bg-black/20 p-4 rounded-2xl border border-white/5 text-center flex flex-col justify-center">
+                            <p className="text-slate-400 text-xs uppercase mb-1 font-semibold tracking-wider">Base Endossada</p>
+                            <p className="text-2xl font-black text-slate-50">{socialSkill.findings.followers ?? '???'}</p>
+                          </div>
+                          <div className="bg-black/20 p-4 rounded-2xl border border-white/5 text-center flex flex-col justify-center">
+                            <p className="text-slate-400 text-xs uppercase mb-1 font-semibold tracking-wider">Acervo Visual</p>
+                            <p className="text-2xl font-black text-slate-50">{socialSkill.findings.posts_count ?? '???'}</p>
+                          </div>
+                          <div className="bg-black/20 p-4 rounded-2xl border border-white/5 text-center flex flex-col justify-center">
+                            <p className="text-slate-400 text-xs uppercase mb-1 font-semibold tracking-wider">Motor Inbound</p>
+                            <p className={`text-xl font-black ${socialSkill.findings.bio_has_link ? 'text-spring-green-400' : 'text-red-400'}`}>
+                              {socialSkill.findings.bio_has_link ? 'BIO COM LINK' : 'SEM ROTA DE FUGA'}
+                            </p>
+                          </div>
+                          <div className="bg-brand-purple/10 p-4 rounded-2xl border border-brand-purple/20 text-center flex flex-col justify-center">
+                            <p className="text-brand-purple text-xs uppercase mb-1 font-bold tracking-wider">Engajamento IA</p>
+                            <p className="text-lg font-black text-white">{socialSkill.findings.engagement_estimate ?? socialSkill.score}</p>
+                          </div>
+                          <div className={`p-4 rounded-2xl border text-center flex flex-col justify-center md:col-span-1 col-span-2 ${socialSkill.findings.is_profile_selling ? 'bg-spring-green-900/20 border-spring-green-500/30' : 'bg-red-900/20 border-red-500/30'}`}>
+                            <p className="text-xs uppercase mb-1 font-bold tracking-wider text-white">O Perfil Vende?</p>
+                            <p className={`text-lg font-black ${socialSkill.findings.is_profile_selling ? 'text-spring-green-400' : 'text-red-400'}`}>
+                              {socialSkill.findings.is_profile_selling ? 'SIM (CONVERSÃO)' : 'NÃO VENDÁVEL'}
+                            </p>
                           </div>
                         </div>
 
-                        {/* Benchmarks Section */}
-                        {marketSkill.findings.competitor_benchmarks && marketSkill.findings.competitor_benchmarks.length > 0 && (
-                          <div className="mt-2 pt-6 border-t border-white/10">
-                            <h4 className="text-sm font-black text-white mb-4 uppercase tracking-wider flex items-center gap-2"><Activity className="w-4 h-4 text-spring-green-400" /> Gigantes do Mercado (Benchmarks Referência)</h4>
-                            <div className="grid md:grid-cols-3 gap-4">
-                              {marketSkill.findings.competitor_benchmarks.map((bench: string, i: number) => (
-                                <div key={i} className="bg-white/5 rounded-xl p-4 border border-white/5 hover:bg-white/10 transition-colors">
-                                  <p className="text-sm text-slate-300 leading-relaxed">{bench}</p>
+                        {/* Veredito de IA (Gemini/OpenAI) Estratégico Diário */}
+                        <div className="mt-4 mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="p-4 bg-gradient-to-r from-brand-purple/10 to-transparent rounded-xl border border-brand-purple/20">
+                            <h4 className="text-xs font-black text-brand-purple mb-2 uppercase tracking-widest flex items-center gap-2">
+                              <Activity className="w-4 h-4" /> Alinhamento Comercial dos Posts (IA)
+                            </h4>
+                            <p className="text-sm text-slate-300 leading-relaxed font-medium">
+                              {socialSkill.findings.sales_alignment || "Análise das legendas indisponível."}
+                            </p>
+                          </div>
+                          <div className="p-4 bg-gradient-to-r from-blue-500/10 to-transparent rounded-xl border border-blue-500/20">
+                            <h4 className="text-xs font-black text-blue-400 mb-2 uppercase tracking-widest flex items-center gap-2">
+                              <Shield className="w-4 h-4" /> Posicionamento de Autoridade (IA)
+                            </h4>
+                            <p className="text-sm text-slate-300 leading-relaxed font-medium">
+                              {socialSkill.findings.authority_triggers || "Análise de autoridade indisponível."}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Bio Links Section */}
+                        {socialSkill.findings.bio_links && socialSkill.findings.bio_links.length > 0 && (
+                          <div className="mt-4 mb-4 bg-fuchsia-950/10 border-l-2 border-fuchsia-400 p-4 rounded-r-xl">
+                            <h4 className="text-xs font-bold text-fuchsia-300 mb-2 uppercase tracking-wider flex items-center gap-2">
+                              <ExternalLink className="w-4 h-4" /> Links Encontrados na Bio
+                            </h4>
+                            <ul className="space-y-1.5 mb-3">
+                              {socialSkill.findings.bio_links.map((link: string, idx: number) => (
+                                <li key={idx} className="flex items-center gap-2 text-sm">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-fuchsia-400 flex-shrink-0"></span>
+                                  <a href={link.startsWith('http') ? link : `https://${link}`} target="_blank" rel="noopener noreferrer" className="text-fuchsia-200/80 hover:text-white underline underline-offset-2 truncate">{link}</a>
+                                </li>
+                              ))}
+                            </ul>
+
+                            {socialSkill.findings.compiled_links && socialSkill.findings.compiled_links.length > 0 && (
+                              <div className="mt-3 pt-3 border-t border-fuchsia-500/20">
+                                <h5 className="text-[10px] font-black text-fuchsia-400 mb-2 uppercase tracking-widest bg-fuchsia-500/10 inline-block px-2 py-1 rounded">Extração Linktree / Compiladores</h5>
+                                <ul className="space-y-1.5">
+                                  {socialSkill.findings.compiled_links.map((link: string, idx: number) => (
+                                    <li key={idx} className="flex items-center gap-2 text-xs">
+                                      <span className="w-1 h-1 rounded-full bg-fuchsia-300 flex-shrink-0"></span>
+                                      <a href={link.startsWith('http') ? link : `https://${link}`} target="_blank" rel="noopener noreferrer" className="text-fuchsia-100 hover:text-white hover:underline truncate">{link}</a>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Plano de Ação Tático (Content Ideas) */}
+                        {socialSkill.findings.content_ideas && socialSkill.findings.content_ideas.length > 0 && (
+                          <div className="mt-4 mb-6 bg-gradient-to-r from-blue-900/20 to-transparent border border-blue-500/20 p-5 rounded-2xl">
+                            <h4 className="text-sm font-black text-blue-400 mb-4 uppercase tracking-wider flex items-center gap-2">
+                              <Target className="w-4 h-4" /> Plano Tático de Conteúdo (Foco em Conversão)
+                            </h4>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                              {socialSkill.findings.content_ideas.map((idea: string, idx: number) => (
+                                <div key={idx} className="bg-black/40 p-3 rounded-xl border border-white/5 flex gap-3 items-start">
+                                  <span className="text-blue-500 font-black text-lg leading-none mt-0.5">{idx + 1}.</span>
+                                  <p className="text-slate-300 text-sm leading-relaxed">{idea}</p>
                                 </div>
                               ))}
                             </div>
                           </div>
                         )}
 
-                        {/* Deep Research absorbed here */}
-                        {marketSkill.findings.deep_research_markdown && (
-                          <div className="mt-6 pt-6 border-t border-orange-500/20">
-                            <details className="group">
-                              <summary className="cursor-pointer flex items-center gap-3 mb-4 hover:opacity-80 transition-opacity">
-                                <Shield className="w-5 h-5 text-orange-400" />
-                                <span className="text-lg font-bold text-orange-300">Dossiê de Inteligência Corporativa (Deep Research)</span>
-                                <span className="text-xs text-slate-500 ml-auto group-open:hidden">Clique para expandir ▸</span>
-                                <span className="text-xs text-slate-500 ml-auto hidden group-open:inline">Clique para fechar ▾</span>
-                              </summary>
-                              <div className="prose prose-invert prose-orange max-w-none text-slate-300 leading-relaxed space-y-4 text-sm bg-[#0B0F19]/50 p-6 rounded-xl border border-white/5 whitespace-pre-wrap custom-scrollbar overflow-y-auto max-h-[60vh]">
-                                {marketSkill.findings.deep_research_markdown.split('\n').map((line: string, i: number) => {
-                                  if (line.trim().match(/^#{1,3}\s/)) {
-                                    const level = line.match(/^#+/)?.[0].length;
-                                    const text = line.replace(/^#+\s/, '');
-                                    if (level === 1) return <h1 key={i} className="text-2xl font-black text-white mt-8 mb-3 pb-2 border-b border-white/10">{text.replace(/\*\*/g, '')}</h1>;
-                                    if (level === 2) return <h2 key={i} className="text-xl font-bold text-orange-400 mt-6 mb-3 border-l-4 border-orange-500 pl-3">{text.replace(/\*\*/g, '')}</h2>;
-                                    return <h3 key={i} className="text-lg font-bold text-amber-200 mt-5 mb-2">{text.replace(/\*\*/g, '')}</h3>;
-                                  }
-                                  if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
-                                    const text = line.replace(/^[-*]\s/, '');
-                                    const formattedText = text.split(/(\*\*.*?\*\*)/).map((part, idx) => {
-                                      if (part.startsWith('**') && part.endsWith('**')) return <strong key={idx} className="text-white font-bold">{part.slice(2, -2)}</strong>;
-                                      return part;
-                                    });
-                                    return <li key={i} className="ml-4 mb-2 list-disc marker:text-orange-500 text-slate-300">{formattedText}</li>;
-                                  }
-                                  if (line.includes('**')) {
-                                    const formattedText = line.split(/(\*\*.*?\*\*)/).map((part, idx) => {
-                                      if (part.startsWith('**') && part.endsWith('**')) return <strong key={idx} className="text-white font-bold">{part.slice(2, -2)}</strong>;
-                                      return part;
-                                    });
-                                    return <p key={i} className="mb-3 font-medium">{formattedText}</p>;
-                                  }
-                                  if (line.trim() === '') return <br key={i} />;
-                                  return <p key={i} className="mb-3 font-medium">{line}</p>;
-                                })}
-                              </div>
-                            </details>
+                        {socialSkill.critical_pains.length > 0 && (
+                          <div className="bg-red-900/10 border-l-2 border-red-500 p-4 rounded-r-xl">
+                            <h4 className="text-sm font-bold text-red-400 flex items-center gap-2 mb-2 uppercase tracking-wider text-xs">
+                              <AlertTriangle className="w-4 h-4" /> Riscos do Posicionamento Digital
+                            </h4>
+                            <ul className="list-disc pl-5 space-y-1.5 text-slate-300 text-sm">
+                              {socialSkill.critical_pains.map((pain: string, idx: number) => (
+                                <li key={idx} className="leading-snug">{pain}</li>
+                              ))}
+                            </ul>
                           </div>
                         )}
 
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Tela 4: Redes Sociais (Apify Instaloader API) */}
-                  {activeTab === 'social' && socialSkill && (
-                    <div className="liquid-glass p-6 animate-in fade-in slide-in-from-bottom-4 duration-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)] border-brand-purple/20">
-                      <h3 className="text-lg font-bold mb-5 flex items-center justify-between border-b border-slate-800 pb-3">
-                        <span className="flex items-center gap-2 text-slate-100"><Instagram className="w-5 h-5 text-fuchsia-400" /> Inteligência de Posicionamento Frio (Apify Extraction)</span>
-                        {getScoreBadge(socialSkill.score)}
-                      </h3>
-
-                      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
-                        <div className="bg-black/20 p-4 rounded-2xl border border-white/5 text-center flex flex-col justify-center">
-                          <p className="text-slate-400 text-xs uppercase mb-1 font-semibold tracking-wider">Base Endossada</p>
-                          <p className="text-2xl font-black text-slate-50">{socialSkill.findings.followers ?? '???'}</p>
-                        </div>
-                        <div className="bg-black/20 p-4 rounded-2xl border border-white/5 text-center flex flex-col justify-center">
-                          <p className="text-slate-400 text-xs uppercase mb-1 font-semibold tracking-wider">Acervo Visual</p>
-                          <p className="text-2xl font-black text-slate-50">{socialSkill.findings.posts_count ?? '???'}</p>
-                        </div>
-                        <div className="bg-black/20 p-4 rounded-2xl border border-white/5 text-center flex flex-col justify-center">
-                          <p className="text-slate-400 text-xs uppercase mb-1 font-semibold tracking-wider">Motor Inbound</p>
-                          <p className={`text-xl font-black ${socialSkill.findings.bio_has_link ? 'text-spring-green-400' : 'text-red-400'}`}>
-                            {socialSkill.findings.bio_has_link ? 'BIO COM LINK' : 'SEM ROTA DE FUGA'}
-                          </p>
-                        </div>
-                        <div className="bg-brand-purple/10 p-4 rounded-2xl border border-brand-purple/20 text-center flex flex-col justify-center">
-                          <p className="text-brand-purple text-xs uppercase mb-1 font-bold tracking-wider">Engajamento IA</p>
-                          <p className="text-lg font-black text-white">{socialSkill.findings.engagement_estimate ?? socialSkill.score}</p>
-                        </div>
-                        <div className={`p-4 rounded-2xl border text-center flex flex-col justify-center md:col-span-1 col-span-2 ${socialSkill.findings.is_profile_selling ? 'bg-spring-green-900/20 border-spring-green-500/30' : 'bg-red-900/20 border-red-500/30'}`}>
-                          <p className="text-xs uppercase mb-1 font-bold tracking-wider text-white">O Perfil Vende?</p>
-                          <p className={`text-lg font-black ${socialSkill.findings.is_profile_selling ? 'text-spring-green-400' : 'text-red-400'}`}>
-                            {socialSkill.findings.is_profile_selling ? 'SIM (CONVERSÃO)' : 'NÃO VENDÁVEL'}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Veredito de IA (Gemini/OpenAI) Estratégico Diário */}
-                      <div className="mt-4 mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="p-4 bg-gradient-to-r from-brand-purple/10 to-transparent rounded-xl border border-brand-purple/20">
-                          <h4 className="text-xs font-black text-brand-purple mb-2 uppercase tracking-widest flex items-center gap-2">
-                            <Activity className="w-4 h-4" /> Alinhamento Comercial dos Posts (IA)
-                          </h4>
-                          <p className="text-sm text-slate-300 leading-relaxed font-medium">
-                            {socialSkill.findings.sales_alignment || "Análise das legendas indisponível."}
-                          </p>
-                        </div>
-                        <div className="p-4 bg-gradient-to-r from-blue-500/10 to-transparent rounded-xl border border-blue-500/20">
-                          <h4 className="text-xs font-black text-blue-400 mb-2 uppercase tracking-widest flex items-center gap-2">
-                            <Shield className="w-4 h-4" /> Posicionamento de Autoridade (IA)
-                          </h4>
-                          <p className="text-sm text-slate-300 leading-relaxed font-medium">
-                            {socialSkill.findings.authority_triggers || "Análise de autoridade indisponível."}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Bio Links Section */}
-                      {socialSkill.findings.bio_links && socialSkill.findings.bio_links.length > 0 && (
-                        <div className="mt-4 mb-4 bg-fuchsia-950/10 border-l-2 border-fuchsia-400 p-4 rounded-r-xl">
-                          <h4 className="text-xs font-bold text-fuchsia-300 mb-2 uppercase tracking-wider flex items-center gap-2">
-                            <ExternalLink className="w-4 h-4" /> Links Encontrados na Bio
-                          </h4>
-                          <ul className="space-y-1.5 mb-3">
-                            {socialSkill.findings.bio_links.map((link: string, idx: number) => (
-                              <li key={idx} className="flex items-center gap-2 text-sm">
-                                <span className="w-1.5 h-1.5 rounded-full bg-fuchsia-400 flex-shrink-0"></span>
-                                <a href={link.startsWith('http') ? link : `https://${link}`} target="_blank" rel="noopener noreferrer" className="text-fuchsia-200/80 hover:text-white underline underline-offset-2 truncate">{link}</a>
-                              </li>
-                            ))}
-                          </ul>
-
-                          {socialSkill.findings.compiled_links && socialSkill.findings.compiled_links.length > 0 && (
-                            <div className="mt-3 pt-3 border-t border-fuchsia-500/20">
-                              <h5 className="text-[10px] font-black text-fuchsia-400 mb-2 uppercase tracking-widest bg-fuchsia-500/10 inline-block px-2 py-1 rounded">Extração Linktree / Compiladores</h5>
-                              <ul className="space-y-1.5">
-                                {socialSkill.findings.compiled_links.map((link: string, idx: number) => (
-                                  <li key={idx} className="flex items-center gap-2 text-xs">
-                                    <span className="w-1 h-1 rounded-full bg-fuchsia-300 flex-shrink-0"></span>
-                                    <a href={link.startsWith('http') ? link : `https://${link}`} target="_blank" rel="noopener noreferrer" className="text-fuchsia-100 hover:text-white hover:underline truncate">{link}</a>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                        </div>
-                      )}
-
-                      {/* Plano de Ação Tático (Content Ideas) */}
-                      {socialSkill.findings.content_ideas && socialSkill.findings.content_ideas.length > 0 && (
-                        <div className="mt-4 mb-6 bg-gradient-to-r from-blue-900/20 to-transparent border border-blue-500/20 p-5 rounded-2xl">
-                          <h4 className="text-sm font-black text-blue-400 mb-4 uppercase tracking-wider flex items-center gap-2">
-                            <Target className="w-4 h-4" /> Plano Tático de Conteúdo (Foco em Conversão)
-                          </h4>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            {socialSkill.findings.content_ideas.map((idea: string, idx: number) => (
-                              <div key={idx} className="bg-black/40 p-3 rounded-xl border border-white/5 flex gap-3 items-start">
-                                <span className="text-blue-500 font-black text-lg leading-none mt-0.5">{idx + 1}.</span>
-                                <p className="text-slate-300 text-sm leading-relaxed">{idea}</p>
-                              </div>
-                            ))}
+                        {socialSkill.findings.evidences && socialSkill.findings.evidences.length > 0 && (
+                          <div className="mt-4 bg-fuchsia-950/20 border-l-2 border-fuchsia-500 p-4 rounded-r-xl">
+                            <h4 className="text-sm font-bold text-fuchsia-400 flex items-center gap-2 mb-2 uppercase tracking-wider text-xs">
+                              <Instagram className="w-4 h-4" /> Fundamentos Raspados da API (Apify)
+                            </h4>
+                            <ul className="list-disc pl-5 space-y-1.5 text-fuchsia-200/80 text-sm italic">
+                              {socialSkill.findings.evidences.map((evidence: string, idx: number) => (
+                                <li key={idx} className="leading-snug">{evidence}</li>
+                              ))}
+                            </ul>
                           </div>
-                        </div>
-                      )}
-
-                      {socialSkill.critical_pains.length > 0 && (
-                        <div className="bg-red-900/10 border-l-2 border-red-500 p-4 rounded-r-xl">
-                          <h4 className="text-sm font-bold text-red-400 flex items-center gap-2 mb-2 uppercase tracking-wider text-xs">
-                            <AlertTriangle className="w-4 h-4" /> Riscos do Posicionamento Digital
-                          </h4>
-                          <ul className="list-disc pl-5 space-y-1.5 text-slate-300 text-sm">
-                            {socialSkill.critical_pains.map((pain: string, idx: number) => (
-                              <li key={idx} className="leading-snug">{pain}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-
-                      {socialSkill.findings.evidences && socialSkill.findings.evidences.length > 0 && (
-                        <div className="mt-4 bg-fuchsia-950/20 border-l-2 border-fuchsia-500 p-4 rounded-r-xl">
-                          <h4 className="text-sm font-bold text-fuchsia-400 flex items-center gap-2 mb-2 uppercase tracking-wider text-xs">
-                            <Instagram className="w-4 h-4" /> Fundamentos Raspados da API (Apify)
-                          </h4>
-                          <ul className="list-disc pl-5 space-y-1.5 text-fuchsia-200/80 text-sm italic">
-                            {socialSkill.findings.evidences.map((evidence: string, idx: number) => (
-                              <li key={idx} className="leading-snug">{evidence}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Tela 5: Auditoria Vendas / CMO Sênior */}
-                  {activeTab === 'cmo' && cmoSkill && cmoSkill.findings && (
-                    <div className="bg-gradient-to-br from-indigo-950/40 via-purple-900/10 to-transparent p-6 sm:p-8 animate-in fade-in slide-in-from-bottom-4 duration-500 rounded-3xl border border-indigo-500/20 shadow-[0_0_40px_rgba(99,102,241,0.08)] relative overflow-hidden">
-                      {/* Background decorations */}
-                      <div className="absolute -top-32 -right-32 w-64 h-64 bg-fuchsia-500/10 blur-[80px] rounded-full"></div>
-                      <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-indigo-500/10 blur-[80px] rounded-full"></div>
-
-                      <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                        <div>
-                          <h3 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 via-indigo-300 to-white flex items-center gap-3 drop-shadow-sm">
-                            <span className="p-2 bg-indigo-500/20 rounded-xl border border-indigo-500/30">
-                              <Briefcase className="w-6 h-6 text-fuchsia-400" />
-                            </span>
-                            O Veredito Final (Boss)
-                          </h3>
-                          <p className="text-sm font-medium text-slate-400 mt-2 px-1">
-                            O CMO cruzou todos os dados técnicos coletados pelos agentes e formulou o diagnóstico comercial definitivo.
-                          </p>
-                        </div>
-                        {getScoreBadge(cmoSkill.score)}
-                      </div>
-
-                      <div className="relative z-10 grid md:grid-cols-2 gap-6 bg-black/40 p-6 rounded-xl border border-zinc-800 mb-6">
-                        <div>
-                          <h4 className="flex items-center gap-2 text-sm font-bold text-red-400 mb-4 uppercase tracking-wide border-b border-red-500/20 pb-2">
-                            <XCircle className="w-4 h-4" /> Pontos Negativos Consolidados
-                          </h4>
-                          <ul className="space-y-3">
-                            {cmoSkill.findings.pontos_negativos_consolidados?.map((item: string, idx: number) => {
-                              const isAgentSource = item.includes('[Fonte:');
-                              const text = isAgentSource ? item.split(']')[1] : item;
-                              const source = isAgentSource ? item.split(']')[0] + ']' : '';
-                              return (
-                                <li key={idx} className="flex gap-3 text-sm text-zinc-300 items-start">
-                                  <span className="text-red-500 font-bold mt-0.5">✕</span>
-                                  <span className="leading-relaxed">
-                                    {source && <span className="text-[10px] text-red-400 uppercase tracking-wider block font-bold mb-0.5">{source.replace('❌ ', '')}</span>}
-                                    {text.replace('❌ ', '').trim()}
-                                  </span>
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </div>
-
-                        <div>
-                          <h4 className="flex items-center gap-2 text-sm font-bold text-spring-green-400 mb-4 uppercase tracking-wide border-b border-spring-green-500/20 pb-2">
-                            <CheckCircle2 className="w-4 h-4" /> Pontos Fortes e Brechas
-                          </h4>
-                          <ul className="space-y-3 mb-6">
-                            {cmoSkill.findings.pontos_positivos_consolidados?.map((item: string, idx: number) => {
-                              const isAgentSource = item.includes('[Fonte:');
-                              const text = isAgentSource ? item.split(']')[1] : item;
-                              const source = isAgentSource ? item.split(']')[0] + ']' : '';
-                              return (
-                                <li key={`pos-${idx}`} className="flex gap-3 text-sm text-zinc-300 items-start">
-                                  <span className="text-spring-green-500 font-bold mt-0.5">✓</span>
-                                  <span className="leading-relaxed">
-                                    {source && <span className="text-[10px] text-spring-green-400/70 uppercase tracking-wider block font-bold mb-0.5">{source.replace('✅ ', '')}</span>}
-                                    {text.replace('✅ ', '').trim()}
-                                  </span>
-                                </li>
-                              );
-                            })}
-                          </ul>
-
-                          <h5 className="text-xs font-bold text-blue-400 mb-3 uppercase tracking-wider flex items-center gap-1"><Search className="w-3 h-3" /> Diferenciação</h5>
-                          <ul className="space-y-2">
-                            {cmoSkill.findings.brechas_diferenciacao?.map((item: string, idx: number) => (
-                              <li key={`brecha-${idx}`} className="flex gap-2 text-sm text-zinc-300 items-start bg-blue-950/20 p-2 rounded-lg border border-blue-500/10">
-                                <span className="text-blue-500 font-bold">💡</span>
-                                <span className="leading-relaxed">{item.replace('💡 ', '').trim()}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-
-                      {/* Cross Analysis */}
-                      {cmoSkill.findings.cross_analysis && cmoSkill.findings.cross_analysis.length > 0 && (
-                        <div className="relative z-10 mb-8 bg-black/40 p-5 rounded-2xl border-l-4 border-fuchsia-500 text-slate-200 shadow-inner">
-                          <h4 className="flex items-center gap-2 text-xs font-black text-fuchsia-400 mb-3 uppercase tracking-widest"><Activity className="w-4 h-4" /> Cruzamento de Dados dos Agentes</h4>
-                          <ul className="space-y-3">
-                            {cmoSkill.findings.cross_analysis.map((cruzamento: string, idx: number) => (
-                              <li key={`cross-${idx}`} className="flex gap-3 text-sm items-start">
-                                <span className="text-fuchsia-500 font-bold mt-0.5">🔗</span>
-                                <span className="leading-relaxed font-medium italic">{cruzamento.replace('🔗 ', '')}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-
-                      {/* Plano Comercial */}
-                      {cmoSkill.findings.plano_comercial?.servicos_recomendados && (
-                        <div className="relative z-10 space-y-4 mb-8">
-                          <h4 className="text-lg font-black text-white flex items-center gap-2"><Target className="w-5 h-5 text-indigo-400" /> Plano Comercial High-Ticket</h4>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {cmoSkill.findings.plano_comercial.servicos_recomendados.map((srv: any, idx: number) => (
-                              <div key={idx} className="bg-gradient-to-br from-indigo-950/40 to-black border border-indigo-500/20 rounded-2xl p-5 flex flex-col shadow-lg">
-                                <h5 className="text-lg font-black text-indigo-300 mb-4 pb-3 border-b border-indigo-500/20 flex items-center justify-between">
-                                  {srv.nome_servico}
-                                  <span className="text-[10px] w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-300 flex items-center justify-center font-bold">0{idx + 1}</span>
-                                </h5>
-
-                                <div className="space-y-4 flex-1">
-                                  <div>
-                                    <p className="text-[10px] uppercase font-black tracking-widest text-slate-500 mb-1">Por que vender (Base em Dados)</p>
-                                    <p className="text-sm text-slate-300 leading-relaxed font-medium bg-white/5 p-3 rounded-xl shadow-inner border border-white/5">{srv.por_que_vender}</p>
-                                  </div>
-                                  <div>
-                                    <p className="text-[10px] uppercase font-black tracking-widest text-emerald-500/70 mb-1 flex items-center gap-1"><ArrowRight className="w-3 h-3" /> Impacto Direto</p>
-                                    <p className="text-sm text-emerald-100/80 font-medium leading-relaxed">{srv.impacto_esperado}</p>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Veredito Implacável */}
-                      <div className="relative z-10 mt-6 bg-indigo-950/50 border-x border-y border-indigo-500/40 p-6 rounded-2xl text-center shadow-[0_0_20px_rgba(99,102,241,0.2)]">
-                        <h4 className="text-xs font-black text-indigo-400 mb-3 uppercase tracking-widest">Pitch de Fechamento (P/ Vendedor)</h4>
-                        <p className="text-white text-lg sm:text-xl font-bold italic leading-relaxed max-w-4xl mx-auto">&quot;{cmoSkill.findings.cmo_verdict}&quot;</p>
-                      </div>
-
-                    </div>
-                  )}
-
-                  {/* Tela 6: Local SEO GMB Auditor */}
-                  {activeTab === 'gmb' && gmbSkill && gmbSkill.findings && (
-                    <div className="bg-gradient-to-br from-emerald-900/30 to-black p-6 animate-in fade-in slide-in-from-bottom-4 duration-500 rounded-2xl border border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.05)]">
-                      <h3 className="text-xl font-bold mb-4 flex items-center justify-between">
-                        <span className="flex items-center gap-2 text-slate-100"><Target className="w-5 h-5 text-emerald-400" /> Auditoria de Presença Local (Google Maps/GMB)</span>
-                        {getScoreBadge(gmbSkill.score)}
-                      </h3>
-
-                      {/* KPIs Row */}
-                      <div className="flex flex-wrap gap-4 mb-6">
-                        <div className="bg-emerald-950/20 px-4 py-3 rounded-lg border border-emerald-500/20 flex-1 min-w-[140px] text-center">
-                          <p className="text-xs text-emerald-400 uppercase font-bold tracking-widest mb-1">Autoridade/Estrelas</p>
-                          <p className="text-2xl font-black text-white">{gmbSkill.findings.estimated_rating}</p>
-                        </div>
-                        <div className="bg-emerald-950/20 px-4 py-3 rounded-lg border border-emerald-500/20 flex-1 min-w-[140px] text-center">
-                          <p className="text-xs text-emerald-400 uppercase font-bold tracking-widest mb-1">Total de Avaliações</p>
-                          <p className="text-2xl font-black text-white">{gmbSkill.findings.reviews_volume}</p>
-                        </div>
-                        <div className="bg-emerald-950/20 px-4 py-3 rounded-lg border border-emerald-500/20 flex-1 min-w-[140px] text-center">
-                          <p className="text-xs text-emerald-400 uppercase font-bold tracking-widest mb-1">Fotos na Ficha</p>
-                          <p className={`text-2xl font-black ${(gmbSkill.findings.photos_count || 0) >= 20 ? 'text-emerald-400' : 'text-orange-400'}`}>{gmbSkill.findings.photos_count || 0}</p>
-                        </div>
-                        <div className="bg-emerald-950/20 px-4 py-3 rounded-lg border border-emerald-500/20 flex-1 min-w-[140px] text-center">
-                          <p className="text-xs text-emerald-400 uppercase font-bold tracking-widest mb-1">Eficácia da Ficha</p>
-                          <p className={`text-2xl font-black ${(gmbSkill.findings.profile_effectiveness_pct || 0) >= 80 ? 'text-emerald-400' : (gmbSkill.findings.profile_effectiveness_pct || 0) >= 50 ? 'text-orange-400' : 'text-red-400'}`}>{gmbSkill.findings.profile_effectiveness_pct || 0}%</p>
-                        </div>
-                      </div>
-
-                      {/* Efficiency Breakdown Checklist */}
-                      {gmbSkill.findings.effectiveness_detail && (
-                        <div className="mb-6 bg-black/40 p-5 rounded-xl border border-zinc-800">
-                          <h4 className="flex items-center gap-2 text-sm font-bold text-white mb-4 uppercase tracking-wide border-b border-zinc-700 pb-2">
-                            <Shield className="w-4 h-4 text-emerald-400" /> Checklist de Eficácia (7 Itens para 100%)
-                          </h4>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            {gmbSkill.findings.effectiveness_detail.map((item: any, idx: number) => (
-                              <div key={`ef-${idx}`} className={`flex items-center gap-3 p-3 rounded-lg border transition-all ${item.status ? 'bg-emerald-950/20 border-emerald-500/20' : 'bg-red-950/20 border-red-500/20'}`}>
-                                <span className={`text-lg font-black ${item.status ? 'text-emerald-400' : 'text-red-400'}`}>{item.status ? '✓' : '✕'}</span>
-                                <div>
-                                  <p className={`text-sm font-bold ${item.status ? 'text-emerald-300' : 'text-red-300'}`}>{item.label}</p>
-                                  <p className="text-xs text-slate-500">{item.description} <span className="text-slate-600">({item.impact})</span></p>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* What's Missing for 100% */}
-                      {gmbSkill.findings.missing_for_100_pct && gmbSkill.findings.missing_for_100_pct.length > 0 && (
-                        <div className="mb-6 bg-orange-950/20 border-l-4 border-orange-500 p-5 rounded-r-xl">
-                          <h4 className="text-sm font-bold text-orange-400 flex items-center gap-2 mb-3 uppercase tracking-wider">
-                            <AlertTriangle className="w-4 h-4" /> O Que Falta Para 100% de Eficácia
-                          </h4>
-                          <div className="space-y-2">
-                            {gmbSkill.findings.missing_for_100_pct.map((item: any, idx: number) => (
-                              <div key={`miss-${idx}`} className="flex items-start gap-3 p-2.5 bg-orange-950/20 rounded-lg">
-                                <span className="text-orange-500 font-bold mt-0.5">•</span>
-                                <div>
-                                  <span className="text-sm font-bold text-orange-200">{item.item}</span>
-                                  <span className="text-xs text-orange-400/80 ml-2">(-{item.impact})</span>
-                                  <p className="text-xs text-orange-300/60 mt-0.5">{item.description}</p>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Reviews Section */}
-                      {gmbSkill.findings.reviews_list_raw && gmbSkill.findings.reviews_list_raw.length > 0 && (
-                        <div className="mb-6 bg-black/40 p-5 rounded-xl border border-zinc-800">
-                          <h4 className="flex items-center gap-2 text-sm font-bold text-white mb-4 uppercase tracking-wide border-b border-zinc-700 pb-2">
-                            <MessageSquare className="w-4 h-4 text-blue-400" /> Avaliações dos Clientes ({gmbSkill.findings.reviews_list_raw.length} analisadas)
-                          </h4>
-
-                          {/* Sentiment Score Badge */}
-                          {gmbSkill.findings.sentiment_score && (
-                            <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-4 ${gmbSkill.findings.sentiment_score === 'Positivo' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : gmbSkill.findings.sentiment_score === 'Negativo' ? 'bg-red-500/20 text-red-300 border border-red-500/30' : 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30'}`}>
-                              <Star className="w-3 h-3" /> Sentimento Geral: {gmbSkill.findings.sentiment_score}
-                            </div>
-                          )}
-
-                          <div className="space-y-3 max-h-[400px] overflow-y-auto custom-scrollbar pr-2">
-                            {gmbSkill.findings.reviews_list_raw.map((review: any, idx: number) => (
-                              <div key={`rev-${idx}`} className="p-3 bg-zinc-900/50 rounded-lg border border-zinc-800/50 hover:border-zinc-700 transition-colors">
-                                <div className="flex items-center gap-2 mb-2">
-                                  <div className="flex gap-0.5">
-                                    {[1, 2, 3, 4, 5].map(star => (
-                                      <Star key={star} className={`w-3 h-3 ${star <= review.stars ? 'text-yellow-400 fill-yellow-400' : 'text-zinc-700'}`} />
-                                    ))}
-                                  </div>
-                                  <span className="text-xs text-slate-500">{review.stars}/5</span>
-                                </div>
-                                <p className="text-sm text-slate-300 leading-relaxed">{review.text || <span className="italic text-slate-500">Avaliação sem texto</span>}</p>
-                                {review.has_response && (
-                                  <div className="mt-2 pl-3 border-l-2 border-emerald-500/30">
-                                    <p className="text-xs text-emerald-400 font-semibold mb-0.5">↳ Resposta do proprietário:</p>
-                                    <p className="text-xs text-slate-400 italic">{review.response_preview}</p>
-                                  </div>
-                                )}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Review Highlights from AI */}
-                      {gmbSkill.findings.reviews_highlights && (gmbSkill.findings.reviews_highlights.best?.length > 0 || gmbSkill.findings.reviews_highlights.worst?.length > 0) && (
-                        <div className="grid md:grid-cols-2 gap-4 mb-6">
-                          {gmbSkill.findings.reviews_highlights.best?.length > 0 && (
-                            <div className="bg-emerald-950/20 p-4 rounded-xl border border-emerald-500/20">
-                              <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-3 flex items-center gap-2"><CheckCircle2 className="w-3 h-3" /> Melhores Comentários</h4>
-                              <ul className="space-y-2">
-                                {gmbSkill.findings.reviews_highlights.best.map((q: string, i: number) => (
-                                  <li key={`best-${i}`} className="text-sm text-emerald-200/80 italic bg-emerald-950/30 p-2 rounded-md">&ldquo;{q}&rdquo;</li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                          {gmbSkill.findings.reviews_highlights.worst?.length > 0 && (
-                            <div className="bg-red-950/20 p-4 rounded-xl border border-red-500/20">
-                              <h4 className="text-xs font-bold text-red-400 uppercase tracking-widest mb-3 flex items-center gap-2"><XCircle className="w-3 h-3" /> Comentários Críticos</h4>
-                              <ul className="space-y-2">
-                                {gmbSkill.findings.reviews_highlights.worst.map((q: string, i: number) => (
-                                  <li key={`worst-${i}`} className="text-sm text-red-200/80 italic bg-red-950/30 p-2 rounded-md">&ldquo;{q}&rdquo;</li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                        </div>
-                      )}
-
-                      {/* Sentiment Summary from AI */}
-                      {gmbSkill.findings.review_sentiment_summary && (
-                        <div className="mb-6 p-4 rounded-xl border bg-black/40 border-zinc-800">
-                          <p className="text-xs font-bold text-brand-purple uppercase tracking-widest mb-2 flex items-center gap-2"><MessageSquare className="w-3 h-3" /> Análise de Sentimento (IA)</p>
-                          <p className="text-sm font-medium text-slate-300 leading-relaxed">{gmbSkill.findings.review_sentiment_summary}</p>
-                        </div>
-                      )}
-
-                      {/* Optimization Tips */}
-                      <div className="mb-6">
-                        <h4 className="flex items-center gap-2 text-sm font-bold text-emerald-400 mb-4 uppercase tracking-wide">
-                          <ArrowRight className="w-4 h-4" /> Ações Corretivas Recomendadas
-                        </h4>
-                        <ul className="space-y-2">
-                          {gmbSkill.findings.optimization_tips?.map((tip: string, idx: number) => (
-                            <li key={idx} className="flex gap-3 text-sm text-zinc-300 items-start bg-black/20 p-3 rounded-lg border border-zinc-800/50">
-                              <span className="text-emerald-500 font-bold mt-0.5 min-w-5 text-center">{idx + 1}</span>
-                              <span>{tip}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      {/* Forensic Verdict */}
-                      {gmbSkill.findings.forensic_review_verdict && (
-                        <div className="bg-indigo-950/20 p-5 rounded-xl border-l-4 border-indigo-500">
-                          <h4 className="text-xs uppercase font-bold text-indigo-300 mb-2 tracking-widest flex items-center gap-2"><Briefcase className="w-3 h-3" /> Veredito Forense</h4>
-                          <p className="text-sm text-slate-300 leading-relaxed">{gmbSkill.findings.forensic_review_verdict}</p>
-                        </div>
-                      )}
-
-                      {/* Critical Pains extras do GMB */}
-                      {gmbSkill.critical_pains && gmbSkill.critical_pains.length > 0 && (
-                        <div className="mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
-                          <h4 className="text-sm font-bold text-red-500 flex items-center gap-2 mb-2">
-                            <AlertTriangle className="w-4 h-4" /> Motivos Pelos Quais Eles Não Aparecem na Pesquisa Maps Local
-                          </h4>
-                          <ul className="list-disc pl-5 space-y-1 text-red-400 text-sm">
-                            {gmbSkill.critical_pains.map((pain: string, idx: number) => (
-                              <li key={idx}>{pain}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {activeTab === 'keywords' && keywordSkill && keywordSkill.findings && (
-                    <div className="bg-gradient-to-br from-blue-900/30 to-black p-6 animate-in fade-in slide-in-from-bottom-4 duration-500 rounded-2xl border border-blue-500/30 shadow-[0_0_30px_rgba(59,130,246,0.05)]">
-                      <h3 className="text-xl font-bold mb-4 flex items-center justify-between">
-                        <span className="flex items-center gap-2 text-slate-100"><KeyRound className="w-5 h-5 text-blue-400" /> Inteligência de Busca e Oportunidades</span>
-                        {getScoreBadge(keywordSkill.score)}
-                      </h3>
-
-                      {/* KPIs */}
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                        <div className="bg-black/40 p-4 rounded-xl border border-blue-500/20 text-center">
-                          <p className="text-xs uppercase font-bold text-blue-400 mb-1 tracking-widest">Variações Pesquisadas</p>
-                          <p className="text-xl font-black text-white">{keywordSkill.findings.keywords_analyzed?.length || 0}</p>
-                        </div>
-                        <div className="bg-black/40 p-4 rounded-xl border border-blue-500/20 text-center">
-                          <p className="text-xs uppercase font-bold text-blue-400 mb-1 tracking-widest">Termos Relacionados</p>
-                          <p className="text-xl font-black text-white">{keywordSkill.findings.related_queries?.length || 0}</p>
-                        </div>
-                        <div className="bg-black/40 p-4 rounded-xl border border-blue-500/20 text-center">
-                          <p className="text-xs uppercase font-bold text-blue-400 mb-1 tracking-widest">Concorrência Paga</p>
-                          <p className="text-xl font-black text-white">{keywordSkill.findings.paid_competition_map?.reduce((sum: number, p: any) => sum + (p.paid_count || 0), 0) || 0} ads</p>
-                        </div>
-                        <div className="bg-black/40 p-4 rounded-xl border border-blue-500/20 text-center">
-                          <p className="text-xs uppercase font-bold text-blue-400 mb-1 tracking-widest">Status</p>
-                          <p className={`text-sm font-black ${keywordSkill.findings.strategic_readiness?.includes('Dominação') ? 'text-emerald-400' : 'text-orange-400'}`}>{keywordSkill.findings.strategic_readiness || 'Analisando'}</p>
-                        </div>
-                      </div>
-
-                      {/* TOP 10 KEYWORDS TABLE */}
-                      {keywordSkill.findings.top_10_keywords_regiao && keywordSkill.findings.top_10_keywords_regiao.length > 0 && (
-                        <div className="mb-6 bg-blue-950/20 p-5 rounded-2xl border border-blue-500/10">
-                          <h4 className="flex items-center gap-2 text-sm font-bold text-white mb-4 uppercase tracking-wide border-b border-blue-500/20 pb-2">
-                            <BarChart3 className="w-4 h-4 text-blue-400" /> Top 10 Keywords do Segmento na Região
-                          </h4>
-                          <div className="overflow-x-auto">
-                            <table className="w-full text-sm">
-                              <thead>
-                                <tr className="text-xs text-blue-300 uppercase tracking-widest border-b border-blue-500/20">
-                                  <th className="text-left py-2 px-3 w-8">#</th>
-                                  <th className="text-left py-2 px-3">Palavra-Chave</th>
-                                  <th className="text-center py-2 px-3">Volume</th>
-                                  <th className="text-center py-2 px-3">Intenção</th>
-                                  <th className="text-center py-2 px-3 hidden md:table-cell">Cidade</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {keywordSkill.findings.top_10_keywords_regiao.map((kw: any, idx: number) => (
-                                  <tr key={`top-kw-${idx}`} className="border-b border-zinc-800/50 hover:bg-blue-950/30 transition-colors">
-                                    <td className="py-2.5 px-3 text-blue-400 font-black">{idx + 1}</td>
-                                    <td className="py-2.5 px-3 text-slate-200 font-semibold">{kw.keyword}</td>
-                                    <td className="py-2.5 px-3 text-center">
-                                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${kw.volume_estimado === 'Alto' ? 'bg-emerald-500/20 text-emerald-300' : kw.volume_estimado === 'Médio' ? 'bg-yellow-500/20 text-yellow-300' : 'bg-slate-500/20 text-slate-300'}`}>{kw.volume_estimado}</span>
-                                    </td>
-                                    <td className="py-2.5 px-3 text-center">
-                                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${kw.intencao === 'Compra' ? 'bg-violet-500/20 text-violet-300' : kw.intencao === 'Comparação' ? 'bg-orange-500/20 text-orange-300' : 'bg-blue-500/20 text-blue-300'}`}>{kw.intencao}</span>
-                                    </td>
-                                    <td className="py-2.5 px-3 text-center text-slate-400 hidden md:table-cell">{kw.cidade}</td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Competition Map */}
-                      {keywordSkill.findings.opportunity_chart_data && keywordSkill.findings.opportunity_chart_data.length > 0 && (
-                        <div className="mb-6 bg-black/40 p-5 rounded-xl border border-zinc-800">
-                          <h4 className="flex items-center gap-2 text-sm font-bold text-white mb-4 uppercase tracking-wide border-b border-zinc-700 pb-2">
-                            <Target className="w-4 h-4 text-blue-400" /> Mapa de Concorrência por Keyword
-                          </h4>
-                          <div className="space-y-3">
-                            {keywordSkill.findings.opportunity_chart_data.map((item: any, idx: number) => (
-                              <div key={`comp-${idx}`} className="group">
-                                <div className="flex justify-between items-end mb-1.5">
-                                  <span className="text-sm text-slate-200 font-bold group-hover:text-white transition-colors truncate pr-4 max-w-[60%]">{item.keyword}</span>
-                                  <div className="flex items-center gap-2">
-                                    <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded ${item.competition_level === 'Alta' ? 'bg-red-500/20 text-red-300' : item.competition_level === 'Média' ? 'bg-yellow-500/20 text-yellow-300' : 'bg-emerald-500/20 text-emerald-300'}`}>{item.competition_level}</span>
-                                    <span className="text-xs text-slate-500">{item.paid_ads_count} ads</span>
-                                  </div>
-                                </div>
-                                <div className="h-1.5 bg-black/50 rounded-full overflow-hidden">
-                                  <div className={`h-full rounded-full ${item.competition_level === 'Alta' ? 'bg-gradient-to-r from-red-600 to-red-400' : item.competition_level === 'Média' ? 'bg-gradient-to-r from-yellow-600 to-yellow-400' : 'bg-gradient-to-r from-emerald-600 to-emerald-400'}`} style={{ width: `${item.opportunity_score}%` }}></div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Strategic Insights */}
-                      {keywordSkill.findings.purchasing_power_verdict && (
-                        <div className="bg-indigo-950/20 p-5 rounded-xl border-l-4 border-indigo-500 mb-6">
-                          <h4 className="text-xs uppercase font-bold text-indigo-300 mb-2 tracking-widest flex items-center gap-2"><Briefcase className="w-3 h-3" /> Veredito de Poder de Compra</h4>
-                          <p className="text-sm text-slate-300 leading-relaxed">{keywordSkill.findings.purchasing_power_verdict}</p>
-                        </div>
-                      )}
-
-                      {keywordSkill.findings.competitor_analysis && (
-                        <div className="bg-orange-950/20 p-5 rounded-xl border-l-4 border-orange-500 mb-6">
-                          <h4 className="text-xs uppercase font-bold text-orange-300 mb-2 tracking-widest flex items-center gap-2"><Users className="w-3 h-3" /> Análise de Concorrência</h4>
-                          <p className="text-sm text-slate-300 leading-relaxed">{keywordSkill.findings.competitor_analysis}</p>
-                        </div>
-                      )}
-
-                      {/* Related Queries */}
-                      {keywordSkill.findings.related_queries && keywordSkill.findings.related_queries.length > 0 && (
-                        <div className="mb-6">
-                          <h4 className="text-xs uppercase font-bold text-blue-400 mb-3 tracking-widest border-b border-white/5 pb-2">Termos Sugeridos pelo Google (Live)</h4>
-                          <div className="flex flex-wrap gap-2">
-                            {keywordSkill.findings.related_queries.map((term: string, idx: number) => (
-                              <span key={`rq-${idx}`} className="text-xs bg-blue-950/30 text-blue-200 border border-blue-500/20 px-2.5 py-1.5 rounded-lg hover:bg-blue-900/30 transition-colors">{term}</span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Domination Plan */}
-                      {keywordSkill.findings.search_domination_plan && keywordSkill.findings.search_domination_plan.length > 0 && (
-                        <div className="mb-6 bg-violet-950/20 p-5 rounded-xl border border-violet-500/20">
-                          <h4 className="text-xs uppercase font-bold text-violet-300 mb-3 tracking-widest flex items-center gap-2"><KeyRound className="w-3 h-3" /> Plano de Dominação de Busca</h4>
-                          <div className="flex flex-wrap gap-2">
-                            {keywordSkill.findings.search_domination_plan.map((kw: string, idx: number) => (
-                              <span key={`dom-${idx}`} className="text-sm bg-violet-950/40 text-violet-200 border border-violet-500/20 px-3 py-1.5 rounded-lg font-semibold">{kw}</span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {keywordSkill.critical_pains && keywordSkill.critical_pains.length > 0 && (
-                        <div className="mt-4 bg-red-950/20 border-l-2 border-red-500 p-4 rounded-r-xl">
-                          <h4 className="text-sm font-bold text-red-400 flex items-center gap-2 mb-2 uppercase tracking-wider text-xs">
-                            <AlertTriangle className="w-4 h-4" /> Alertas de Campanha / SEO
-                          </h4>
-                          <ul className="list-disc pl-5 space-y-1.5 text-red-200/80 text-sm">
-                            {keywordSkill.critical_pains.map((pain: string, idx: number) => (
-                              <li key={`kwp-${idx}`} className="leading-snug">{pain}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Tela 7: Plano Comercial AI */}
-                  {activeTab === 'commercial' && (
-                    <div className="bg-gradient-to-br from-indigo-950/40 via-purple-900/10 to-transparent p-6 sm:p-8 animate-in fade-in slide-in-from-bottom-4 duration-500 rounded-3xl border border-indigo-500/20 shadow-[0_0_40px_rgba(99,102,241,0.08)] relative overflow-hidden">
-                      {/* Background decorations */}
-                      <div className="absolute -top-32 -right-32 w-64 h-64 bg-fuchsia-500/10 blur-[80px] rounded-full"></div>
-                      <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-indigo-500/10 blur-[80px] rounded-full"></div>
-
-                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                        <div>
-                          <h3 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 via-indigo-300 to-white flex items-center gap-3 drop-shadow-sm">
-                            <span className="p-2 bg-indigo-500/20 rounded-xl border border-indigo-500/30">
-                              <Target className="w-6 h-6 text-fuchsia-400" />
-                            </span>
-                            Plano Comercial High-Ticket
-                          </h3>
-                          <p className="text-sm font-medium text-slate-400 mt-2 px-1">
-                            A Inteligência Artificial cruza os gargalos do Dossiê para formatar pacotes de venda da Agência perfeitamente alinhados à dor do Cliente.
-                          </p>
-                        </div>
-
-                        {!commercialPlan && (
-                          <button
-                            onClick={handleGenerateProposal}
-                            disabled={isGeneratingProposal}
-                            className={`whitespace-nowrap flex items-center gap-3 px-6 py-3.5 rounded-full font-bold shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all ${isGeneratingProposal ? 'bg-slate-800 text-slate-400 cursor-not-allowed border border-slate-700' : 'bg-gradient-to-r from-indigo-600 to-fuchsia-600 hover:from-indigo-500 hover:to-fuchsia-500 text-white scale-100 hover:scale-105 active:scale-95'}`}
-                          >
-                            {isGeneratingProposal ? (
-                              <><Loader2 className="w-5 h-5 animate-spin" /> Processando Dores...</>
-                            ) : (
-                              <><Play className="w-5 h-5 fill-white" /> Gerar Plano de Vendas</>
-                            )}
-                          </button>
                         )}
                       </div>
+                    )}
 
-                      {commercialPlan && (
-                        <div className="space-y-6 animate-in fade-in zoom-in-95 duration-500 relative z-10">
-                          <div className="bg-black/40 backdrop-blur-md p-5 rounded-2xl border-l-4 border-fuchsia-500 text-slate-200 shadow-inner">
-                            <p className="text-sm md:text-base font-medium leading-relaxed italic">&quot;{commercialPlan.mensagem_abertura}&quot;</p>
-                          </div>
+                    {/* Tela 5: Auditoria Vendas / CMO Sênior */}
+                    {activeTab === 'cmo' && cmoSkill && cmoSkill.findings && (
+                      <div className="bg-gradient-to-br from-indigo-950/40 via-purple-900/10 to-transparent p-6 sm:p-8 animate-in fade-in slide-in-from-bottom-4 duration-500 rounded-3xl border border-indigo-500/20 shadow-[0_0_40px_rgba(99,102,241,0.08)] relative overflow-hidden">
+                        {/* Background decorations */}
+                        <div className="absolute -top-32 -right-32 w-64 h-64 bg-fuchsia-500/10 blur-[80px] rounded-full"></div>
+                        <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-indigo-500/10 blur-[80px] rounded-full"></div>
 
-                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                            {commercialPlan.servicos_recomendados.map((srv, idx) => (
-                              <div key={idx} className="bg-black/30 backdrop-blur-sm border border-indigo-500/20 rounded-2xl p-5 flex flex-col hover:bg-black/50 hover:border-indigo-400/40 transition-all hover:-translate-y-1 shadow-lg group">
-                                <h4 className="text-lg font-black text-indigo-300 mb-4 pb-3 border-b border-white/5 flex items-center justify-between group-hover:text-fuchsia-300 transition-colors">
-                                  {srv.nome_servico}
-                                  <span className="text-[10px] w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-300 flex items-center justify-center font-bold">0{idx + 1}</span>
-                                </h4>
-
-                                <div className="space-y-4 flex-1">
-                                  <div>
-                                    <p className="text-[10px] uppercase font-black tracking-widest text-slate-500 mb-1">Evidência / Por Que Vender</p>
-                                    <p className="text-sm text-slate-300 leading-relaxed font-medium bg-white/5 p-3 rounded-xl shadow-inner border border-white/5">{srv.por_que_vender}</p>
-                                  </div>
-                                  <div>
-                                    <p className="text-[10px] uppercase font-black tracking-widest text-emerald-500/70 mb-1 flex items-center gap-1"><ArrowRight className="w-3 h-3" /> Impacto de Conversão</p>
-                                    <p className="text-sm text-emerald-100/80 font-medium leading-relaxed">{srv.impacto_esperado}</p>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-
-                          <div className="mt-8 bg-indigo-950/40 p-6 rounded-2xl border border-indigo-500/30 text-center">
-                            <h4 className="text-xs uppercase font-black tracking-widest text-indigo-400 mb-3">Tese de Venda (Closings)</h4>
-                            <p className="text-indigo-100/90 text-sm font-semibold max-w-3xl mx-auto leading-relaxed">
-                              {commercialPlan.projecao_resultado}
+                        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                          <div>
+                            <h3 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 via-indigo-300 to-white flex items-center gap-3 drop-shadow-sm">
+                              <span className="p-2 bg-indigo-500/20 rounded-xl border border-indigo-500/30">
+                                <Briefcase className="w-6 h-6 text-fuchsia-400" />
+                              </span>
+                              O Veredito Final (Boss)
+                            </h3>
+                            <p className="text-sm font-medium text-slate-400 mt-2 px-1">
+                              O CMO cruzou todos os dados técnicos coletados pelos agentes e formulou o diagnóstico comercial definitivo.
                             </p>
                           </div>
+                          {getScoreBadge(cmoSkill.score)}
                         </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-          )}
-        </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
 
+                        <div className="relative z-10 grid md:grid-cols-2 gap-6 bg-black/40 p-6 rounded-xl border border-zinc-800 mb-6">
+                          <div>
+                            <h4 className="flex items-center gap-2 text-sm font-bold text-red-400 mb-4 uppercase tracking-wide border-b border-red-500/20 pb-2">
+                              <XCircle className="w-4 h-4" /> Pontos Negativos Consolidados
+                            </h4>
+                            <ul className="space-y-3">
+                              {cmoSkill.findings.pontos_negativos_consolidados?.map((item: string, idx: number) => {
+                                const isAgentSource = item.includes('[Fonte:');
+                                const text = isAgentSource ? item.split(']')[1] : item;
+                                const source = isAgentSource ? item.split(']')[0] + ']' : '';
+                                return (
+                                  <li key={idx} className="flex gap-3 text-sm text-zinc-300 items-start">
+                                    <span className="text-red-500 font-bold mt-0.5">✕</span>
+                                    <span className="leading-relaxed">
+                                      {source && <span className="text-[10px] text-red-400 uppercase tracking-wider block font-bold mb-0.5">{source.replace('❌ ', '')}</span>}
+                                      {text.replace('❌ ', '').trim()}
+                                    </span>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
 
-      {/* Diagnostic Modal Overlay */ }
-  {
-    showDiagnosticModal && reportData && (
-      <AnimatePresence>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-start justify-center bg-black/80 backdrop-blur-sm overflow-y-auto p-4 py-8"
-          onClick={(e) => e.target === e.currentTarget && setShowDiagnosticModal(false)}
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            className="relative w-full max-w-4xl bg-[#080c14] border border-white/10 rounded-3xl shadow-2xl overflow-hidden"
-          >
-            {/* Header */}
-            <div className="relative bg-gradient-to-br from-brand-purple/40 via-indigo-900/30 to-[#080c14] px-8 pt-8 pb-6 border-b border-white/10">
-              <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute -top-20 -right-20 w-64 h-64 bg-brand-purple/20 rounded-full blur-[80px]" />
-                <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-indigo-500/20 rounded-full blur-[80px]" />
-              </div>
-              <button
-                onClick={() => setShowDiagnosticModal(false)}
-                className="absolute top-4 right-4 p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-colors z-10"
-              >
-                <XCircle className="w-4 h-4 text-slate-400" />
-              </button>
-              <div className="relative">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-purple to-indigo-600 flex items-center justify-center shadow-lg">
-                    <Shield className="w-5 h-5 text-white" />
+                          <div>
+                            <h4 className="flex items-center gap-2 text-sm font-bold text-spring-green-400 mb-4 uppercase tracking-wide border-b border-spring-green-500/20 pb-2">
+                              <CheckCircle2 className="w-4 h-4" /> Pontos Fortes e Brechas
+                            </h4>
+                            <ul className="space-y-3 mb-6">
+                              {cmoSkill.findings.pontos_positivos_consolidados?.map((item: string, idx: number) => {
+                                const isAgentSource = item.includes('[Fonte:');
+                                const text = isAgentSource ? item.split(']')[1] : item;
+                                const source = isAgentSource ? item.split(']')[0] + ']' : '';
+                                return (
+                                  <li key={`pos-${idx}`} className="flex gap-3 text-sm text-zinc-300 items-start">
+                                    <span className="text-spring-green-500 font-bold mt-0.5">✓</span>
+                                    <span className="leading-relaxed">
+                                      {source && <span className="text-[10px] text-spring-green-400/70 uppercase tracking-wider block font-bold mb-0.5">{source.replace('✅ ', '')}</span>}
+                                      {text.replace('✅ ', '').trim()}
+                                    </span>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+
+                            <h5 className="text-xs font-bold text-blue-400 mb-3 uppercase tracking-wider flex items-center gap-1"><Search className="w-3 h-3" /> Diferenciação</h5>
+                            <ul className="space-y-2">
+                              {cmoSkill.findings.brechas_diferenciacao?.map((item: string, idx: number) => (
+                                <li key={`brecha-${idx}`} className="flex gap-2 text-sm text-zinc-300 items-start bg-blue-950/20 p-2 rounded-lg border border-blue-500/10">
+                                  <span className="text-blue-500 font-bold">💡</span>
+                                  <span className="leading-relaxed">{item.replace('💡 ', '').trim()}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+
+                        {/* Cross Analysis */}
+                        {cmoSkill.findings.cross_analysis && cmoSkill.findings.cross_analysis.length > 0 && (
+                          <div className="relative z-10 mb-8 bg-black/40 p-5 rounded-2xl border-l-4 border-fuchsia-500 text-slate-200 shadow-inner">
+                            <h4 className="flex items-center gap-2 text-xs font-black text-fuchsia-400 mb-3 uppercase tracking-widest"><Activity className="w-4 h-4" /> Cruzamento de Dados dos Agentes</h4>
+                            <ul className="space-y-3">
+                              {cmoSkill.findings.cross_analysis.map((cruzamento: string, idx: number) => (
+                                <li key={`cross-${idx}`} className="flex gap-3 text-sm items-start">
+                                  <span className="text-fuchsia-500 font-bold mt-0.5">🔗</span>
+                                  <span className="leading-relaxed font-medium italic">{cruzamento.replace('🔗 ', '')}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+
+                        {/* Plano Comercial */}
+                        {cmoSkill.findings.plano_comercial?.servicos_recomendados && (
+                          <div className="relative z-10 space-y-4 mb-8">
+                            <h4 className="text-lg font-black text-white flex items-center gap-2"><Target className="w-5 h-5 text-indigo-400" /> Plano Comercial High-Ticket</h4>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              {cmoSkill.findings.plano_comercial.servicos_recomendados.map((srv: any, idx: number) => (
+                                <div key={idx} className="bg-gradient-to-br from-indigo-950/40 to-black border border-indigo-500/20 rounded-2xl p-5 flex flex-col shadow-lg">
+                                  <h5 className="text-lg font-black text-indigo-300 mb-4 pb-3 border-b border-indigo-500/20 flex items-center justify-between">
+                                    {srv.nome_servico}
+                                    <span className="text-[10px] w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-300 flex items-center justify-center font-bold">0{idx + 1}</span>
+                                  </h5>
+
+                                  <div className="space-y-4 flex-1">
+                                    <div>
+                                      <p className="text-[10px] uppercase font-black tracking-widest text-slate-500 mb-1">Por que vender (Base em Dados)</p>
+                                      <p className="text-sm text-slate-300 leading-relaxed font-medium bg-white/5 p-3 rounded-xl shadow-inner border border-white/5">{srv.por_que_vender}</p>
+                                    </div>
+                                    <div>
+                                      <p className="text-[10px] uppercase font-black tracking-widest text-emerald-500/70 mb-1 flex items-center gap-1"><ArrowRight className="w-3 h-3" /> Impacto Direto</p>
+                                      <p className="text-sm text-emerald-100/80 font-medium leading-relaxed">{srv.impacto_esperado}</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Veredito Implacável */}
+                        <div className="relative z-10 mt-6 bg-indigo-950/50 border-x border-y border-indigo-500/40 p-6 rounded-2xl text-center shadow-[0_0_20px_rgba(99,102,241,0.2)]">
+                          <h4 className="text-xs font-black text-indigo-400 mb-3 uppercase tracking-widest">Pitch de Fechamento (P/ Vendedor)</h4>
+                          <p className="text-white text-lg sm:text-xl font-bold italic leading-relaxed max-w-4xl mx-auto">&quot;{cmoSkill.findings.cmo_verdict}&quot;</p>
+                        </div>
+
+                      </div>
+                    )}
+
+                    {/* Tela 6: Local SEO GMB Auditor */}
+                    {activeTab === 'gmb' && gmbSkill && gmbSkill.findings && (
+                      <div className="bg-gradient-to-br from-emerald-900/30 to-black p-6 animate-in fade-in slide-in-from-bottom-4 duration-500 rounded-2xl border border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.05)]">
+                        <h3 className="text-xl font-bold mb-4 flex items-center justify-between">
+                          <span className="flex items-center gap-2 text-slate-100"><Target className="w-5 h-5 text-emerald-400" /> Auditoria de Presença Local (Google Maps/GMB)</span>
+                          {getScoreBadge(gmbSkill.score)}
+                        </h3>
+
+                        {/* KPIs Row */}
+                        <div className="flex flex-wrap gap-4 mb-6">
+                          <div className="bg-emerald-950/20 px-4 py-3 rounded-lg border border-emerald-500/20 flex-1 min-w-[140px] text-center">
+                            <p className="text-xs text-emerald-400 uppercase font-bold tracking-widest mb-1">Autoridade/Estrelas</p>
+                            <p className="text-2xl font-black text-white">{gmbSkill.findings.estimated_rating}</p>
+                          </div>
+                          <div className="bg-emerald-950/20 px-4 py-3 rounded-lg border border-emerald-500/20 flex-1 min-w-[140px] text-center">
+                            <p className="text-xs text-emerald-400 uppercase font-bold tracking-widest mb-1">Total de Avaliações</p>
+                            <p className="text-2xl font-black text-white">{gmbSkill.findings.reviews_volume}</p>
+                          </div>
+                          <div className="bg-emerald-950/20 px-4 py-3 rounded-lg border border-emerald-500/20 flex-1 min-w-[140px] text-center">
+                            <p className="text-xs text-emerald-400 uppercase font-bold tracking-widest mb-1">Fotos na Ficha</p>
+                            <p className={`text-2xl font-black ${(gmbSkill.findings.photos_count || 0) >= 20 ? 'text-emerald-400' : 'text-orange-400'}`}>{gmbSkill.findings.photos_count || 0}</p>
+                          </div>
+                          <div className="bg-emerald-950/20 px-4 py-3 rounded-lg border border-emerald-500/20 flex-1 min-w-[140px] text-center">
+                            <p className="text-xs text-emerald-400 uppercase font-bold tracking-widest mb-1">Eficácia da Ficha</p>
+                            <p className={`text-2xl font-black ${(gmbSkill.findings.profile_effectiveness_pct || 0) >= 80 ? 'text-emerald-400' : (gmbSkill.findings.profile_effectiveness_pct || 0) >= 50 ? 'text-orange-400' : 'text-red-400'}`}>{gmbSkill.findings.profile_effectiveness_pct || 0}%</p>
+                          </div>
+                        </div>
+
+                        {/* Efficiency Breakdown Checklist */}
+                        {gmbSkill.findings.effectiveness_detail && (
+                          <div className="mb-6 bg-black/40 p-5 rounded-xl border border-zinc-800">
+                            <h4 className="flex items-center gap-2 text-sm font-bold text-white mb-4 uppercase tracking-wide border-b border-zinc-700 pb-2">
+                              <Shield className="w-4 h-4 text-emerald-400" /> Checklist de Eficácia (7 Itens para 100%)
+                            </h4>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                              {gmbSkill.findings.effectiveness_detail.map((item: any, idx: number) => (
+                                <div key={`ef-${idx}`} className={`flex items-center gap-3 p-3 rounded-lg border transition-all ${item.status ? 'bg-emerald-950/20 border-emerald-500/20' : 'bg-red-950/20 border-red-500/20'}`}>
+                                  <span className={`text-lg font-black ${item.status ? 'text-emerald-400' : 'text-red-400'}`}>{item.status ? '✓' : '✕'}</span>
+                                  <div>
+                                    <p className={`text-sm font-bold ${item.status ? 'text-emerald-300' : 'text-red-300'}`}>{item.label}</p>
+                                    <p className="text-xs text-slate-500">{item.description} <span className="text-slate-600">({item.impact})</span></p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* What's Missing for 100% */}
+                        {gmbSkill.findings.missing_for_100_pct && gmbSkill.findings.missing_for_100_pct.length > 0 && (
+                          <div className="mb-6 bg-orange-950/20 border-l-4 border-orange-500 p-5 rounded-r-xl">
+                            <h4 className="text-sm font-bold text-orange-400 flex items-center gap-2 mb-3 uppercase tracking-wider">
+                              <AlertTriangle className="w-4 h-4" /> O Que Falta Para 100% de Eficácia
+                            </h4>
+                            <div className="space-y-2">
+                              {gmbSkill.findings.missing_for_100_pct.map((item: any, idx: number) => (
+                                <div key={`miss-${idx}`} className="flex items-start gap-3 p-2.5 bg-orange-950/20 rounded-lg">
+                                  <span className="text-orange-500 font-bold mt-0.5">•</span>
+                                  <div>
+                                    <span className="text-sm font-bold text-orange-200">{item.item}</span>
+                                    <span className="text-xs text-orange-400/80 ml-2">(-{item.impact})</span>
+                                    <p className="text-xs text-orange-300/60 mt-0.5">{item.description}</p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Reviews Section */}
+                        {gmbSkill.findings.reviews_list_raw && gmbSkill.findings.reviews_list_raw.length > 0 && (
+                          <div className="mb-6 bg-black/40 p-5 rounded-xl border border-zinc-800">
+                            <h4 className="flex items-center gap-2 text-sm font-bold text-white mb-4 uppercase tracking-wide border-b border-zinc-700 pb-2">
+                              <MessageSquare className="w-4 h-4 text-blue-400" /> Avaliações dos Clientes ({gmbSkill.findings.reviews_list_raw.length} analisadas)
+                            </h4>
+
+                            {/* Sentiment Score Badge */}
+                            {gmbSkill.findings.sentiment_score && (
+                              <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-4 ${gmbSkill.findings.sentiment_score === 'Positivo' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : gmbSkill.findings.sentiment_score === 'Negativo' ? 'bg-red-500/20 text-red-300 border border-red-500/30' : 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30'}`}>
+                                <Star className="w-3 h-3" /> Sentimento Geral: {gmbSkill.findings.sentiment_score}
+                              </div>
+                            )}
+
+                            <div className="space-y-3 max-h-[400px] overflow-y-auto custom-scrollbar pr-2">
+                              {gmbSkill.findings.reviews_list_raw.map((review: any, idx: number) => (
+                                <div key={`rev-${idx}`} className="p-3 bg-zinc-900/50 rounded-lg border border-zinc-800/50 hover:border-zinc-700 transition-colors">
+                                  <div className="flex items-center gap-2 mb-2">
+                                    <div className="flex gap-0.5">
+                                      {[1, 2, 3, 4, 5].map(star => (
+                                        <Star key={star} className={`w-3 h-3 ${star <= review.stars ? 'text-yellow-400 fill-yellow-400' : 'text-zinc-700'}`} />
+                                      ))}
+                                    </div>
+                                    <span className="text-xs text-slate-500">{review.stars}/5</span>
+                                  </div>
+                                  <p className="text-sm text-slate-300 leading-relaxed">{review.text || <span className="italic text-slate-500">Avaliação sem texto</span>}</p>
+                                  {review.has_response && (
+                                    <div className="mt-2 pl-3 border-l-2 border-emerald-500/30">
+                                      <p className="text-xs text-emerald-400 font-semibold mb-0.5">↳ Resposta do proprietário:</p>
+                                      <p className="text-xs text-slate-400 italic">{review.response_preview}</p>
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Review Highlights from AI */}
+                        {gmbSkill.findings.reviews_highlights && (gmbSkill.findings.reviews_highlights.best?.length > 0 || gmbSkill.findings.reviews_highlights.worst?.length > 0) && (
+                          <div className="grid md:grid-cols-2 gap-4 mb-6">
+                            {gmbSkill.findings.reviews_highlights.best?.length > 0 && (
+                              <div className="bg-emerald-950/20 p-4 rounded-xl border border-emerald-500/20">
+                                <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-3 flex items-center gap-2"><CheckCircle2 className="w-3 h-3" /> Melhores Comentários</h4>
+                                <ul className="space-y-2">
+                                  {gmbSkill.findings.reviews_highlights.best.map((q: string, i: number) => (
+                                    <li key={`best-${i}`} className="text-sm text-emerald-200/80 italic bg-emerald-950/30 p-2 rounded-md">&ldquo;{q}&rdquo;</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                            {gmbSkill.findings.reviews_highlights.worst?.length > 0 && (
+                              <div className="bg-red-950/20 p-4 rounded-xl border border-red-500/20">
+                                <h4 className="text-xs font-bold text-red-400 uppercase tracking-widest mb-3 flex items-center gap-2"><XCircle className="w-3 h-3" /> Comentários Críticos</h4>
+                                <ul className="space-y-2">
+                                  {gmbSkill.findings.reviews_highlights.worst.map((q: string, i: number) => (
+                                    <li key={`worst-${i}`} className="text-sm text-red-200/80 italic bg-red-950/30 p-2 rounded-md">&ldquo;{q}&rdquo;</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Sentiment Summary from AI */}
+                        {gmbSkill.findings.review_sentiment_summary && (
+                          <div className="mb-6 p-4 rounded-xl border bg-black/40 border-zinc-800">
+                            <p className="text-xs font-bold text-brand-purple uppercase tracking-widest mb-2 flex items-center gap-2"><MessageSquare className="w-3 h-3" /> Análise de Sentimento (IA)</p>
+                            <p className="text-sm font-medium text-slate-300 leading-relaxed">{gmbSkill.findings.review_sentiment_summary}</p>
+                          </div>
+                        )}
+
+                        {/* Optimization Tips */}
+                        <div className="mb-6">
+                          <h4 className="flex items-center gap-2 text-sm font-bold text-emerald-400 mb-4 uppercase tracking-wide">
+                            <ArrowRight className="w-4 h-4" /> Ações Corretivas Recomendadas
+                          </h4>
+                          <ul className="space-y-2">
+                            {gmbSkill.findings.optimization_tips?.map((tip: string, idx: number) => (
+                              <li key={idx} className="flex gap-3 text-sm text-zinc-300 items-start bg-black/20 p-3 rounded-lg border border-zinc-800/50">
+                                <span className="text-emerald-500 font-bold mt-0.5 min-w-5 text-center">{idx + 1}</span>
+                                <span>{tip}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {/* Forensic Verdict */}
+                        {gmbSkill.findings.forensic_review_verdict && (
+                          <div className="bg-indigo-950/20 p-5 rounded-xl border-l-4 border-indigo-500">
+                            <h4 className="text-xs uppercase font-bold text-indigo-300 mb-2 tracking-widest flex items-center gap-2"><Briefcase className="w-3 h-3" /> Veredito Forense</h4>
+                            <p className="text-sm text-slate-300 leading-relaxed">{gmbSkill.findings.forensic_review_verdict}</p>
+                          </div>
+                        )}
+
+                        {/* Critical Pains extras do GMB */}
+                        {gmbSkill.critical_pains && gmbSkill.critical_pains.length > 0 && (
+                          <div className="mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
+                            <h4 className="text-sm font-bold text-red-500 flex items-center gap-2 mb-2">
+                              <AlertTriangle className="w-4 h-4" /> Motivos Pelos Quais Eles Não Aparecem na Pesquisa Maps Local
+                            </h4>
+                            <ul className="list-disc pl-5 space-y-1 text-red-400 text-sm">
+                              {gmbSkill.critical_pains.map((pain: string, idx: number) => (
+                                <li key={idx}>{pain}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {activeTab === 'keywords' && keywordSkill && keywordSkill.findings && (
+                      <div className="bg-gradient-to-br from-blue-900/30 to-black p-6 animate-in fade-in slide-in-from-bottom-4 duration-500 rounded-2xl border border-blue-500/30 shadow-[0_0_30px_rgba(59,130,246,0.05)]">
+                        <h3 className="text-xl font-bold mb-4 flex items-center justify-between">
+                          <span className="flex items-center gap-2 text-slate-100"><KeyRound className="w-5 h-5 text-blue-400" /> Inteligência de Busca e Oportunidades</span>
+                          {getScoreBadge(keywordSkill.score)}
+                        </h3>
+
+                        {/* KPIs */}
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                          <div className="bg-black/40 p-4 rounded-xl border border-blue-500/20 text-center">
+                            <p className="text-xs uppercase font-bold text-blue-400 mb-1 tracking-widest">Variações Pesquisadas</p>
+                            <p className="text-xl font-black text-white">{keywordSkill.findings.keywords_analyzed?.length || 0}</p>
+                          </div>
+                          <div className="bg-black/40 p-4 rounded-xl border border-blue-500/20 text-center">
+                            <p className="text-xs uppercase font-bold text-blue-400 mb-1 tracking-widest">Termos Relacionados</p>
+                            <p className="text-xl font-black text-white">{keywordSkill.findings.related_queries?.length || 0}</p>
+                          </div>
+                          <div className="bg-black/40 p-4 rounded-xl border border-blue-500/20 text-center">
+                            <p className="text-xs uppercase font-bold text-blue-400 mb-1 tracking-widest">Concorrência Paga</p>
+                            <p className="text-xl font-black text-white">{keywordSkill.findings.paid_competition_map?.reduce((sum: number, p: any) => sum + (p.paid_count || 0), 0) || 0} ads</p>
+                          </div>
+                          <div className="bg-black/40 p-4 rounded-xl border border-blue-500/20 text-center">
+                            <p className="text-xs uppercase font-bold text-blue-400 mb-1 tracking-widest">Status</p>
+                            <p className={`text-sm font-black ${keywordSkill.findings.strategic_readiness?.includes('Dominação') ? 'text-emerald-400' : 'text-orange-400'}`}>{keywordSkill.findings.strategic_readiness || 'Analisando'}</p>
+                          </div>
+                        </div>
+
+                        {/* TOP 10 KEYWORDS TABLE */}
+                        {keywordSkill.findings.top_10_keywords_regiao && keywordSkill.findings.top_10_keywords_regiao.length > 0 && (
+                          <div className="mb-6 bg-blue-950/20 p-5 rounded-2xl border border-blue-500/10">
+                            <h4 className="flex items-center gap-2 text-sm font-bold text-white mb-4 uppercase tracking-wide border-b border-blue-500/20 pb-2">
+                              <BarChart3 className="w-4 h-4 text-blue-400" /> Top 10 Keywords do Segmento na Região
+                            </h4>
+                            <div className="overflow-x-auto">
+                              <table className="w-full text-sm">
+                                <thead>
+                                  <tr className="text-xs text-blue-300 uppercase tracking-widest border-b border-blue-500/20">
+                                    <th className="text-left py-2 px-3 w-8">#</th>
+                                    <th className="text-left py-2 px-3">Palavra-Chave</th>
+                                    <th className="text-center py-2 px-3">Volume</th>
+                                    <th className="text-center py-2 px-3">Intenção</th>
+                                    <th className="text-center py-2 px-3 hidden md:table-cell">Cidade</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {keywordSkill.findings.top_10_keywords_regiao.map((kw: any, idx: number) => (
+                                    <tr key={`top-kw-${idx}`} className="border-b border-zinc-800/50 hover:bg-blue-950/30 transition-colors">
+                                      <td className="py-2.5 px-3 text-blue-400 font-black">{idx + 1}</td>
+                                      <td className="py-2.5 px-3 text-slate-200 font-semibold">{kw.keyword}</td>
+                                      <td className="py-2.5 px-3 text-center">
+                                        <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${kw.volume_estimado === 'Alto' ? 'bg-emerald-500/20 text-emerald-300' : kw.volume_estimado === 'Médio' ? 'bg-yellow-500/20 text-yellow-300' : 'bg-slate-500/20 text-slate-300'}`}>{kw.volume_estimado}</span>
+                                      </td>
+                                      <td className="py-2.5 px-3 text-center">
+                                        <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${kw.intencao === 'Compra' ? 'bg-violet-500/20 text-violet-300' : kw.intencao === 'Comparação' ? 'bg-orange-500/20 text-orange-300' : 'bg-blue-500/20 text-blue-300'}`}>{kw.intencao}</span>
+                                      </td>
+                                      <td className="py-2.5 px-3 text-center text-slate-400 hidden md:table-cell">{kw.cidade}</td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Competition Map */}
+                        {keywordSkill.findings.opportunity_chart_data && keywordSkill.findings.opportunity_chart_data.length > 0 && (
+                          <div className="mb-6 bg-black/40 p-5 rounded-xl border border-zinc-800">
+                            <h4 className="flex items-center gap-2 text-sm font-bold text-white mb-4 uppercase tracking-wide border-b border-zinc-700 pb-2">
+                              <Target className="w-4 h-4 text-blue-400" /> Mapa de Concorrência por Keyword
+                            </h4>
+                            <div className="space-y-3">
+                              {keywordSkill.findings.opportunity_chart_data.map((item: any, idx: number) => (
+                                <div key={`comp-${idx}`} className="group">
+                                  <div className="flex justify-between items-end mb-1.5">
+                                    <span className="text-sm text-slate-200 font-bold group-hover:text-white transition-colors truncate pr-4 max-w-[60%]">{item.keyword}</span>
+                                    <div className="flex items-center gap-2">
+                                      <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded ${item.competition_level === 'Alta' ? 'bg-red-500/20 text-red-300' : item.competition_level === 'Média' ? 'bg-yellow-500/20 text-yellow-300' : 'bg-emerald-500/20 text-emerald-300'}`}>{item.competition_level}</span>
+                                      <span className="text-xs text-slate-500">{item.paid_ads_count} ads</span>
+                                    </div>
+                                  </div>
+                                  <div className="h-1.5 bg-black/50 rounded-full overflow-hidden">
+                                    <div className={`h-full rounded-full ${item.competition_level === 'Alta' ? 'bg-gradient-to-r from-red-600 to-red-400' : item.competition_level === 'Média' ? 'bg-gradient-to-r from-yellow-600 to-yellow-400' : 'bg-gradient-to-r from-emerald-600 to-emerald-400'}`} style={{ width: `${item.opportunity_score}%` }}></div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Strategic Insights */}
+                        {keywordSkill.findings.purchasing_power_verdict && (
+                          <div className="bg-indigo-950/20 p-5 rounded-xl border-l-4 border-indigo-500 mb-6">
+                            <h4 className="text-xs uppercase font-bold text-indigo-300 mb-2 tracking-widest flex items-center gap-2"><Briefcase className="w-3 h-3" /> Veredito de Poder de Compra</h4>
+                            <p className="text-sm text-slate-300 leading-relaxed">{keywordSkill.findings.purchasing_power_verdict}</p>
+                          </div>
+                        )}
+
+                        {keywordSkill.findings.competitor_analysis && (
+                          <div className="bg-orange-950/20 p-5 rounded-xl border-l-4 border-orange-500 mb-6">
+                            <h4 className="text-xs uppercase font-bold text-orange-300 mb-2 tracking-widest flex items-center gap-2"><Users className="w-3 h-3" /> Análise de Concorrência</h4>
+                            <p className="text-sm text-slate-300 leading-relaxed">{keywordSkill.findings.competitor_analysis}</p>
+                          </div>
+                        )}
+
+                        {/* Related Queries */}
+                        {keywordSkill.findings.related_queries && keywordSkill.findings.related_queries.length > 0 && (
+                          <div className="mb-6">
+                            <h4 className="text-xs uppercase font-bold text-blue-400 mb-3 tracking-widest border-b border-white/5 pb-2">Termos Sugeridos pelo Google (Live)</h4>
+                            <div className="flex flex-wrap gap-2">
+                              {keywordSkill.findings.related_queries.map((term: string, idx: number) => (
+                                <span key={`rq-${idx}`} className="text-xs bg-blue-950/30 text-blue-200 border border-blue-500/20 px-2.5 py-1.5 rounded-lg hover:bg-blue-900/30 transition-colors">{term}</span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Domination Plan */}
+                        {keywordSkill.findings.search_domination_plan && keywordSkill.findings.search_domination_plan.length > 0 && (
+                          <div className="mb-6 bg-violet-950/20 p-5 rounded-xl border border-violet-500/20">
+                            <h4 className="text-xs uppercase font-bold text-violet-300 mb-3 tracking-widest flex items-center gap-2"><KeyRound className="w-3 h-3" /> Plano de Dominação de Busca</h4>
+                            <div className="flex flex-wrap gap-2">
+                              {keywordSkill.findings.search_domination_plan.map((kw: string, idx: number) => (
+                                <span key={`dom-${idx}`} className="text-sm bg-violet-950/40 text-violet-200 border border-violet-500/20 px-3 py-1.5 rounded-lg font-semibold">{kw}</span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {keywordSkill.critical_pains && keywordSkill.critical_pains.length > 0 && (
+                          <div className="mt-4 bg-red-950/20 border-l-2 border-red-500 p-4 rounded-r-xl">
+                            <h4 className="text-sm font-bold text-red-400 flex items-center gap-2 mb-2 uppercase tracking-wider text-xs">
+                              <AlertTriangle className="w-4 h-4" /> Alertas de Campanha / SEO
+                            </h4>
+                            <ul className="list-disc pl-5 space-y-1.5 text-red-200/80 text-sm">
+                              {keywordSkill.critical_pains.map((pain: string, idx: number) => (
+                                <li key={`kwp-${idx}`} className="leading-snug">{pain}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Tela 7: Plano Comercial AI */}
+                    {activeTab === 'commercial' && (
+                      <div className="bg-gradient-to-br from-indigo-950/40 via-purple-900/10 to-transparent p-6 sm:p-8 animate-in fade-in slide-in-from-bottom-4 duration-500 rounded-3xl border border-indigo-500/20 shadow-[0_0_40px_rgba(99,102,241,0.08)] relative overflow-hidden">
+                        {/* Background decorations */}
+                        <div className="absolute -top-32 -right-32 w-64 h-64 bg-fuchsia-500/10 blur-[80px] rounded-full"></div>
+                        <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-indigo-500/10 blur-[80px] rounded-full"></div>
+
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                          <div>
+                            <h3 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 via-indigo-300 to-white flex items-center gap-3 drop-shadow-sm">
+                              <span className="p-2 bg-indigo-500/20 rounded-xl border border-indigo-500/30">
+                                <Target className="w-6 h-6 text-fuchsia-400" />
+                              </span>
+                              Plano Comercial High-Ticket
+                            </h3>
+                            <p className="text-sm font-medium text-slate-400 mt-2 px-1">
+                              A Inteligência Artificial cruza os gargalos do Dossiê para formatar pacotes de venda da Agência perfeitamente alinhados à dor do Cliente.
+                            </p>
+                          </div>
+
+                          {!commercialPlan && (
+                            <button
+                              onClick={handleGenerateProposal}
+                              disabled={isGeneratingProposal}
+                              className={`whitespace-nowrap flex items-center gap-3 px-6 py-3.5 rounded-full font-bold shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all ${isGeneratingProposal ? 'bg-slate-800 text-slate-400 cursor-not-allowed border border-slate-700' : 'bg-gradient-to-r from-indigo-600 to-fuchsia-600 hover:from-indigo-500 hover:to-fuchsia-500 text-white scale-100 hover:scale-105 active:scale-95'}`}
+                            >
+                              {isGeneratingProposal ? (
+                                <><Loader2 className="w-5 h-5 animate-spin" /> Processando Dores...</>
+                              ) : (
+                                <><Play className="w-5 h-5 fill-white" /> Gerar Plano de Vendas</>
+                              )}
+                            </button>
+                          )}
+                        </div>
+
+                        {commercialPlan && (
+                          <div className="space-y-6 animate-in fade-in zoom-in-95 duration-500 relative z-10">
+                            <div className="bg-black/40 backdrop-blur-md p-5 rounded-2xl border-l-4 border-fuchsia-500 text-slate-200 shadow-inner">
+                              <p className="text-sm md:text-base font-medium leading-relaxed italic">&quot;{commercialPlan.mensagem_abertura}&quot;</p>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                              {commercialPlan.servicos_recomendados.map((srv, idx) => (
+                                <div key={idx} className="bg-black/30 backdrop-blur-sm border border-indigo-500/20 rounded-2xl p-5 flex flex-col hover:bg-black/50 hover:border-indigo-400/40 transition-all hover:-translate-y-1 shadow-lg group">
+                                  <h4 className="text-lg font-black text-indigo-300 mb-4 pb-3 border-b border-white/5 flex items-center justify-between group-hover:text-fuchsia-300 transition-colors">
+                                    {srv.nome_servico}
+                                    <span className="text-[10px] w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-300 flex items-center justify-center font-bold">0{idx + 1}</span>
+                                  </h4>
+
+                                  <div className="space-y-4 flex-1">
+                                    <div>
+                                      <p className="text-[10px] uppercase font-black tracking-widest text-slate-500 mb-1">Evidência / Por Que Vender</p>
+                                      <p className="text-sm text-slate-300 leading-relaxed font-medium bg-white/5 p-3 rounded-xl shadow-inner border border-white/5">{srv.por_que_vender}</p>
+                                    </div>
+                                    <div>
+                                      <p className="text-[10px] uppercase font-black tracking-widest text-emerald-500/70 mb-1 flex items-center gap-1"><ArrowRight className="w-3 h-3" /> Impacto de Conversão</p>
+                                      <p className="text-sm text-emerald-100/80 font-medium leading-relaxed">{srv.impacto_esperado}</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+
+                            <div className="mt-8 bg-indigo-950/40 p-6 rounded-2xl border border-indigo-500/30 text-center">
+                              <h4 className="text-xs uppercase font-black tracking-widest text-indigo-400 mb-3">Tese de Venda (Closings)</h4>
+                              <p className="text-indigo-100/90 text-sm font-semibold max-w-3xl mx-auto leading-relaxed">
+                                {commercialPlan.projecao_resultado}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
-                  <div>
-                    <p className="text-[10px] font-black text-brand-purple uppercase tracking-widest">Dossiê Digital Completo</p>
-                    <p className="text-xs text-slate-500">Relatório de Auditoria — {companyName || reportData?.target_url}</p>
-                  </div>
-                </div>
-                <h1 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400">
-                  Diagnóstico de Presença Digital
-                </h1>
-              </div>
-            </div>
-
-            {/* Body */}
-            <div className="px-8 py-6 space-y-6">
-              {/* Score Summary */}
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                {reportData.skills_results.filter(s => s.score !== undefined && !s.name?.includes('Value')).map((skill, idx) => (
-                  <div key={`diag-${idx}`} className="bg-black/40 p-4 rounded-xl border border-white/5 text-center">
-                    <p className="text-xs text-slate-400 font-semibold mb-1 truncate">{skill.name?.replace(/ Agent.*$/, '').replace(/^(.*Skill|.*Auditor).*$/, skill.name.split('(')[0]?.trim()) || 'Motor'}</p>
-                    <p className={`text-2xl font-black ${(skill.score || 0) >= 70 ? 'text-emerald-400' : (skill.score || 0) >= 40 ? 'text-orange-400' : 'text-red-400'}`}>
-                      {skill.score || 0}<span className="text-sm text-slate-600">/100</span>
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-              {/* Critical Issues */}
-              {reportData.skills_results.some(s => s.critical_pains && s.critical_pains.length > 0) && (
-                <div className="bg-red-950/20 border-l-4 border-red-500 p-5 rounded-r-xl">
-                  <h3 className="text-xs font-bold text-red-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-                    <AlertTriangle className="w-4 h-4" /> Problemas Críticos Detectados
-                  </h3>
-                  <ul className="space-y-1.5">
-                    {reportData.skills_results.flatMap(s => s.critical_pains || []).slice(0, 8).map((pain, idx) => (
-                      <li key={`diag-pain-${idx}`} className="text-sm text-red-200/80 flex items-start gap-2">
-                        <span className="text-red-500 mt-0.5">•</span> {pain}
-                      </li>
-                    ))}
-                  </ul>
                 </div>
               )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
 
-              {/* Boss Verdict */}
-              {(() => {
-                const bossSkill = reportData.skills_results.find(s => s.name?.includes('Senior CMO') || s.name?.includes('Boss'));
-                return bossSkill?.findings?.cmo_verdict ? (
-                  <div className="bg-indigo-950/20 p-5 rounded-xl border-l-4 border-indigo-500">
-                    <h3 className="text-xs font-bold text-indigo-300 uppercase tracking-widest mb-2 flex items-center gap-2">
-                      <Briefcase className="w-3 h-3" /> Veredito do Analista Senior
-                    </h3>
-                    <p className="text-sm text-slate-300 leading-relaxed">{bossSkill.findings.cmo_verdict}</p>
+
+      {/* Diagnostic Modal Overlay */}
+      {
+        showDiagnosticModal && reportData && (
+          <AnimatePresence>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-start justify-center bg-black/80 backdrop-blur-sm overflow-y-auto p-4 py-8"
+              onClick={(e) => e.target === e.currentTarget && setShowDiagnosticModal(false)}
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="relative w-full max-w-4xl bg-[#080c14] border border-white/10 rounded-3xl shadow-2xl overflow-hidden"
+              >
+                {/* Header */}
+                <div className="relative bg-gradient-to-br from-brand-purple/40 via-indigo-900/30 to-[#080c14] px-8 pt-8 pb-6 border-b border-white/10">
+                  <div className="absolute inset-0 overflow-hidden">
+                    <div className="absolute -top-20 -right-20 w-64 h-64 bg-brand-purple/20 rounded-full blur-[80px]" />
+                    <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-indigo-500/20 rounded-full blur-[80px]" />
                   </div>
-                ) : null;
-              })()}
-
-              {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-white/10">
-                <button
-                  onClick={handleGenerateDiagnosticPDF}
-                  disabled={isGeneratingDiagnosticPDF}
-                  className="px-6 py-3 text-sm font-bold flex items-center gap-2 bg-gradient-to-r from-brand-purple to-indigo-600 text-white rounded-full hover:scale-105 active:scale-95 transition-all shadow-lg disabled:opacity-60"
-                >
-                  {isGeneratingDiagnosticPDF ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileText className="w-4 h-4" />}
-                  Exportar Diagnóstico em PDF
-                </button>
-
-                <button
-                  onClick={async () => {
-                    await handleShareReport();
-                  }}
-                  disabled={isSaving}
-                  className="px-5 py-3 text-sm font-semibold flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-full transition-all"
-                >
-                  {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <ExternalLink className="w-4 h-4" />}
-                  Gerar Link de Compartilhamento
-                </button>
-
-                {shareLink && (
-                  <div className="flex items-center gap-2 bg-spring-green-400/10 px-4 py-2 rounded-full border border-spring-green-400/20">
-                    <CheckCircle2 className="w-4 h-4 text-spring-green-400" />
-                    <a href={shareLink} target="_blank" rel="noopener noreferrer" className="text-xs text-spring-green-400 hover:text-white underline truncate max-w-[250px]">
-                      {shareLink.replace(/^https?:\/\//, '')}
-                    </a>
+                  <button
+                    onClick={() => setShowDiagnosticModal(false)}
+                    className="absolute top-4 right-4 p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-colors z-10"
+                  >
+                    <XCircle className="w-4 h-4 text-slate-400" />
+                  </button>
+                  <div className="relative">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-purple to-indigo-600 flex items-center justify-center shadow-lg">
+                        <Shield className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-black text-brand-purple uppercase tracking-widest">Dossiê Digital Completo</p>
+                        <p className="text-xs text-slate-500">Relatório de Auditoria — {companyName || reportData?.target_url}</p>
+                      </div>
+                    </div>
+                    <h1 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                      Diagnóstico de Presença Digital
+                    </h1>
                   </div>
-                )}
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-      </AnimatePresence>
-    )
-  }
+                </div>
 
-  {/* Value Proposition Modal Overlay */ }
-  {
-    showValueProposition && valuePropositionData && (
-      <ValuePropositionModal
-        data={valuePropositionData}
-        companyName={companyName || reportData?.target_url || ''}
-        onClose={() => setShowValueProposition(false)}
-        onDownloadDiagnostic={handleGenerateDiagnosticPDF}
-      />
-    )
-  }
-  {/* Hidden PDF Content for Printing */ }
-  <DiagnosticPDF reportData={reportData} designSkill={designSkill} />
-  {
-    reportData && (
-      <ProposalPDF
-        reportData={reportData}
-        designSkill={designSkill}
-        commercialPlan={commercialPlan}
-      />
-    )
-  }
+                {/* Body */}
+                <div className="px-8 py-6 space-y-6">
+                  {/* Score Summary */}
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {reportData.skills_results.filter(s => s.score !== undefined && !s.name?.includes('Value')).map((skill, idx) => (
+                      <div key={`diag-${idx}`} className="bg-black/40 p-4 rounded-xl border border-white/5 text-center">
+                        <p className="text-xs text-slate-400 font-semibold mb-1 truncate">{skill.name?.replace(/ Agent.*$/, '').replace(/^(.*Skill|.*Auditor).*$/, skill.name.split('(')[0]?.trim()) || 'Motor'}</p>
+                        <p className={`text-2xl font-black ${(skill.score || 0) >= 70 ? 'text-emerald-400' : (skill.score || 0) >= 40 ? 'text-orange-400' : 'text-red-400'}`}>
+                          {skill.score || 0}<span className="text-sm text-slate-600">/100</span>
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Critical Issues */}
+                  {reportData.skills_results.some(s => s.critical_pains && s.critical_pains.length > 0) && (
+                    <div className="bg-red-950/20 border-l-4 border-red-500 p-5 rounded-r-xl">
+                      <h3 className="text-xs font-bold text-red-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                        <AlertTriangle className="w-4 h-4" /> Problemas Críticos Detectados
+                      </h3>
+                      <ul className="space-y-1.5">
+                        {reportData.skills_results.flatMap(s => s.critical_pains || []).slice(0, 8).map((pain, idx) => (
+                          <li key={`diag-pain-${idx}`} className="text-sm text-red-200/80 flex items-start gap-2">
+                            <span className="text-red-500 mt-0.5">•</span> {pain}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Boss Verdict */}
+                  {(() => {
+                    const bossSkill = reportData.skills_results.find(s => s.name?.includes('Senior CMO') || s.name?.includes('Boss'));
+                    return bossSkill?.findings?.cmo_verdict ? (
+                      <div className="bg-indigo-950/20 p-5 rounded-xl border-l-4 border-indigo-500">
+                        <h3 className="text-xs font-bold text-indigo-300 uppercase tracking-widest mb-2 flex items-center gap-2">
+                          <Briefcase className="w-3 h-3" /> Veredito do Analista Senior
+                        </h3>
+                        <p className="text-sm text-slate-300 leading-relaxed">{bossSkill.findings.cmo_verdict}</p>
+                      </div>
+                    ) : null;
+                  })()}
+
+                  {/* Action Buttons */}
+                  <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-white/10">
+                    <button
+                      onClick={handleGenerateDiagnosticPDF}
+                      disabled={isGeneratingDiagnosticPDF}
+                      className="px-6 py-3 text-sm font-bold flex items-center gap-2 bg-gradient-to-r from-brand-purple to-indigo-600 text-white rounded-full hover:scale-105 active:scale-95 transition-all shadow-lg disabled:opacity-60"
+                    >
+                      {isGeneratingDiagnosticPDF ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileText className="w-4 h-4" />}
+                      Exportar Diagnóstico em PDF
+                    </button>
+
+                    <button
+                      onClick={async () => {
+                        await handleShareReport();
+                      }}
+                      disabled={isSaving}
+                      className="px-5 py-3 text-sm font-semibold flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-full transition-all"
+                    >
+                      {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <ExternalLink className="w-4 h-4" />}
+                      Gerar Link de Compartilhamento
+                    </button>
+
+                    {shareLink && (
+                      <div className="flex items-center gap-2 bg-spring-green-400/10 px-4 py-2 rounded-full border border-spring-green-400/20">
+                        <CheckCircle2 className="w-4 h-4 text-spring-green-400" />
+                        <a href={shareLink} target="_blank" rel="noopener noreferrer" className="text-xs text-spring-green-400 hover:text-white underline truncate max-w-[250px]">
+                          {shareLink.replace(/^https?:\/\//, '')}
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          </AnimatePresence>
+        )
+      }
+
+      {/* Value Proposition Modal Overlay */}
+      {
+        showValueProposition && valuePropositionData && (
+          <ValuePropositionModal
+            data={valuePropositionData}
+            companyName={companyName || reportData?.target_url || ''}
+            onClose={() => setShowValueProposition(false)}
+            onDownloadDiagnostic={handleGenerateDiagnosticPDF}
+          />
+        )
+      }
+      {/* Hidden PDF Content for Printing */}
+      <DiagnosticPDF reportData={reportData} designSkill={designSkill} />
+      {
+        reportData && (
+          <ProposalPDF
+            reportData={reportData}
+            designSkill={designSkill}
+            commercialPlan={commercialPlan}
+          />
+        )
+      }
     </main >
   );
 }

@@ -33,7 +33,16 @@ export default function PublicProposalClient({ proposal, content, viewId }: Prop
         if (viewId) {
             await markProposalPdfDownloaded(viewId).catch(console.error);
         }
-        setTimeout(() => window.print(), 100);
+
+        // Dynamic title for PDF filename
+        const companyName = header.client_company || header.client_name || "Cliente";
+        const originalTitle = document.title;
+        document.title = `${companyName} - Proposta Comercial - Grooway`;
+
+        setTimeout(() => {
+            window.print();
+            document.title = originalTitle;
+        }, 100);
     };
 
     const getIcon = (iconName: string, className: string = "w-5 h-5") => {
@@ -50,18 +59,24 @@ export default function PublicProposalClient({ proposal, content, viewId }: Prop
     };
 
     return (
-        <main className="min-h-screen bg-[#020617] text-slate-50 font-sans relative overflow-hidden pb-32">
+        <main className="min-h-screen bg-[#020617] text-slate-50 font-sans relative overflow-hidden pb-32 print:bg-white print:text-black">
             {/* Background Assets */}
-            <div className="absolute top-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/20 via-[#020617] to-[#020617] pointer-events-none" />
-            <div className="absolute top-[-20%] left-[-10%] w-[120%] h-[120%] bg-white/[0.02] opacity-30 pointer-events-none mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }} />
+            <div className="absolute top-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/20 via-[#020617] to-[#020617] pointer-events-none print:hidden" />
+            <div className="absolute top-[-20%] left-[-10%] w-[120%] h-[120%] bg-white/[0.02] opacity-30 pointer-events-none mix-blend-overlay print:hidden" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }} />
 
-            {/* Fixed Nav for PDF Download (Future Phase 1 Delivery) */}
-            <nav className="fixed top-0 w-full z-50 bg-[#020617]/80 backdrop-blur-md border-b border-white/5 py-4 px-6 flex justify-between items-center print:hidden">
-                <div className="font-bold text-xl tracking-tight flex items-center gap-2">
-                    <span className="text-white">GROOWAY</span>
+            {/* Public Header Branding */}
+            <nav className="fixed top-0 w-full z-50 bg-[#020617]/80 backdrop-blur-md border-b border-white/5 py-4 px-6 flex justify-between items-center print:static print:bg-white print:border-neutral-200">
+                <div className="flex items-center gap-3">
+                    <div className="relative w-8 h-8">
+                        <img src="/brand/logo-3d.png" alt="Grooway" className="object-contain" />
+                    </div>
+                    <div className="flex flex-col leading-none">
+                        <span className="font-bold text-white print:text-black tracking-tight">GROOWAY</span>
+                        <span className="text-[8px] text-neutral-500 uppercase tracking-widest">Performance Digital</span>
+                    </div>
                 </div>
                 <button
-                    className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full transition-colors text-sm font-semibold"
+                    className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full transition-colors text-sm font-semibold print:hidden"
                     onClick={handleDownloadPdf}
                 >
                     <Download className="w-4 h-4" /> Salvar em PDF

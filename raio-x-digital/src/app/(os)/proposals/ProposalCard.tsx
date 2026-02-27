@@ -153,7 +153,7 @@ export default function ProposalCard({ proposal }: Props) {
 
             <div className="flex items-center justify-between pt-4 border-t border-white/10 mt-4">
                 <div className="flex gap-2">
-                    <button className="flex items-center gap-1.5 text-xs text-neutral-400 hover:text-white transition-colors">
+                    <button className="flex items-center gap-1.5 text-xs text-neutral-400 hover:text-white transition-colors" title="Visualizações">
                         <Eye className="w-4 h-4" />
                         <span>0 views</span>
                     </button>
@@ -168,13 +168,24 @@ export default function ProposalCard({ proposal }: Props) {
                     </a>
                 </div>
 
-                <Link
-                    href={`/proposals/${proposal.id}/edit`}
-                    className="flex items-center justify-center p-2 rounded-lg bg-white/5 text-neutral-300 hover:text-white hover:bg-purple-600 transition-colors"
-                    title="Editar ou Compartilhar Proposta"
-                >
-                    <ExternalLink className="w-4 h-4" />
-                </Link>
+                <div className="flex gap-2">
+                    <Link
+                        href={`/p/${proposal.slug}?t=${proposal.share_token}`}
+                        target="_blank"
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 transition-colors text-xs font-semibold border border-blue-500/20"
+                    >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        Ver Site
+                    </Link>
+
+                    <Link
+                        href={`/proposals/${proposal.id}/edit`}
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 text-neutral-300 hover:text-white hover:bg-purple-600 transition-colors text-xs font-semibold border border-white/10"
+                    >
+                        <FileEdit className="w-3.5 h-3.5" />
+                        Editar
+                    </Link>
+                </div>
             </div >
         </div >
     );
