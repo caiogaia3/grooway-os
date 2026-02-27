@@ -95,11 +95,12 @@ class MarketResearchSkill(PredatorSkill):
                     run = apify_client.actor("apify/google-search-scraper").call(run_input=run_input, timeout_secs=45)
                     
                     snippets = []
-                    dataset = apify_client.dataset(run["defaultDatasetId"])
-                    for item in dataset.iterate_items():
-                        org_results = item.get("organicResults", [])
-                        for res in org_results[:5]: # Pega os top 5
-                            snippets.append(f"- [{res.get('title')}] {res.get('description')} (URL: {res.get('url')})")
+                    if run and run.get("defaultDatasetId"):
+                        dataset = apify_client.dataset(run["defaultDatasetId"])
+                        for item in dataset.iterate_items():
+                            org_results = item.get("organicResults", [])
+                            for res in org_results[:5]: # Pega os top 5
+                                snippets.append(f"- [{res.get('title')}] {res.get('description')} (URL: {res.get('url')})")
                     
                     if snippets:
                         apify_context = "RESULTADOS ORGÂNICOS REAIS DO GOOGLE NA CIDADE (Top 5):\n" + "\n".join(snippets)

@@ -6,10 +6,9 @@ from google.genai import types
 
 class ValuePropositionSkill(PredatorSkill):
     """
-    COMPLEMENTAR DO BOSS: Gerador de Proposta de Valor Irresistível.
-    Recebe o diagnóstico completo de todos os agentes + veredito do CMO
-    e constrói uma proposta de valor persuasiva e estruturada para convencer
-    a empresa diagnosticada a contratar os serviços da Grooway.
+    COMPLEMENTAR DO BOSS: Gerador de Proposta Comercial Irresistível.
+    Baseado na metodologia "Growth Partner" — posiciona como Parceiro de
+    Negócios e Tecnologia, não como agência de marketing tradicional.
     """
     def __init__(self, target_url, params=None):
         super().__init__(target_url)
@@ -28,13 +27,13 @@ class ValuePropositionSkill(PredatorSkill):
             "score": 100,
             "findings": {
                 "titulo_proposta": "",
-                "contexto_problema": "",
-                "custo_inacao": "",
-                "solucao_customizada": "",
-                "valor_gerado_roi": "",
-                "investimento_pacotes": "",
-                "mitigacao_risco": "",
-                "proximos_passos": "",
+                "bloco1_apresentacao": "",
+                "bloco2_cenario_atual": "",
+                "bloco3_estrategia": "",
+                "bloco4_escopo": "",
+                "bloco5_cronograma": "",
+                "bloco6_resultados": "",
+                "bloco7_investimentos_condicoes": "",
                 "assinatura_consultor": ""
             },
             "critical_pains": []
@@ -45,8 +44,8 @@ class ValuePropositionSkill(PredatorSkill):
             pains = []
             report["critical_pains"] = pains
 
-        if not self.api_key:
-            pains.append("API Key Gemini não configurada.")
+        if not self.api_key and not self.openai_api_key:
+            pains.append("API Key não configurada.")
             return report
 
         try:
@@ -54,125 +53,148 @@ class ValuePropositionSkill(PredatorSkill):
             city = self.params.get("city", "sua região")
 
             # ---------------------------------------------------
-            # CONSOLIDA INTELIGÊNCIA ESTRATÉGICA (ALCHEMIST BRIEFING)
+            # CONSOLIDA INTELIGÊNCIA ESTRATÉGICA DE TODOS OS AGENTES
             # ---------------------------------------------------
             strategic_intelligence = ""
             cmo_verdict = ""
-            cmo_plan = []
+            all_scores = {}
+            critical_issues = []
 
             if hasattr(self, 'previous_results_context') and self.previous_results_context:
                 for agent_name, agent_data in self.previous_results_context.items():
-                    # Briefing específico para o Alchemist (Copywriting/Oferta)
                     intel = agent_data.get("internal_briefing_for_alchemist", "")
                     score = agent_data.get("score", "?")
                     agent_pains = agent_data.get("critical_pains", [])
                     findings = agent_data.get("findings", {})
 
-                    if intel or agent_pains:
-                        strategic_intelligence += f"\n--- INSIGHT ESTRATÉGICO: {agent_name} (Score: {score}/100) ---\n"
-                        if intel:
-                            strategic_intelligence += f"RECOMENDAÇÃO DE OFERTA: {intel}\n"
-                        if agent_pains:
-                            strategic_intelligence += "DORES CRÍTICAS: " + "; ".join(agent_pains) + "\n"
+                    all_scores[agent_name] = score
 
-                    # Extrai o veredito e plano do CMO (O Boss)
+                    if intel or agent_pains:
+                        strategic_intelligence += f"\n--- {agent_name} (Score: {score}/100) ---\n"
+                        if intel:
+                            strategic_intelligence += f"INSIGHT: {intel}\n"
+                        if agent_pains:
+                            for pain in agent_pains[:3]:
+                                critical_issues.append(pain)
+                            strategic_intelligence += "DORES: " + "; ".join(agent_pains[:3]) + "\n"
+
                     if "Senior CMO" in agent_name or "Boss" in agent_name.title():
                         cmo_verdict = findings.get("cmo_verdict", "")
-                        cmo_plan = findings.get("plano_comercial", {}).get("servicos_recomendados", [])
             else:
                 strategic_intelligence = "Nenhum relatório anterior recebido."
 
-            cmo_plan_str = json.dumps(cmo_plan, ensure_ascii=False) if cmo_plan else "Nenhum plano disponível."
-
-            client = genai.Client(api_key=self.api_key)
+            scores_summary = "\n".join([f"- {name}: {score}/100" for name, score in all_scores.items()])
+            critical_summary = "\n".join([f"- {issue}" for issue in critical_issues[:8]])
 
             prompt = f"""
-            PERSONA:
-            Você é o 'Alquimista de Ofertas' (Agente 07), mestre da persuasão e arquitetura de valor.
-            Seu Arsenal inclui o 'Gerador de Headline Magnética' e o 'Scanner de Objeções'.
-            Sua missão é transmutar dados técnicos no 'Veredito de Copy Fraca' e na 'Alquimia de Oferta Irresistível'.
+            # ROLE (PAPEL)
+            Você é um Estrategista Comercial Senior especializado em vendas B2B de Alto Ticket (High Ticket). 
+            Sua função não é escrever "textos bonitos", mas sim criar documentos de venda persuasivos, 
+            baseados em lógica econômica, autoridade técnica e escassez.
 
-            INTELIGÊNCIA DE RECONHECIMENTO (DORES E BRECHAS):
-            {strategic_intelligence}
-            
-            VEREDITO DO COMANDANTE (THE BOSS):
+            # OBJETIVO
+            Criar uma Proposta Comercial Irresistível baseada na metodologia "Growth Partner". 
+            A proposta deve fugir do padrão "agência de marketing" e posicionar o ofertante como um 
+            "Parceiro de Negócios e Tecnologia".
+
+            # TONE OF VOICE (TOM DE VOZ)
+            - Confiança Técnica: Use termos que demonstrem domínio (ex: "Ecossistema", "Ativo Comercial", "Maturação de Dados").
+            - Direto e Financeiro: Fale a língua do dono da empresa (ROI, Custo de Oportunidade, Margem).
+            - Não use clichês: Proibido começar com "No mundo digital de hoje...". Vá direto ao ponto.
+            - Parceiro, não Funcionário: A linguagem deve ser de igual para igual.
+
+            # REGRA DE OURO
+            Sempre que mencionar "Marketing", substitua por termos como "Máquina de Vendas", 
+            "Aquisição de Demanda" ou "Inteligência Comercial". O cliente B2B odeia gastar com marketing, 
+            mas adora investir em Vendas.
+
+            # CONTEXTO DO DIAGNÓSTICO TÉCNICO (DADOS REAIS)
+            EMPRESA: {company_name}
+            CIDADE: {city}
+            URL: {self.target_url}
+
+            SCORES DOS AGENTES:
+            {scores_summary}
+
+            PROBLEMAS CRÍTICOS DETECTADOS:
+            {critical_summary}
+
+            INTELIGÊNCIA DOS AGENTES:
+            {strategic_intelligence[:3000]}
+
+            VEREDITO DO CMO:
             {cmo_verdict}
-            
-            MISSÃO: GERAR A ALQUIMIA DE OFERTA IRRESISTÍVEL (7 BLOCOS)
-            1. HEADLINE MAGNÉTICA: Exponha o vácuo de autoridade ou o sangramento financeiro.
-            2. O VÁCUO ATUAL: Use as dores críticas detectadas pelos agentes para gerar desconforto real.
-            3. AGITAÇÃO (LUCRO CESSANTE): Mostre quanto custa NÃO agir agora ({company_name} está financiando a concorrência em {city}).
-            4. PROVA TÉCNICA: Transforme os scores baixos do site/ads/social em autoridade da GroowayOS.
-            5. A PONTE DE VALOR: Como a solução Grooway transmuta esse caos em faturamento.
-            6. QUEBRA DE OBJEÇÕES: Mate o "está caro" ou "vou ver depois" com o Scanner de Objeções.
-            7. COMANDO DE AÇÃO (CTA): O próximo passo inevitável.
 
-            JSON OUTPUT FORMAT:
+            # SUA MISSÃO: GERAR A PROPOSTA COMERCIAL EM 7 BLOCOS
+
+            BLOCO 1 - O CONCEITO (Reframing / Apresentação):
+            - Não venda o serviço (ex: "fazer site"), venda o resultado macro (ex: "Tecnologia a serviço da confiança").
+            - Crie uma tese que justifique por que o método antigo do cliente está falho.
+            - Use os dados reais do diagnóstico para dar peso à tese.
+
+            BLOCO 2 - CENÁRIO ATUAL (A Dor Baseada em Dados):
+            - Mostre o cenário problemático baseado nos scores reais e problemas detectados.
+            - Calcule o custo de inação: quanto {company_name} perde por mês não resolvendo isso.
+            - Use os problemas críticos detectados acima como argumentos.
+
+            BLOCO 3 - PILARES DA ESTRATÉGIA:
+            - Pilar 1: Curto Prazo (Dinheiro rápido — Tráfego pago, Google Ads, Social Ads)
+            - Pilar 2: Longo Prazo/Autoridade (SEO, Blog com IA, Conteúdo Estratégico)
+            - Pilar 3: Segurança/Dados (Tracking, Dashboards, CRM Inteligente)
+            - Mostre como cada pilar resolve uma dor específica detectada.
+
+            BLOCO 4 - ESCOPO DE ENTREGA (Módulos):
+            - Descreva entregas focando no BENEFÍCIO, não na feature.
+            - Inclua elemento de INOVAÇÃO/IA (Blog Automático, Avatar IA, CRM Preditivo).
+            - Formate como lista de módulos com: Nome do Módulo → Benefício Direto.
+
+            BLOCO 5 - CRONOGRAMA DE MATURAÇÃO:
+            - Mês 1: Setup, implementação, correções urgentes
+            - Mês 2-3: Aceleração, primeiros resultados
+            - Mês 4-6: Consolidação e escala
+            - Justifique a fidelidade por "necessidade técnica" (aprendizado do algoritmo, ciclo de venda, indexação).
+
+            BLOCO 6 - RESULTADOS PROJETADOS:
+            - Projete resultados baseados nos dados do diagnóstico.
+            - Use métricas específicas: tráfego, leads, conversão, ROI estimado.
+            - Seja ambicioso mas realista baseado nos scores atuais.
+
+            BLOCO 7 - INVESTIMENTO E CONDIÇÕES:
+            - Separe em 3 categorias: A) Setup/Implementação (valor único), B) Fee Mensal (recorrência), C) Verba de Mídia (plataformas).
+            - Validade da proposta: 7 dias.
+            - Próximos passos: Aceite → Contrato → Kick-off.
+            - NÃO coloque valores específicos (o consultor preencherá). Use "[VALOR_SETUP]", "[VALOR_MENSAL]", "[VERBA_MIDIA]".
+
+            JSON OUTPUT FORMAT (OBRIGATÓRIO):
             {{
-                "headline_magnetica": "Headline de impacto total",
-                "veredito_copy": "Sua análise ácida sobre a comunicação atual",
-                "bloco_dor": "A dor profunda extraída do diagnóstico",
-                "custo_inacao": "Cálculo mental/argumento do lucro cessante",
-                "solucao_alquimica": "Como o Plano de Dominação resolve o problema",
-                "quebra_objecoes": "Munição rápida para matar o 'não'",
-                "cta_final": "Chamada para ação agressiva",
-                "alquimista_verdict": "Veredito final para o dossiê (2-3 linhas)",
-                "sniper_ammo": "Munição letal de copy para o Agente 09 fechar o contrato."
+                "titulo_proposta": "Título impactante da proposta (ex: 'Plano de Dominação Digital para {company_name}')",
+                "bloco1_apresentacao": "Texto do Bloco 1 — O Conceito / Reframing. Máximo 4 parágrafos.",
+                "bloco2_cenario_atual": "Texto do Bloco 2 — Cenário Atual e Custo de Inação. Use dados reais. Máximo 4 parágrafos.",
+                "bloco3_estrategia": "Texto do Bloco 3 — Os 3 Pilares da Estratégia. Formatado com os pilares numerados.",
+                "bloco4_escopo": "Texto do Bloco 4 — Escopo de Entrega com Módulos. Lista formatada.",
+                "bloco5_cronograma": "Texto do Bloco 5 — Cronograma de Maturação e justificativa técnica da fidelidade.",
+                "bloco6_resultados": "Texto do Bloco 6 — Resultados Projetados com métricas.",
+                "bloco7_investimentos_condicoes": "Texto do Bloco 7 — Investimento (3 categorias) + Validade + Próximos Passos.",
+                "assinatura_consultor": "Grooway — Inteligência Comercial & Growth Partner"
             }}
             """
 
-            response = client.models.generate_content(
-                model='gemini-2.0-flash',
-                contents=prompt,
-                config=types.GenerateContentConfig(
-                    temperature=0.2,
-                    response_mime_type="application/json"
-                )
-            )
+            json_data = self._call_llm_json(prompt)
 
-            if response.text:
-                json_data = json.loads(response.text)
-                if isinstance(json_data, dict):
-                    report["findings"].update(json_data)
-                    report["internal_briefing_for_closer"] = json_data.get("sniper_ammo", "")
-                    
-                    verdict = json_data.get("alquimista_verdict", "")
-                    if verdict:
-                        report["boss_briefing"] = {
-                            "recomendacoes": [f"AO ALQUIMISTA: {verdict}"],
-                            "pontos_positivos": [],
-                            "pontos_negativos": []
-                        }
+            if json_data and isinstance(json_data, dict):
+                report["findings"].update(json_data)
+                
+                verdict = json_data.get("titulo_proposta", "")
+                if verdict:
+                    report["boss_briefing"] = {
+                        "recomendacoes": [f"PROPOSTA GERADA: {verdict}"],
+                        "pontos_positivos": [],
+                        "pontos_negativos": []
+                    }
             else:
-                report["critical_pains"].append("O Alquimista não conseguiu destilar a oferta.")
+                pains.append("O Estrategista não conseguiu gerar a proposta.")
 
         except Exception as e:
-            error_str = str(e)
-            if "429" in error_str or "RESOURCE_EXHAUSTED" in error_str:
-                if self.openai_api_key:
-                    try:
-                        from openai import OpenAI
-                        openai_client = OpenAI(api_key=self.openai_api_key)
-                        oai_response = openai_client.chat.completions.create(
-                            model="gpt-4o-mini",
-                            messages=[
-                                {"role": "system", "content": "You are an API that outputs valid JSON only. Respond in Portuguese (Brazil)."},
-                                {"role": "user", "content": prompt}
-                            ],
-                            response_format={"type": "json_object"},
-                            temperature=0.4
-                        )
-                        raw_text = oai_response.choices[0].message.content
-                        if raw_text:
-                            json_data = json.loads(raw_text)
-                            report["findings"] = json_data
-                        else:
-                            pains.append("Fallback OpenAI: Resposta vazia.")
-                    except Exception as fallback_e:
-                        pains.append(f"Falha na geração da proposta de valor: {fallback_e}")
-                else:
-                    pains.append("Limite da IA atingido. Tente novamente em breve.")
-            else:
-                pains.append(f"Erro na geração da proposta de valor: {e}")
+            pains.append(f"Erro na geração da proposta de valor: {e}")
 
         return report

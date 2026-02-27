@@ -79,18 +79,9 @@ class DesignTranslationSkill(PredatorSkill):
         """
 
         try:
-            client = genai.Client(api_key=self.api_key)
-            response = client.models.generate_content(
-                model='gemini-2.0-flash',
-                contents=prompt,
-                config=types.GenerateContentConfig(
-                    temperature=0.2,
-                    response_mime_type="application/json"
-                )
-            )
+            json_data = self._call_llm_json(prompt)
             
-            if response.text:
-                json_data = json.loads(response.text)
+            if json_data:
                 report["findings"] = json_data
                 report["internal_briefing_for_boss"] = json_data.get("veredito_do_general", "")
                 

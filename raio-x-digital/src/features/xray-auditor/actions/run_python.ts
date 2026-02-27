@@ -20,7 +20,6 @@ export interface PredatorParams {
     companyName: string;
     city: string;
     instagram: string;
-    linkedin: string;
     selectedAgents?: string[];
 }
 

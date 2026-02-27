@@ -249,37 +249,28 @@ class TrackingSkill(PredatorSkill):
                 }}
                 """
 
-                response = ai_client.models.generate_content(
-                    model='gemini-2.0-flash',
-                    contents=prompt,
-                    config=genai.types.GenerateContentConfig(
-                        temperature=0.1,
-                        response_mime_type="application/json"
-                    )
-                )
+                json_data = self._call_llm_json(prompt)
 
-                if response.text:
-                    json_data = json.loads(response.text)
-                    if isinstance(json_data, dict):
-                        report["findings"].update(json_data)
-                        
-                        verdict = json_data.get("traffic_verdict", "")
-                        if verdict:
-                            briefing["recomendacoes"].append(f"VEREDITO DO PERITO EM TRÁFEGO: {verdict}")
-                        
-                        roi_verdict = json_data.get("roi_measurement_verdict", "")
-                        if "Negativo" in str(roi_verdict) or "Impossível" in str(roi_verdict) or "Escuro" in str(roi_verdict):
-                            score -= 30
-                            briefing["pontos_negativos"].append(f"Risco de ROI Cego: {roi_verdict}")
-                        
-                        gap = json_data.get("tracking_gap_analysis", "")
-                        if gap:
-                            briefing["pontos_negativos"].append(f"Furo no Balde de Ads: {gap}")
-                        
-                        report["internal_briefing_for_boss"] = json_data.get("internal_boss_ammo", "")
-                        report["internal_briefing_for_alchemist"] = json_data.get("alchemist_briefing", "")
-                        
-                        briefing["recomendacoes"].extend(json_data.get("strategic_actions", []))
+                if json_data and isinstance(json_data, dict):
+                    report["findings"].update(json_data)
+                    
+                    verdict = json_data.get("traffic_verdict", "")
+                    if verdict:
+                        briefing["recomendacoes"].append(f"VEREDITO DO PERITO EM TRÁFEGO: {verdict}")
+                    
+                    roi_verdict = json_data.get("roi_measurement_verdict", "")
+                    if "Negativo" in str(roi_verdict) or "Impossível" in str(roi_verdict) or "Escuro" in str(roi_verdict):
+                        score -= 30
+                        briefing["pontos_negativos"].append(f"Risco de ROI Cego: {roi_verdict}")
+                    
+                    gap = json_data.get("tracking_gap_analysis", "")
+                    if gap:
+                        briefing["pontos_negativos"].append(f"Furo no Balde de Ads: {gap}")
+                    
+                    report["internal_briefing_for_boss"] = json_data.get("internal_boss_ammo", "")
+                    report["internal_briefing_for_alchemist"] = json_data.get("alchemist_briefing", "")
+                    
+                    briefing["recomendacoes"].extend(json_data.get("strategic_actions", []))
 
             except Exception as ai_err:
                 print(f"  [Traffic Agent] Falha na cognição Arsenal: {ai_err}")

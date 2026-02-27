@@ -20,10 +20,10 @@ class KeywordResearchSkill(PredatorSkill):
     def execute(self) -> dict:
         """
         Pesquisa de Palavras-Chave via Google Search real (Apify).
-        1. Busca variações de keywords do segmento na cidade.
+        1. Busca 8 variações de keywords do segmento na cidade.
         2. Coleta relatedQueries (sugestões reais do Google).
         3. Conta paidResults para estimar concorrência paga.
-        4. Gera um relatório de oportunidades para Google Ads.
+        4. Gera análise completa com top 10 keywords do segmento.
         """
         briefing = self._empty_boss_briefing()
         
@@ -36,6 +36,7 @@ class KeywordResearchSkill(PredatorSkill):
                 "paid_competition_map": [],
                 "opportunity_chart_data": [],
                 "keyword_opportunities": [],
+                "top_10_keywords_regiao": [],
                 "search_insights": "",
                 "evidences": []
             },
@@ -60,17 +61,14 @@ class KeywordResearchSkill(PredatorSkill):
                 script_or_style.decompose()
             text = self.soup.get_text(separator=' ', strip=True)[:1500]
             
-            # Usa o Gemini rapidamente para extrair o nicho em 1 palavra
-            if self.api_key:
+            # Usa LLM para extrair o nicho (com fallback)
+            if self.api_key or self.openai_api_key:
                 try:
-                    client = genai.Client(api_key=self.api_key)
-                    niche_resp = client.models.generate_content(
-                        model='gemini-2.0-flash',
-                        contents=f"Leia o texto abaixo e responda APENAS o serviço/produto principal da empresa em no máximo 3 palavras (ex: 'dentista', 'advogado trabalhista', 'hamburgueria artesanal'). Texto: \"{text}\"",
-                        config=types.GenerateContentConfig(temperature=0.0)
+                    niche_data = self._call_llm_json(
+                        f'Leia o texto abaixo e responda em JSON: {{"nicho": "serviço/produto principal em no máximo 3 palavras (ex: dentista, advogado trabalhista, hamburgueria artesanal)"}}. Texto: "{text[:800]}"'
                     )
-                    if niche_resp.text:
-                        niche_hint = niche_resp.text.strip().strip('"').strip("'")
+                    if niche_data and niche_data.get("nicho"):
+                        niche_hint = niche_data["nicho"].strip().strip('"').strip("'")
                 except Exception:
                     pass
         
@@ -78,12 +76,17 @@ class KeywordResearchSkill(PredatorSkill):
             niche_hint = company_name  # fallback
 
         # =============================================
-        # 2. BUSCAR NO GOOGLE VIA APIFY
+        # 2. BUSCAR NO GOOGLE VIA APIFY (8 variações)
         # =============================================
         search_queries = [
             f"{niche_hint} {city}",
             f"{niche_hint} {city} preço",
             f"melhor {niche_hint} {city}",
+            f"{niche_hint} perto de mim {city}",
+            f"{niche_hint} barato {city}",
+            f"{niche_hint} orçamento {city}",
+            f"como escolher {niche_hint} {city}",
+            f"{niche_hint} avaliações {city}",
         ]
         
         all_organic = []
@@ -105,8 +108,7 @@ class KeywordResearchSkill(PredatorSkill):
                 "mobileResults": False,
             }
             
-            # Adicionado timeout_secs e try/except interno para não travar o motor
-            run = apify_client.actor("apify/google-search-scraper").call(run_input=run_input, timeout_secs=45)
+            run = apify_client.actor("apify/google-search-scraper").call(run_input=run_input, timeout_secs=60)
             
             dataset = apify_client.dataset(run["defaultDatasetId"])
             for item in dataset.iterate_items():
@@ -118,7 +120,7 @@ class KeywordResearchSkill(PredatorSkill):
                         "keyword": query,
                         "title": org.get("title", ""),
                         "url": org.get("url", ""),
-                        "description": org.get("description", "")[:100]
+                        "description": org.get("description", "")[:150]
                     })
                 
                 # Anúncios pagos (indica concorrência forte)
@@ -135,18 +137,18 @@ class KeywordResearchSkill(PredatorSkill):
                     if title and title not in all_related:
                         all_related.append(title)
             
-            print(f"  [Keyword Agent] {len(all_organic)} resultados orgânicos + {sum(p['paid_count'] for p in all_paid)} anúncios pagos mapeados.")
+            total_paid = sum(p['paid_count'] for p in all_paid)
+            print(f"  [Keyword Agent] {len(all_organic)} resultados orgânicos + {total_paid} anúncios pagos mapeados.")
             
         except Exception as apify_err:
             print(f"  [Keyword Agent] Erro Apify (Ignorado): {apify_err}")
             report["findings"]["search_insights"] = "Pesquisa em tempo real indisponível. Usando projeção estatística."
-            # Não retornamos mais erro crítico aqui para permitir que o relatório seja gerado mesmo sem Apify
 
         # =============================================
         # 3. MONTAR DADOS DE OPORTUNIDADE
         # =============================================
         report["findings"]["keywords_analyzed"] = [q for q in search_queries]
-        report["findings"]["related_queries"] = all_related[:10]
+        report["findings"]["related_queries"] = all_related[:15]
         report["findings"]["paid_competition_map"] = all_paid
         
         # Chart data: keyword vs nível de concorrência paga
@@ -176,15 +178,13 @@ class KeywordResearchSkill(PredatorSkill):
         report["findings"]["opportunity_chart_data"] = opportunity_chart
 
         # =============================================
-        # 4. ANÁLISE ESTRATÉGICA VIA LLM
+        # 4. ANÁLISE ESTRATÉGICA VIA LLM (com fallback)
         # =============================================
-        if self.api_key or os.getenv("OPENAI_API_KEY"):
+        if self.api_key or self.openai_api_key:
             try:
-                client = genai.Client(api_key=self.api_key) if self.api_key else None
-                
                 organic_summary = "\n".join([
                     f"- [{r['keyword']}] {r['title']} ({r['url'][:50]})"
-                    for r in all_organic[:10]
+                    for r in all_organic[:15]
                 ])
                 
                 paid_summary = "\n".join([
@@ -192,43 +192,55 @@ class KeywordResearchSkill(PredatorSkill):
                     for p in all_paid
                 ])
                 
-                related_summary = ", ".join(all_related[:10])
+                related_summary = ", ".join(all_related[:15])
                 
                 prompt = f"""
                 PERSONA:
                 Você é o 'Maestro Ads' (Agente 06), um estrategista de guerra cibernética e arquiteto de aquisição.
                 Seu Arsenal inclui o 'Planejador de Campanhas de Guerra' e o 'Arquiteto de Funil de Conversão'.
-                Sua missão é projetar o 'Plano de Dominação de Busca' e dar o 'Veredito de Poder de Compra'.
 
                 DADOS DE RECONHECIMENTO (LIVE SEARCH):
                 - Nicho Detectado: {niche_hint}
                 - Cidade/Região: {city}
-                - Orgânicos: {organic_summary[:1000]}
+                - Orgânicos encontrados: {len(all_organic)} resultados
+                - Detalhes orgânicos: {organic_summary[:1500]}
                 - Anúncios Pagos: {paid_summary}
-                - Buscas Sugeridas: {related_summary}
+                - Buscas Sugeridas pelo Google: {related_summary}
                 - Site do Alvo: {self.target_url}
 
                 SUA MISSÃO TÁTICA:
-                1. TOP 10 KEYWORDS DA REGIÃO: Liste as 10 palavras-chave mais buscadas para o nicho '{niche_hint}' na cidade/região '{city}'. Categorize por intenção (Compra, Pesquisa, Comparação).
+                1. TOP 10 KEYWORDS DA REGIÃO: Liste EXATAMENTE 10 palavras-chave mais relevantes e buscadas para o nicho '{niche_hint}' na cidade/região '{city}'. 
+                   - Categorize cada uma por intenção: Compra, Pesquisa ou Comparação
+                   - Estime o volume: Alto, Médio ou Baixo
+                   - Use dados reais dos resultados orgânicos e related queries acima
                 2. PLANO DE DOMINAÇÃO DE BUSCA: Liste 5-7 palavras-chave estratégicas para "sequestrar" o mercado.
-                3. VEREDITO DE PODER DE COMPRA: Onde está o dinheiro imediato? (Ex: 'Melhor [Serviço]' vs '[Serviço] Preço').
-                4. MAPEAMENTO DE INTENÇÃO: Qual a dor que o anúncio deve atacar para cada busca?
-                5. ESTRATEGIA DE RETARGETING: Como pegaremos o lead que o Agente 05 detectou que está 'vazando'?
+                3. VEREDITO DE PODER DE COMPRA: Onde está o dinheiro imediato?
+                4. MAPEAMENTO DE INTENÇÃO: Qual a dor que o anúncio deve atacar?
+                5. ANÁLISE DE CONCORRÊNCIA: Quem aparece nos resultados? O alvo está presente?
 
                 JSON OUTPUT FORMAT:
                 {{
                     "top_10_keywords_regiao": [
-                        {{"keyword": "palavra 1", "volume_estimado": "Alto/Médio/Baixo", "intencao": "Compra/Pesquisa/Comparação", "cidade": "{city}"}},
-                        {{"keyword": "palavra 2", "volume_estimado": "Alto/Médio/Baixo", "intencao": "Compra/Pesquisa/Comparação", "cidade": "{city}"}}
+                        {{"keyword": "palavra exata 1", "volume_estimado": "Alto", "intencao": "Compra", "cidade": "{city}"}},
+                        {{"keyword": "palavra exata 2", "volume_estimado": "Médio", "intencao": "Pesquisa", "cidade": "{city}"}},
+                        {{"keyword": "palavra exata 3", "volume_estimado": "Alto", "intencao": "Comparação", "cidade": "{city}"}},
+                        {{"keyword": "palavra 4", "volume_estimado": "Médio", "intencao": "Compra", "cidade": "{city}"}},
+                        {{"keyword": "palavra 5", "volume_estimado": "Baixo", "intencao": "Pesquisa", "cidade": "{city}"}},
+                        {{"keyword": "palavra 6", "volume_estimado": "Alto", "intencao": "Compra", "cidade": "{city}"}},
+                        {{"keyword": "palavra 7", "volume_estimado": "Médio", "intencao": "Comparação", "cidade": "{city}"}},
+                        {{"keyword": "palavra 8", "volume_estimado": "Baixo", "intencao": "Pesquisa", "cidade": "{city}"}},
+                        {{"keyword": "palavra 9", "volume_estimado": "Alto", "intencao": "Compra", "cidade": "{city}"}},
+                        {{"keyword": "palavra 10", "volume_estimado": "Médio", "intencao": "Pesquisa", "cidade": "{city}"}}
                     ],
-                    "search_domination_plan": ["Palavra 1", "Palavra 2"],
+                    "search_domination_plan": ["Palavra estratégica 1", "Palavra 2", "Palavra 3", "Palavra 4", "Palavra 5"],
                     "purchasing_power_verdict": "Veredito sobre onde focar para lucro rápido",
                     "funnel_architecture_brief": "Como deve ser a jornada do lead",
-                    "offensive_copy_triggers": ["Gatilho 1", "Gatilho 2"],
+                    "offensive_copy_triggers": ["Gatilho 1", "Gatilho 2", "Gatilho 3"],
                     "retargeting_strategy": "Plano para fechar o furo no balde detectado pelo Agente 05",
-                    "internal_boss_ammo": "Munição de ganidade sobre lucro fácil para o Boss.",
-                    "alchemist_briefing": "Dica para o Agente 07 criar uma 'Oferta Irresistível' para estas palavras.",
-                    "strategic_recommendations": ["Recomendação 1", "Recomendação 2"],
+                    "competitor_analysis": "Quem domina os resultados e como ultrapassá-los",
+                    "internal_boss_ammo": "Munição sobre lucro fácil para o Boss.",
+                    "alchemist_briefing": "Dica para o Agente 07 criar uma 'Oferta Irresistível'.",
+                    "strategic_recommendations": ["Recomendação 1", "Recomendação 2", "Recomendação 3"],
                     "maestro_verdict": "Veredito final de 2-3 linhas para o dossiê."
                 }}
                 """
@@ -236,23 +248,23 @@ class KeywordResearchSkill(PredatorSkill):
                 json_data = self._call_llm_json(prompt)
 
                 if json_data and isinstance(json_data, dict):
-                        report["findings"].update(json_data)
-                        
-                        verdict = json_data.get("maestro_verdict", "")
-                        if verdict:
-                            briefing["recomendacoes"].append(f"PLANO DO MAESTRO ADS: {verdict}")
-                        
-                        plan = json_data.get("search_domination_plan", [])
-                        if plan:
-                            briefing["brechas_diferenciacao"].append(f"Oportunidades de Ouro (Dominação): {', '.join(plan[:3])}")
-                        
-                        briefing["recomendacoes"].extend(json_data.get("strategic_recommendations", []))
-                        
-                        report["internal_briefing_for_boss"] = json_data.get("internal_boss_ammo", "")
-                        report["internal_briefing_for_alchemist"] = json_data.get("alchemist_briefing", "")
+                    report["findings"].update(json_data)
+                    
+                    verdict = json_data.get("maestro_verdict", "")
+                    if verdict:
+                        briefing["recomendacoes"].append(f"PLANO DO MAESTRO ADS: {verdict}")
+                    
+                    plan = json_data.get("search_domination_plan", [])
+                    if plan:
+                        briefing["brechas_diferenciacao"].append(f"Oportunidades de Ouro (Dominação): {', '.join(plan[:3])}")
+                    
+                    briefing["recomendacoes"].extend(json_data.get("strategic_recommendations", []))
+                    
+                    report["internal_briefing_for_boss"] = json_data.get("internal_boss_ammo", "")
+                    report["internal_briefing_for_alchemist"] = json_data.get("alchemist_briefing", "")
 
             except Exception as gemini_err:
-                print(f"  [Maestro Ads] Erro Gemini: {gemini_err}")
+                print(f"  [Maestro Ads] Erro LLM: {gemini_err}")
                 report["critical_pains"].append("O Maestro Ads falhou na cognição estratégica.")
 
         # =============================================
@@ -276,6 +288,7 @@ class KeywordResearchSkill(PredatorSkill):
 
         report["findings"]["evidences"].append(f"Varredura live no Google para {len(search_queries)} variações de keywords.")
         report["findings"]["evidences"].append(f"Detectados {sum(p['paid_count'] for p in all_paid)} anúncios ativos na região.")
+        report["findings"]["evidences"].append(f"{len(all_related)} termos relacionados mapeados pelo Google.")
 
         report["boss_briefing"] = briefing
         return report

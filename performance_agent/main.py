@@ -89,7 +89,13 @@ class PredatorOrchestrator:
         print(f"[*] Motores ligados. Mirando no alvo: {self.target_url}")
         try:
             start_time = time.time()
-            response = requests.get(self.target_url, timeout=12, headers={'User-Agent': 'Digital-Predator-Bot/2.0'})
+            # Modern browser User-Agent to avoid blocks from security systems (UX/SEO Agent fix)
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
+            }
+            response = requests.get(self.target_url, timeout=12, headers=headers)
             self.load_time = time.time() - start_time
             
             if response.status_code == 200:

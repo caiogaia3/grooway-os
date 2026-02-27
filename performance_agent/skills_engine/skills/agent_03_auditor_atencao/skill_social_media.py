@@ -89,14 +89,15 @@ class SocialMediaResearchSkill(PredatorSkill):
             run = client.actor("apify/instagram-profile-scraper").call(run_input=run_input)
             
             profile = None
-            for item in client.dataset(run["defaultDatasetId"]).iterate_items():
-                profile = item
-                break
+            if run and run.get("defaultDatasetId"):
+                for item in client.dataset(run["defaultDatasetId"]).iterate_items():
+                    profile = item
+                    break
                 
             if not profile:
-                report["critical_pains"].append(f"A API da Apify não encontrou dados públicos para a conta '{self.target_handle}'.")
+                report["critical_pains"].append(f"A API da Apify não encontrou dados públicos (ou Timeout) para a conta '{self.target_handle}'.")
                 report["score"] = 10
-                briefing["pontos_negativos"].append(f"Perfil @{self.target_handle} não localizado no Instagram.")
+                briefing["pontos_negativos"].append(f"Perfil @{self.target_handle} com acesso restrito ou não localizado.")
                 return report
 
             # Detecta resposta de erro da Apify

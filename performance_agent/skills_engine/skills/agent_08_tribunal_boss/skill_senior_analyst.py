@@ -40,7 +40,7 @@ class SeniorAnalystSkill(PredatorSkill):
         incoerencias = []
         evid = []
         
-        if not self.api_key:
+        if not self.api_key and not self.openai_api_key:
             return {
                 "name": "Senior CMO Agent", 
                 "score": 0, 
