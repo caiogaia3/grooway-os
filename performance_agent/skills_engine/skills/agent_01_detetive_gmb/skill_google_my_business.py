@@ -87,7 +87,7 @@ class GMBAuditorSkill(PredatorSkill):
                 "maxCrawledPlacesPerSearch": 1,
                 "language": "pt-BR",
                 "maxImages": 10,
-                "maxReviews": 25,
+                "maxReviews": 100,
             }
             run = apify_client.actor("compass/crawler-google-places").call(run_input=run_input, timeout_secs=55)
             
@@ -119,6 +119,8 @@ class GMBAuditorSkill(PredatorSkill):
                         "mainCategory": cats[0] if cats else '',
                         "openingHours": item.get('openingHours') or [],
                         "description": item.get('description', ''),
+                        "additionalInfo": item.get('additionalInfo', {}),
+                        "socialMedia": item.get('socialMedia', []) or item.get('webResults', []) or [],
                     }
                     break
 
@@ -178,10 +180,10 @@ class GMBAuditorSkill(PredatorSkill):
             # Build reviews_list_raw for frontend
             reviews_list_raw = [
                 {
-                    "text": r.get("text", "")[:300],
+                    "text": str(r.get("text") or "")[:300],
                     "stars": r.get("stars", 0),
                     "has_response": bool(r.get("response")),
-                    "response_preview": str(r.get("response", ""))[:150]
+                    "response_preview": str(r.get("response") or "")[:150]
                 }
                 for r in rev_list[:20]
             ]
@@ -209,39 +211,47 @@ class GMBAuditorSkill(PredatorSkill):
             ARSENAL: 'Scanner dos 10 Pilares', 'Veredito Forense de Comentários', 'Damage Cost Estimator', 'Plano de Dominação Local'.
             MISSAO: Provar a negligência digital de '{map_data.get('title')}' e revelar o dinheiro deixado na mesa na busca local do Google.
 
-            DADOS:
-            - Eficácia Atual: {pts}% de 100%
+            DADOS ESTRUTURAIS EXTRAÍDOS DA FICHA:
+            - Título da Ficha (SEO Name): {map_data.get('title')}
+            - Eficácia Atual (Base): {pts}% de 100%
             - Avaliação: {est_rating}★ ({revs_vol} avaliações)
             - Fotos: {p_count} fotos publicadas
             - Respostas às avaliações: {responded_count} de {total_reviews} respondidas
             - Serviços cadastrados: {'Sim' if has_svcs else 'Não'}
-            - Itens FALTANDO para 100% de Eficácia: {', '.join(fail_points) if fail_points else 'Nenhum — ficha completa!'}
+            - Website cadastrado: {'Sim' if map_data.get('website') else 'Não'}
+            - Links Sociais detectados (Insta/FB etc): {map_data.get('socialMedia')}
+            - Acessibilidade informada: {map_data.get('additionalInfo')}
+            - Tem publicações/posts ativos?: {'Sim' if map_data.get('hasPosts') else 'Não'}
+            - Descrição GMB (Análise de Keywords): {map_data.get('description') or 'Sem descrição.'}
+            - Itens FALTANDO no Scanner Base: {', '.join(fail_points) if fail_points else 'Nenhum — ficha base completa!'}
             
             20 COMENTÁRIOS REAIS RECENTES DOS CLIENTES:
             {revs_txt if revs_txt else 'Nenhum comentário disponível.'}
             
             SUA MISSÃO EM JSON:
             1. VEREDITO FORENSE E REVIEWS: O que clientes amam e odeiam? Destaque as Top 3 palavras mais usadas para reclamar (Keywords Recorrentes de Reclamação).
-            2. ESTIMATIVA DE DAMAGE COST: Usando a nota ({est_rating}), estime de forma consultiva a % de clientes locais perdidos ("Damage Cost") por preferirem concorrentes mais bem avaliados. Fale de dinheiro e métricas.
-            3. IMPACTO DOS 10 PILARES: Para cada item faltante ({', '.join(fail_points)}), explique o dreno financeiro exato de não cumprir esse pilar do algoritmo do Google.
-            4. PLANO DE DOMINAÇÃO LOCAL: Liste ações incisivas (táticas) para ultrapassar os top 3 da região na busca orgânica. Diga exatamente o que mudar (ex: "ativar mensagens em 24h", "criar seção Q&A estratégica").
-            5. ESPINHO & DIAMANTE (Munição de Venda): O ralo por onde vaza capital (Thorns) e a mina de ouro inexplorada (Pearls).
+            2. ANÁLISE CIRÚRGICA DO PERFIL (O que falta?): Avalie impiedosamente se falta (ou se tem) o link do site, redes sociais, posts recentes, informações de acessibilidade, fotos, e especificação de serviços. Aponte cada falha.
+            3. AUDITORIA DE SEO LOCAL (Título e Descrição): Avalie se a descrição técnica contém palavras-chave para ranquear organicamente na região. Avalie se o nome da empresa ("{map_data.get('title')}") traz consigo o segmento para facilitar o ranqueamento orgânico, ou se é só a "Razão Social".
+            4. ESTIMATIVA DE DAMAGE COST: Usando a nota ({est_rating}) e a falta de SEO/Infos, estime de forma consultiva a % de clientes locais perdidos ("Damage Cost") por preferirem concorrentes mais bem avaliados e completos. Fale de dinheiro e métricas.
+            5. IMPACTO DOS 10 PILARES: Para cada item faltante e falha de SEO apontada, explique o dreno financeiro exato de não cumprir esse pilar do algoritmo do Google.
+            6. PLANO DE DOMINAÇÃO LOCAL: Liste ações incisivas (táticas) para ultrapassar os top 3 da região na busca orgânica. Diga exatamente o que mudar (ex: "ativar mensagens em 24h", "renomear ficha para incluir keyword", etc).
+            7. ESPINHO & DIAMANTE (Munição de Venda): O ralo por onde vaza capital (Thorns) e a mina de ouro inexplorada através de SEO Local (Pearls).
 
             JSON OUTPUT FORMAT:
             {{
                 "forensic_verdict": "Veredito geral focado no algoritmo de Busca Local, relevância, e na experiência do usuário baseada em reviews",
-                "reviews_analysis": "Análise detalhada do sentimento baseada nos 20 reviews. Inclua as 'Keywords Recorrentes de Reclamação'",
+                "reviews_analysis": "Análise detalhada do sentimento. Inclua as 'Keywords Recorrentes de Reclamação'",
                 "sentiment_score": "Positivo/Neutro/Negativo",
                 "reviews_highlights": {{
-                    "best": ["Citação real positiva 1", "Citação 2", "Citação 3"],
+                    "best": ["Citação real positiva 1", "Citação 2"],
                     "worst": ["Citação real negativa 1", "Citação 2"]
                 }},
                 "damage_cost_estimate": "Estimativa consultiva e financeira de perda de clientes devido à ineficácia do perfil GMB e notas/reviews",
-                "why_not_100": "Explicação detalhada de falhas nos 10 Pilares (itens faltantes) e seu impacto direto em ranking e conversão",
-                "thorns": "O maior dreno de dinheiro ou objeção atual",
+                "why_not_100": "Explicação detalhada contendo a 'ANÁLISE CIRÚRGICA DO PERFIL' (se falta site, social, posts, fotos) e a 'AUDITORIA DE SEO LOCAL' (título/descrição sem keywords). Aponte os erros como dinheiro perdido.",
+                "thorns": "O maior dreno de dinheiro ou objeção atual (ex: falta de acessibilidade ou site)",
                 "pearls": "A oportunidade de lucro local imediata",
                 "local_domination_plan": ["Ação Tática 1 para Dominação", "Ação Tática 2", "Ação Tática 3", "Ação 4", "Ação 5"],
-                "boss_ammo": "Munição de venda letal para o CMO fechar negócio"
+                "boss_ammo": "Munição de venda letal para o CMO fechar negócio, combinando dados do GMB"
             }}
             """
 
