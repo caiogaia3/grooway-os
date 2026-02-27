@@ -2,6 +2,7 @@ import { getProposals } from "@/features/proposals/actions/get_proposals";
 import ProposalCard from "./ProposalCard";
 import { Plus, FileText } from "lucide-react";
 import Link from "next/link";
+import NotificationsBell from "./NotificationsBell";
 
 export default async function ProposalsDashboard() {
     const proposals = await getProposals();
@@ -19,6 +20,7 @@ export default async function ProposalsDashboard() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+                    <NotificationsBell />
                     <Link
                         href="/proposals/reference-bank"
                         className="flex items-center justify-center gap-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 border border-amber-500/20 px-4 py-2 rounded-lg font-medium transition-colors w-full sm:w-auto text-sm"

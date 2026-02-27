@@ -7,6 +7,8 @@ import { ptBR } from "date-fns/locale";
 import { Calendar, Eye, ExternalLink, MoreVertical, CheckCircle, XCircle, RotateCcw, Copy, FileEdit, CheckCircle2, Send, TrendingUp, PlaySquare } from "lucide-react";
 import Link from "next/link";
 import { updateProposalStatus } from "@/features/proposals/actions/update_proposal";
+import { renewProposal } from "@/features/proposals/actions/renew_proposal";
+import { RefreshCcw } from "lucide-react";
 
 function StatusBadge({ status }: { status: string }) {
     const statusStyles: Record<string, string> = {
@@ -51,11 +53,22 @@ export default function ProposalCard({ proposal }: Props) {
     };
 
     const handleCopyLink = () => {
-        const publicLink = `${window.location.origin} /p/${proposal.slug}?t = ${proposal.share_token} `;
+        const publicLink = `${window.location.origin}/p/${proposal.slug}?t=${proposal.share_token}`;
         navigator.clipboard.writeText(publicLink);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
+
+    const handleRenew = async () => {
+        setLoading(true);
+        const success = await renewProposal(proposal.id);
+        if (!success) {
+            alert("Erro ao renovar proposta.");
+        }
+        setLoading(false);
+    };
+
+    const isExpired = proposal.expires_at && new Date(proposal.expires_at) < new Date();
 
     return (
         <div className="flex flex-col p-5 rounded-xl border border-white/10 bg-white/5 backdrop-blur-md hover:border-purple-500/50 hover:bg-white/[0.08] transition-all group relative">
@@ -86,6 +99,14 @@ export default function ProposalCard({ proposal }: Props) {
                             <>
                                 <div className="fixed inset-0 z-20" onClick={() => setShowMenu(false)} />
                                 <div className="absolute right-0 top-6 w-40 bg-neutral-900 border border-white/10 rounded-xl shadow-xl z-30 py-1 overflow-hidden">
+                                    {isExpired && (
+                                        <button
+                                            onClick={handleRenew}
+                                            className="w-full text-left px-4 py-2 text-xs text-amber-400 hover:bg-white/5 flex items-center gap-2 border-b border-white/5"
+                                        >
+                                            <RefreshCcw className="w-4 h-4" /> Reativar (7 dias)
+                                        </button>
+                                    )}
                                     {proposal.status !== 'approved' && (
                                         <button
                                             onClick={() => handleStatusUpdate('approved')}
@@ -124,8 +145,9 @@ export default function ProposalCard({ proposal }: Props) {
                 <p className="text-sm text-neutral-400 mb-4 line-clamp-1">
                     Responsável: {proposal.client_name}
                 </p>
-                <div className="text-xs text-neutral-500">
-                    Origem: {proposal.source === 'diagnostic' ? 'Diagnóstico' : 'Manual'}
+                <div className="text-xs text-neutral-500 flex justify-between items-center">
+                    <span>Origem: {proposal.source === 'diagnostic' ? 'Diagnóstico' : 'Manual'}</span>
+                    {isExpired && <span className="text-red-400 font-bold uppercase tracking-tighter">Expirada</span>}
                 </div>
             </div>
 
@@ -147,12 +169,12 @@ export default function ProposalCard({ proposal }: Props) {
                 </div>
 
                 <Link
-                    href={`/ proposals / ${proposal.id}/edit`}
+                    href={`/proposals/${proposal.id}/edit`}
                     className="flex items-center justify-center p-2 rounded-lg bg-white/5 text-neutral-300 hover:text-white hover:bg-purple-600 transition-colors"
                     title="Editar ou Compartilhar Proposta"
                 >
                     <ExternalLink className="w-4 h-4" />
-                </Link >
+                </Link>
             </div >
         </div >
     );

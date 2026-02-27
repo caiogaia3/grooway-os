@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { Proposal, ProposalVersion } from "@/features/proposals/lib/types";
+import { createNotification } from "@/features/proposals/actions/notification_actions";
 
 export async function getProposalBySlugAndToken(slug: string, token: string | undefined): Promise<{ proposal: Proposal; version: ProposalVersion } | null> {
     const supabase = await createClient();
@@ -54,6 +55,16 @@ export async function trackProposalView(proposalId: string, ipHash: string, user
         console.error("Error tracking view:", error);
         return null;
     }
+
+    // Trigger Notification (Background)
+    // We already have the proposal_id. Let's get the client name if possible or just generic.
+    // To be efficient, we'll just say "A proposta foi visualizada"
+    createNotification(
+        "Proposta Visualizada! 👀",
+        `Um lead acabou de abrir a sua proposta (ID: ${proposalId.slice(0, 8)}...).`,
+        "view",
+        `/proposals/${proposalId}/analytics`
+    ).catch(() => { });
 
     return data.id;
 }
