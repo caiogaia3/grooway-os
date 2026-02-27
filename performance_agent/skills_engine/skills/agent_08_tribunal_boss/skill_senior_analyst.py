@@ -39,10 +39,12 @@ class SeniorAnalystSkill(PredatorSkill):
         mapeamento = ""
         incoerencias = []
         evid = []
+        executive_summary = ""
+        battle_plan = {}
         
         if not self.api_key and not self.openai_api_key:
             return {
-                "name": "Senior CMO Agent", 
+                "name": "Senior CMO Agent (Business & Sales)", 
                 "score": 0, 
                 "critical_pains": ["API Key ausente."],
                 "findings": {}
@@ -155,8 +157,8 @@ class SeniorAnalystSkill(PredatorSkill):
                     "martelo_do_veredito": verdict,
                     "incoerencias_detectadas": incoerencias,
                     "mapeamento_lucro_invisivel": mapeamento,
-                    "executive_summary_clevel": executive_summary if "executive_summary" in locals() else "",
-                    "battle_plan_phases": battle_plan if "battle_plan" in locals() else {},
+                    "executive_summary_clevel": executive_summary,
+                    "battle_plan_phases": battle_plan,
                     "plano_de_dominacao": plano,
                     "evidencias_de_guerra": evid,
                     "cmo_verdict": verdict, # Legacy compat
