@@ -7,7 +7,7 @@ import { supabase } from "@/core/services/supabase";
 // Salvamos o Dossiê completo + as Sugestões Comerciais geradas para travar a versão final
 export interface SavedReportContext {
     report_data: PythonReport;
-    // commercial_plan: CommercialPlan | null; // Se quiser expor o plano pro cliente (opcional)
+    company_name?: string;
     saved_at: number;
 }
 
@@ -22,6 +22,7 @@ export async function saveReportLocally(report: PythonReport, companyName: strin
 
         const payload: SavedReportContext = {
             report_data: report,
+            company_name: companyName,
             saved_at: Date.now()
         };
 
@@ -36,6 +37,25 @@ export async function saveReportLocally(report: PythonReport, companyName: strin
         if (error) {
             console.error("Erro do Supabase ao salvar relatório:", error);
             return null;
+        }
+
+        // Cleanup: Manter apenas os 10 relatórios mais recentes
+        try {
+            const { data: keepData, error: fetchError } = await supabase
+                .from("reports")
+                .select("id")
+                .order("created_at", { ascending: false })
+                .limit(10);
+
+            if (!fetchError && keepData && keepData.length === 10) {
+                const keepIds = keepData.map(r => r.id);
+                await supabase
+                    .from("reports")
+                    .delete()
+                    .not("id", "in", `(${keepIds.join(",")})`);
+            }
+        } catch (cleanupErr) {
+            console.error("Erro ao limpar relatórios antigos:", cleanupErr);
         }
 
         return { id: uuid, slug: slug };

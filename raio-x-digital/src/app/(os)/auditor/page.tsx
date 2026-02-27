@@ -2,7 +2,7 @@
 // Cache bust to force Next.js Turbopack HMR reload
 
 import { useState, useEffect } from 'react';
-import { Search, Loader2, Target, Smartphone, Database, Instagram, Activity, AlertTriangle, ArrowRight, Briefcase, XCircle, Play, MapPin, Shield, Clock, ExternalLink, BarChart3, MessageSquare, Camera, KeyRound, CheckCircle2, Phone, Users, FileText, Star, Building2 } from 'lucide-react';
+import { Search, Loader2, Target, Smartphone, Database, Instagram, Activity, AlertTriangle, ArrowRight, Briefcase, XCircle, X, Play, MapPin, Shield, Clock, ExternalLink, BarChart3, MessageSquare, Camera, KeyRound, CheckCircle2, Phone, Users, FileText, Star, Building2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { runPythonOrchestrator, PythonReport } from '@/features/xray-auditor/actions/run_python';
 import { generateProposal, CommercialPlan } from '@/features/xray-auditor/actions/generate_proposal';
@@ -13,6 +13,8 @@ import { getValuePropositionFromReport, ValuePropositionData } from '@/features/
 import { ValuePropositionModal } from '@/features/xray-auditor/components/ValuePropositionModal';
 import { DiagnosticPDF } from '@/components/export/DiagnosticPDF';
 import { ProposalPDF } from '@/components/export/ProposalPDF';
+import { useRouter } from 'next/navigation';
+import { generateProposalFromDiagnostic } from '@/features/proposals/actions/generate_proposal_action';
 
 type AppState = 'input' | 'analyzing' | 'result';
 
@@ -47,6 +49,37 @@ export default function DigitalPredatorScanner() {
   // Proposta Comercial Gerada via IA NextJS
   const [commercialPlan, setCommercialPlan] = useState<CommercialPlan | null>(null);
   const [isGeneratingProposal, setIsGeneratingProposal] = useState(false);
+  const [isGeneratingGroowayProposal, setIsGeneratingGroowayProposal] = useState(false);
+  const router = useRouter();
+
+  const handleCreateGroowayProposal = async () => {
+    if (!reportData) return;
+    setIsGeneratingGroowayProposal(true);
+    try {
+      let currentReportId = reportData.id;
+
+      if (!currentReportId) {
+        const savedResult = await saveReportLocally(reportData, companyName);
+        if (savedResult) {
+          currentReportId = savedResult.id;
+          setReportData({ ...reportData, id: savedResult.id });
+        } else {
+          throw new Error("Falha ao salvar relatório no banco de dados.");
+        }
+      }
+
+      const generated = await generateProposalFromDiagnostic(currentReportId);
+      if (generated && generated.id) {
+        router.push(`/proposals/${generated.id}/edit`);
+      } else {
+        alert("Erro interno ao gerar a Proposta Premium (Grooway Proposals).");
+      }
+    } catch (e) {
+      console.error(e);
+      alert("Ocorreu um erro ao gerar a proposta.");
+    }
+    setIsGeneratingGroowayProposal(false);
+  };
 
   // Compartilhamento
   const [isSaving, setIsSaving] = useState(false);
@@ -403,37 +436,95 @@ export default function DigitalPredatorScanner() {
             </div>
           </div>
 
-          <AnimatePresence>
-            {showHistory && auditHistory.length > 0 && (
+          {/* O Modal de histórico foi movido para fora do formulário */}
+        </form>
+
+        {/* Modal de Histórico */}
+        <AnimatePresence>
+          {showHistory && auditHistory.length > 0 && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
               <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                className="overflow-hidden mt-6 pt-5 border-t border-white/10"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 bg-[#020617]/80 backdrop-blur-md"
+                onClick={() => setShowHistory(false)}
+              />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                className="relative w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]"
               >
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 max-h-48 overflow-y-auto custom-scrollbar pr-2">
-                  {auditHistory.map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => handleLoadFromHistory(item.id)}
-                      className="flex flex-col gap-1 bg-black/20 hover:bg-brand-purple/10 border border-white/5 hover:border-brand-purple/30 rounded-xl px-4 py-3 transition-all group text-left"
-                    >
-                      <div className="flex items-center justify-between">
-                        <p className="text-sm font-semibold text-slate-200 truncate group-hover:text-white transition-colors">
-                          {item.target_url.replace(/^https?:\/\//, '')}
-                        </p>
-                        <ExternalLink className="w-3.5 h-3.5 text-slate-600 group-hover:text-brand-purple shrink-0 transition-colors" />
-                      </div>
-                      <p className="text-[10px] text-slate-500 font-mono">
-                        {item.saved_at ? new Date(item.saved_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Recente'}
-                      </p>
-                    </button>
-                  ))}
+                {/* Header do Modal */}
+                <div className="flex items-center justify-between px-6 py-5 border-b border-slate-800 bg-slate-900/50">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-brand-purple/20 flex items-center justify-center border border-brand-purple/30">
+                      <Clock className="w-5 h-5 text-brand-purple" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-white">Histórico de Diagnósticos</h3>
+                      <p className="text-xs text-slate-400">Últimas 10 empresas analisadas pelo sistema</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setShowHistory(false)}
+                    className="p-2 rounded-xl hover:bg-white/5 text-slate-400 hover:text-white transition-colors"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {/* Grid de Cards */}
+                <div className="p-6 overflow-y-auto custom-scrollbar flex-1 bg-slate-900/30">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {auditHistory.map((item) => (
+                      <button
+                        key={item.id}
+                        onClick={() => {
+                          setShowHistory(false);
+                          handleLoadFromHistory(item.id);
+                        }}
+                        className="flex flex-col text-left bg-slate-800/40 hover:bg-brand-purple/10 border border-slate-700/50 hover:border-brand-purple/40 rounded-2xl p-5 transition-all group relative overflow-hidden"
+                      >
+                        {/* Status/Score Indicator */}
+                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-brand-purple/20 to-transparent rounded-bl-3xl -mr-2 -mt-2 group-hover:from-brand-purple/40 transition-colors" />
+
+                        <div className="flex items-start justify-between w-full mb-3 relative z-10">
+                          <div className="flex-1 pr-4">
+                            <h4 className="text-lg font-bold text-white truncate mb-1 group-hover:text-brand-purple transition-colors">
+                              {item.company_name}
+                            </h4>
+                            <div className="flex items-center gap-1.5 text-xs text-slate-400">
+                              <ExternalLink className="w-3 h-3" />
+                              <span className="truncate max-w-[150px]">{item.target_url.replace(/^https?:\/\//, '')}</span>
+                            </div>
+                          </div>
+
+                          <div className="shrink-0 flex flex-col items-center justify-center w-12 h-12 rounded-full bg-slate-900 border border-slate-700 group-hover:border-brand-purple/30 shadow-inner">
+                            <span className="text-[10px] text-slate-500 font-medium leading-none mb-0.5">Score</span>
+                            <span className="text-sm font-bold text-white leading-none">{item.score || '--'}</span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between w-full mt-auto pt-4 border-t border-slate-700/50 relative z-10">
+                          <p className="text-xs text-slate-500 font-medium flex items-center gap-1.5">
+                            <Clock className="w-3 h-3" />
+                            {item.saved_at ? new Date(item.saved_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Recente'}
+                          </p>
+                          <div className="text-[10px] uppercase tracking-wider font-bold text-brand-purple/70 group-hover:text-brand-purple flex items-center gap-1 transition-colors">
+                            Ver Análise
+                            <ArrowRight className="w-3 h-3 opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all" />
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </motion.div>
-            )}
-          </AnimatePresence>
-        </form>
+            </div>
+          )}
+        </AnimatePresence>
 
         <AnimatePresence mode="wait">
 
@@ -511,12 +602,20 @@ export default function DigitalPredatorScanner() {
                     </div>
                     <div className="flex items-center gap-3">
                       <button
+                        onClick={handleCreateGroowayProposal}
+                        disabled={isGeneratingGroowayProposal}
+                        className="px-5 py-2.5 text-sm font-bold flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-full transition-all shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:scale-105 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
+                      >
+                        {isGeneratingGroowayProposal ? <Loader2 className="w-4 h-4 animate-spin" /> : <Star className="w-4 h-4" />}
+                        {isGeneratingGroowayProposal ? 'Gerando...' : 'Gerar Proposta Premium'}
+                      </button>
+                      <button
                         onClick={handleOpenValueProposition}
                         disabled={isLoadingVP}
                         className="px-5 py-2.5 text-sm font-bold flex items-center gap-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white rounded-full transition-all shadow-lg shadow-violet-500/30 hover:shadow-violet-500/50 hover:scale-105 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         {isLoadingVP ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileText className="w-4 h-4" />}
-                        {isLoadingVP ? 'Gerando...' : 'Gerar Proposta de Valor'}
+                        {isLoadingVP ? 'Gerando...' : 'Proposta de Valor Rápida'}
                       </button>
 
                       <button
