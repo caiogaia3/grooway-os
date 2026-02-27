@@ -83,40 +83,53 @@ class SeniorAnalystSkill(PredatorSkill):
                         cat_data = f.read()
             except: pass
 
+            # = = = = = = = = = = = = = = = = = = = = = = = = =
+            # 3. THE "TRIBUNAL" - BOSS FINAL PITCH
+            # = = = = = = = = = = = = = = = = = = = = = = = = =
             client = genai.Client(api_key=self.api_key)
             prompt = f"""
-            PERSONA: O 'CHIEF STRATEGY OFFICER' (Agente 08 - The Boss) da Grooway. 
-            ARSENAL: 'Executive Summary C-Level', 'Calculadora de Damage Cost', 'Plano de Resgate em 3 Fases'.
-            DADOS: A empresa '{company_name}' ({city}) tem média de saúde digital de {avg_score}%.
+            PERSONA: 
+            Você é o 'CHIEF STRATEGY OFFICER' (CSO) da Grooway. Você é um veterano em fechar negócios de 6 e 7 dígitos. 
+            Seu tom é o de um consultor de elite: direto, incisivo, sem medo de apontar a incompetência tática, mas oferecendo o caminho da glória.
+            Você não entrega "dicas", você entrega um VEREDITO DE SOBREVIVÊNCIA.
 
-            INTELIGÊNCIA CONSOLIDADA (Relatórios dos Agentes 01, 03, 04):
+            DADOS CONSOLIDADOS DO CAMPO DE BATALHA:
+            - Alvo: {company_name} ({city})
+            - Saúde Digital Atual (Média do Reconhecimento): {avg_score}%
+            
+            INTELIGÊNCIA DOS AGENTES DE CAMPO (A munição que você deve usar):
             {intel}
-            CATÁLOGO DE SERVIÇOS DA GROOWAY:
-            {cat_data}
+            
+            MISSÃO:
+            Sua missão é converter esses dados técnicos e psicográficos em um PITCH DE VENDAS LETAL. 
+            Você deve ignorar tecnicismos e focar em: DINHEIRO DEIXADO NA MESA, PERDA DE STATUS, E DESMORONAMENTO PERFEITO DA CONCORRÊNCIA.
 
-            SUA MISSÃO ESTRATÉGICA (O PITCH FINAL):
-            1. RESUMO EXECUTIVO C-LEVEL: Uma síntese devastadora, focada em dor comercial, perda financeira e posicionamento (nada de jargões técnicos fofos, fale de dinheiro deixado na mesa).
-            2. INCOERÊNCIAS E GAPS: O que a marca promete vs a dura realidade mapeada pelos agentes (Vácuo de Autoridade, Threat Matrix, Reviews).
-            3. PLANO DE BATALHA EM 3 FASES:
-               - Fase 1: Estancar a Sangria (O que fazer semana 1 para parar de perder clientes ativos).
-               - Fase 2: Tração de Mercado (O que fazer no mês 1 para captar nova demanda).
-               - Fase 3: Dominação e Oceano Azul (O que fazer no trimestre para engolir os concorrentes).
-            4. RECOMENDAÇÃO DE SERVIÇOS (ARSENAL GROOWAY): Escolha os 3 serviços exatos do catálogo que resolvem as dores e encaixe-os no pitch.
+            ESTRUTURA DO VEREDITO (JSON):
+            1. EXECUTIVE SUMMARY C-LEVEL: Um soco no estômago. Mostre como a empresa está sendo "engolida" ou "comoditizada" baseada nos dados psicográficos do ICP.
+            2. INCOERÊNCIAS COMERCIAIS: Aponte onde o site ou o marketing mentem ou falham em sustentar o que a marca diz ser.
+            3. DAMAGE COST TOTAL: Estime o prejuízo anual (em R$ ou Impacto de Mercado) por eles não terem o Tracking, GMB ou Estratégia de Mercado da Grooway.
+            4. BATTLE PLAN (3 FASES): 
+               - Fase 1 (Resgate): Parar a perda de leads hoje.
+               - Fase 2 (Escala): Dominar a mente do ICP com o novo posicionamento.
+               - Fase 3 (Legado): Tornar-se o player imbatível em {city}.
 
             JSON OUTPUT FORMAT:
             {{
-                "executive_summary_clevel": "Um parágrafo C-Level letal sobre o estado comercial da empresa",
-                "incoerencias_comerciais": ["Incoerência 1 (ex: Diz ser líder, mas tem GMB nota 3.8)", "Incoerência 2"],
-                "damage_cost_total": "Soma estimada da % ou R$ perdido devido a ineficácia social e local",
+                "executive_summary_clevel": "Um parágrafo devastador sobre o custo da inércia atual.",
+                "incoerencias_comerciais": ["Incoerência A: Promessa vs Realidade", "Incoerência B: Falha Ética/Técnica"],
+                "damage_cost_total": "Cálculo agressivo de quanto custam os erros atuais por ano.",
                 "battle_plan_phases": {{
-                    "fase_1_estancar_sangria": "Ações emergenciais e recomendação Grooway",
-                    "fase_2_tracao": "Ações de crescimento e recomendação Grooway",
-                    "fase_3_dominacao": "Posicionamento Oceano Azul e recomendação Grooway"
+                    "fase_1_estancar_sangria": "Resgate imediato dos leads perdidos.",
+                    "fase_2_tracao": "Captura de novos desejos do ICP detectado.",
+                    "fase_3_dominacao": "Exclusão total dos rivais na mente do cliente."
                 }},
                 "servicos_recomendados": [
-                    {{ "servico": "Nome exato", "pitch_de_venda_direta": "Argumento conectando a dor descoberta ao serviço" }}
+                    {{ 
+                        "servico": "Nome do Serviço Grooway", 
+                        "pitch_de_venda_direta": "Argumento de fechamento usando a dor profunda do ICP mapeada pelo Agente 04." 
+                    }}
                 ],
-                "martelo_do_veredito": "Uma farpa final (punchline) fechando o diagnóstico encorajando a ação"
+                "martelo_do_veredito": "Punchline final: A solução não é 'mais marketing', é a Grooway."
             }}
             """
 

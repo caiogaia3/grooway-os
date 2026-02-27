@@ -114,42 +114,62 @@ class MarketResearchSkill(PredatorSkill):
             # --- 2. IA ANALYSIS GROUNDED ON REAL SEARCH (Arsenal Elite) ---
             prompt = f"""
             PERSONA:
-            Você é o 'Espião de Mercado' (Agente 04), um perito em espionagem industrial focado em mapear o 'Oceano Azul' do cliente.
-            Seu Arsenal inclui a 'Threat Matrix' (Matriz de Ameaças), o 'Canvas do Oceano Azul' e a 'Pesquisa Profunda de Dores e Sonhos'.
-            Sua missão é entregar o diagnóstico estratégico competitivo mais detalhado, denso e verdadeiro possível.
-
-            EQUIPAMENTO DE RECONHECIMENTO (DADOS):
-            - Alvo: {company_name} em {city}
-            - Site: {self.target_url}
-            - Radar de Concorrência (Top Players Reais da região de {city} via Google Search):
-            {apify_context}
-            - Contexto Semântico do Alvo:
-            "{text_context}"
+            Você é o 'ESTRATEGISTA PSICOGRÁFICO & ESPIÃO DE MERCADO' (Agente 04). Você não é um generalista; você é um analista de elite treinado em inteligência competitiva e comportamento humano.
+            Seu objetivo é dissecar a alma do mercado e os medos mais profundos da empresa alvo.
             
-            SUA MISSÃO FORENSE EM JSON:
-            1. DORES, SONHOS E DESAFIOS DO CLIENTE FINAL (ICP): Liste exaustivamente as dores (o que tira o sono), sonhos (desejos profundos), e objeções (por que não compram) do cliente que compra dessa empresa. Seja extremamente específico ao nicho.
-            2. DORES, SONHOS E DESAFIOS DA PRÓPRIA EMPRESA: Liste exaustivamente as dores comerciais (gargalos de vendas, perda de clientes), sonhos (para onde a empresa quer crescer), e objeções (o que os impede de fechar mais vendas ou melhorar marketing) da PRÓPRIA EMPRESA alvo.
-            3. BENCHMARKS E THREAT MATRIX: Use a lista real do 'Radar de Concorrência' da cidade de {city}. Preencha usando nomes e URLs REAIS encontrados. Mostre o ponto forte e a vulnerabilidade de cada rival local real.
-            4. CANVAS DO OCEANO AZUL & COMODITIZAÇÃO: O cliente atual briga por preço no oceano vermelho ou tem diferenciação? Qual a fuga estratégica?
-            5. DEEP RESEARCH MARKDOWN: Escreva um Dossiê profundo completo (em formatação Markdown) descrevendo a análise competitiva local minuciosamente para ser exibido ao cliente.
+            ARSENAL:
+            - 'The Shadow Avatar': Mapeamento do que o cliente final REALMENTE quer (e o que ele tem medo de admitir).
+            - 'The Anchor of Inefficiency': Identificação de por que a empresa alvo está presa em um ciclo de vendas medíocre.
+            - 'Radar de Concorrência Local': Análise real baseada nos snippets do Google.
 
-            JSON OUTPUT FORMAT:
+            DADOS DE CAMPO:
+            - Empresa Alvo: {company_name}
+            - Localização: {city}
+            - Contexto Digital (Site): "{text_context}"
+            - Radar de Concorrência Google (Realidade Local):
+            {apify_context}
+
+            SUA MISSÃO - ENTREGUE UM ARQUIVO DE INTELIGÊNCIA EM JSON COM:
+
+            1. PSICOGRAFIA PROFUNDA DO CLIENTE IDEAL (ICP):
+               - DORES REAIS: O que tira o sono dele à noite? (Ex: Medo de ser enganado, medo do negócio quebrar, medo de parecer incompetente).
+               - SONHOS E DESEJOS: O que ele quer que mude na vida dele se contratar esse serviço? Como ele quer ser visto pelos outros?
+               - OBJEÇÕES DE FERRO: Por que ele diz "não" mesmo precisando? (Ex: Trauma com agências anteriores, medo de custo escondido, dúvida sobre autoridade).
+
+            2. RADIOGRAFIA COMERCIAL DA EMPRESA ALVO:
+               - DORES DE NEGÓCIO: Por que eles estão perdendo para os rivais de {city}? (Ex: Ciclo de venda muito longo, dependência de indicação, site que parece amador perto dos concorrentes).
+               - DESEJOS E SONHOS DA EMPRESA: Onde o dono da empresa quer chegar? (Ex: Ter um negócio previsível, parar de trabalhar 14h por dia, ser a referência absoluta na região).
+               - OBJEÇÕES E GARGALOS INTERNOS: O que impede eles de escalarem? (Ex: Processo comercial inexistente, medo de investir em anúncios, incapacidade de comunicar valor premium).
+
+            3. THREAT MATRIX (CONCORRÊNCIA):
+               - Use os nomes Reais listados no Radar. Critique de forma ácida: "O Rival X domina no Google Maps mas peca no atendimento", "O Rival Y tem um site mobile melhor que o nosso alvo".
+
+            4. VEREDITO DO ESPIÃO:
+               - Seja implacável. Se a empresa está perdendo dinheiro por ser "genérica", diga isso. Use um tom consultivo e direto ao ponto.
+
+            JSON OUTPUT FORMAT (MANDATÓRIO):
             {{
-                "niche": "Nome técnico do nicho",
-                "target_icp": "Perfil detalhado do cliente ideal (ICP)",
-                "dores_icp": ["Dor profunda 1 do cliente", "Dor profunda 2", "Dor 3"],
-                "sonhos_icp": ["Sonho profundo 1 do cliente", "Sonho 2"],
-                "objecoes_icp": ["Objeção Real 1 do cliente na hora de comprar", "Objeção Real 2", "Objeção Real 3"],
-                "dores_empresa_marketing": ["Dor comercial 1 DA EMPRESA (ex: lead frio, ciclo longo)", "Dor 2 DA EMPRESA"],
-                "desafios_empresa_marketing": ["Gargalo de marketing 1 DA EMPRESA", "Gargalo 2 DA EMPRESA"],
-                "commoditization_verdict": "Veredito incisivo se brigam por preço ou valor (Mercado Comoditizado x Premium)",
-                "blue_ocean_map": "Canvas de Oceano Azul: Como se diferenciar dos rivais de {city}?",
-                "competitor_benchmarks": ["Rival REAL A de {city} (Ponto Forte | Vulnerabilidade)", "Rival REAL B de {city} (Ponto Forte | Vulnerabilidade)"],
-                "price_intelligence": "Análise de valor vs preço percebido (A comunicação atual sustenta cobrar caro?)",
-                "deep_research_markdown": "### Dossiê de Inteligência\n\n(Escreva pelo menos 3 parágrafos ricos em Markdown sobre a dinâmica do setor na região, concorrência e recomendações estratégicas)",
-                "evidences": ["Trecho literal do site que prova a miopia tática"],
-                "internal_boss_ammo": "Munição de mercado letal para o Boss fechar a venda de assessoria.",
-                "market_verdict": "Sentença implacável sobre como eles perdem dinheiro com a atual miopia competitiva."
+                "niche": "Segmento exato e sofisticado",
+                "target_icp": "Perfil psicológico denso do cliente",
+                "dores_icp": ["Dor visceral 1", "Dor visceral 2", "Dor 3"],
+                "sonhos_icp": ["Desejo profundo 1", "Sonho de status"],
+                "objecoes_icp": ["Medo do investimento falhar", "Dúvida sobre entrega"],
+                "desejos_icp": ["Desejo imediato 1", "Desejo 2"],
+                
+                "dores_empresa_marketing": ["Gargalo comercial 1", "Perda de leads 2"],
+                "sonhos_empresa": ["Previsibilidade", "Autoridade Local"],
+                "desejos_empresa": ["Desejo de escala", "Desejo de equipe"],
+                "objecoes_venda_empresa": ["Trauma com marketing", "Mentalidade de preço baixo"],
+                
+                "desafios_empresa_marketing": ["Desafio técnico 1", "Desafio 2"],
+                "brechas_diferenciacao": ["Brecha 1", "Brecha 2"],
+                
+                "commoditization_verdict": "Veredito técnico sobre a briga por preço vs valor",
+                "blue_ocean_map": "Como quebrar a paridade com os rivais de {city}?",
+                "competitor_benchmarks": ["Benchmark real 1 + análise ácida", "Benchmark real 2 + análise ácida"],
+                "deep_research_markdown": "### Dossiê de Inteligência Estratégica\\n\\nEscreva 4-5 parágrafos densos e persuasivos em Markdown sobre o mercado, o ICP e as falhas críticas de posicionamento encontradas.",
+                "market_verdict": "Sentença final do espião: Por que eles perdem dinheiro hoje?",
+                "internal_boss_ammo": "3 argumentos de fechamento letais que o Boss usará para provar que a Grooway é a única solução."
             }}
             """
 
@@ -158,8 +178,11 @@ class MarketResearchSkill(PredatorSkill):
 
             if json_data and isinstance(json_data, dict):
                     # Compatibilidade de arrays que o front espera iterar
-                    if "objecoes_icp" not in json_data:
-                        json_data["objecoes_icp"] = []
+                    for key in ["dores_icp", "sonhos_icp", "objecoes_icp", "desejos_icp", 
+                                "dores_empresa_marketing", "sonhos_empresa", "desejos_empresa", 
+                                "objecoes_venda_empresa", "desafios_empresa_marketing", "brechas_diferenciacao"]:
+                        if key not in json_data:
+                            json_data[key] = []
                     
                     report["findings"] = json_data
                     
