@@ -55,10 +55,20 @@ class GMBAuditorSkill(PredatorSkill):
         city = str(self.params.get("city", "")).strip()
         
         if not self.api_key:
-            return {"name": "GMB Auditor", "score": 0, "critical_pains": ["API Key ausente."]}
+            return {
+                "name": "Google My Business Auditor (Local SEO)", 
+                "score": 0, 
+                "critical_pains": ["API Key ausente."],
+                "findings": {}
+            }
 
         if not company_name or not city:
-            return {"name": "GMB Auditor", "score": 0, "critical_pains": ["Dados insuficientes."]}
+            return {
+                "name": "Google My Business Auditor (Local SEO)", 
+                "score": 0, 
+                "critical_pains": ["Dados insuficientes. Preencha 'Empresa' e 'Localização'."],
+                "findings": {}
+            }
 
         try:
             # =============================================
@@ -100,7 +110,12 @@ class GMBAuditorSkill(PredatorSkill):
                 break
 
             if not map_data:
-                return {"name": "GMB Auditor", "score": 0, "critical_pains": [f"'{company_name}' não encontrada."]}
+                return {
+                    "name": "Google My Business Auditor (Local SEO)", 
+                    "score": 0, 
+                    "critical_pains": [f"'{company_name}' não encontrada no Google Maps."],
+                    "findings": {}
+                }
 
             # =============================================
             # 2. CALCULO DE EFICÁCIA (0-100%)
@@ -222,7 +237,12 @@ class GMBAuditorSkill(PredatorSkill):
             }
 
         except Exception as e:
-            return {"name": "GMB Auditor", "score": 0, "critical_pains": [f"Erro no Arsenal: {str(e)}"]}
+            return {
+                "name": "Google My Business Auditor (Local SEO)", 
+                "score": 0, 
+                "critical_pains": [f"Erro no Arsenal: {str(e)}"],
+                "findings": {}
+            }
 
 
 
