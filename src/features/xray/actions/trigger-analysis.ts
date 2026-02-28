@@ -23,7 +23,7 @@ export async function triggerAnalysisAction(params: TriggerAnalysisInput) {
         const sep = '/';
         const pythonRoot = `${cwd}${sep}intelligence`;
         const scriptPath = `${pythonRoot}${sep}main.py`;
-        const venvPython = `${pythonRoot}${sep}venv${sep}bin${sep}python3`;
+        const venvPython = `${pythonRoot}${sep}intelligent_env${sep}bin${sep}python3`;
 
         // Prepare JSON input
         const jsonInput = JSON.stringify(validatedParams);
