@@ -133,9 +133,13 @@ class SeniorAnalystSkill(PredatorSkill):
             }}
             """
 
+            print(f"  [Senior Analyst] API Key presente: {str(self.api_key)[:8]}...")
             res = self._call_llm_json(prompt)
 
-            if res:
+            if not res:
+                print(f"  [Senior Analyst] VÁCUO DE IA: LLM retornou vazio ou falhou.")
+            else:
+                print(f"  [Senior Analyst] IA respondeu com sucesso. Mapeando dados.")
                 verdict = res.get("martelo_do_veredito", "")
                 mapeamento = res.get("damage_cost_total", "")
                 incoerencias = res.get("incoerencias_comerciais", [])

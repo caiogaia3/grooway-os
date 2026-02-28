@@ -1,18 +1,12 @@
 [variables]
-VIRTUAL_ENV = "/app/.venv"
-PATH = "/app/.venv/bin:$PATH"
+PATH = "/usr/local/bin:$PATH"
 
 [phases.setup]
-aptPkgs = ["...", "python3", "python3-pip", "python3-venv"]
+# Usamos aptPkgs para garantir que python e pip existam sem conflitos de libstdc++ do Node
+aptPkgs = ["python3", "python3-pip"]
 
 [phases.install]
-# Cache both node_modules and the python virtual environment
-cacheDirectories = ["node_modules", ".venv"]
-cmds = [
-    "npm ci",
-    "[ -d /app/.venv ] || python3 -m venv /app/.venv",
-    "/app/.venv/bin/pip install -r intelligence/requirements.txt"
-]
+cmds = ["npm ci"]
 
 [phases.build]
 cmds = ["npm run build"]

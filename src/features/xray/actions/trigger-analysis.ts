@@ -29,13 +29,34 @@ export async function triggerAnalysisAction(params: TriggerAnalysisInput) {
         const jsonInput = JSON.stringify(validatedParams);
 
         console.log(`[*] Triggering Python analysis for: ${params.url}`);
+        console.log(`    CWD: ${pythonRoot}`);
 
-        // Point to the persistent venv created in nixpacks.toml
-        let execPython = '/app/.venv/bin/python3';
-        if (!fs.existsSync(execPython)) {
-            console.warn(`[!] Persistent venv not found at ${execPython}, falling back to system python3`);
-            execPython = 'python3';
+        // --- HACK EXTREMO PARA O NIXPACKS / EASYPANEL ---
+        // O Easypanel deleta qualquer coisa que instalamos na máquina de Build
+        // Então instalamos em tempo real na máquina efêmera toda vez que o botão é clicado!
+        try {
+            console.log(`[*] Instalando dependências de IA "On-The-Fly" no container ativo...`);
+            const onTheFlyPip = spawnSync('python3', [
+                '-m', 'pip', 'install', '-r', 'requirements.txt', '--break-system-packages'
+            ], {
+                cwd: pythonRoot,
+                encoding: 'utf-8',
+                stdio: 'inherit' // Permite ver o output nos logs
+            });
+            console.log(`[*] Pip on-the-fly terminou.`);
+        } catch (e) {
+            console.log(`[!] Falha no Hack do PIP On-The-Fly:`, e);
         }
+        // ------------------------------------------------
+
+        // Log python properties on server environment before execution
+        try {
+            const pythonPath = spawnSync('which', ['python3'], { encoding: 'utf-8' });
+            console.log(`[V] which python3:`, pythonPath.stdout.trim());
+        } catch (e) { }
+
+        // We use system python3 and break-system-packages as it's the most stable in Easypanel
+        const execPython = 'python3';
 
         // Spawn process
         const pythonProcess = spawn(execPython, [scriptPath, jsonInput], {

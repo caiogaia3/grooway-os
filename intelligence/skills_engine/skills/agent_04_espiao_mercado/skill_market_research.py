@@ -150,6 +150,7 @@ class MarketResearchSkill(PredatorSkill):
             JSON OUTPUT FORMAT (MANDATÓRIO):
             {{
                 "niche": "Segmento exato e sofisticado",
+                "executive_summary_clevel": "Um parágrafo de impacto sobre o posicionamento atual vs potencial.",
                 "target_icp": "Perfil psicológico denso do cliente",
                 "dores_icp": ["Dor visceral 1", "Dor visceral 2", "Dor 3"],
                 "sonhos_icp": ["Desejo profundo 1", "Sonho de status"],

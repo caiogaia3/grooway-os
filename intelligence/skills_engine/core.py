@@ -62,13 +62,8 @@ class PredatorSkill(abc.ABC):
                     return json.loads(response.text)
             except Exception as gemini_err:
                 err_str = str(gemini_err)
-                if "429" in err_str or "RESOURCE_EXHAUSTED" in err_str:
-                    print(f"  [LLM Fallback] Gemini 429 detectado. Ativando fallback OpenAI...")
-                else:
-                    print(f"  [LLM] Gemini falhou: {gemini_err}")
-                    # Não tenta OpenAI se o erro não for de quota
-                    if "429" not in err_str and "RESOURCE_EXHAUSTED" not in err_str:
-                        return {}
+                print(f"  [LLM Error] Gemini falhou: {err_str}")
+                # Prossegue para o fallback se houver chave OpenAI
         
         # --- TENTATIVA 2: OPENAI FALLBACK ---
         if openai_key:
