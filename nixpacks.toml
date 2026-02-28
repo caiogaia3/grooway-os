@@ -1,21 +1,16 @@
-providers = ["node", "python"]
+# Extend auto-detected providers (Node) with Python
+providers = ['...', 'python']
 
-[variables]
-NIXPACKS_NODE_VERSION = "20"
-NIXPACKS_PYTHON_VERSION = "3.11"
-
+# Add Python and pip to the Nix setup phase
 [phases.setup]
-nixPkgs = ["...", "python311Packages.pip"]
+aptPkgs = ['...', 'python3-pip']
 
+# Install Node deps AND Python deps in a single install phase
 [phases.install]
 cmds = [
-    "npm ci",
-    "python3 -m venv /app/venv",
-    "/app/venv/bin/pip install -r /app/intelligence/requirements.txt"
+    '...', 
+    'python3 -m pip install -r intelligence/requirements.txt --break-system-packages'
 ]
 
-[phases.build]
-cmds = ["npm run build"]
-
 [start]
-cmd = "npm start"
+cmd = 'npm start'
