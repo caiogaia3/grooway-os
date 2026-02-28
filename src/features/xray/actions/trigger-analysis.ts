@@ -1,6 +1,8 @@
 "use server";
 
 import { spawn } from 'child_process';
+import fs from 'fs';
+import { supabase } from '@/core/lib/supabase';
 import { TriggerAnalysisSchema, TriggerAnalysisInput } from '@/core/lib/validation';
 
 /**
@@ -27,9 +29,18 @@ export async function triggerAnalysisAction(params: TriggerAnalysisInput) {
         const jsonInput = JSON.stringify(validatedParams);
 
         console.log(`[*] Triggering Python analysis for: ${params.url}`);
+        console.log(`    CWD: ${pythonRoot}`);
+        console.log(`    Expected Python: ${venvPython}`);
+
+        let execPython = venvPython;
+
+        if (!fs.existsSync(venvPython)) {
+            console.log(`[!] Venv Python not found at ${venvPython}, falling back to system python3`);
+            execPython = 'python3';
+        }
 
         // Spawn process
-        const pythonProcess = spawn(venvPython, [scriptPath, jsonInput], {
+        const pythonProcess = spawn(execPython, [scriptPath, jsonInput], {
             cwd: pythonRoot,
             env: { ...process.env, PYTHONPATH: pythonRoot }
         });
@@ -45,8 +56,24 @@ export async function triggerAnalysisAction(params: TriggerAnalysisInput) {
             console.error(`[Python STDERR]: ${data}`);
         });
 
+        pythonProcess.on('error', (err) => {
+            console.error(`[Python Spwan Error]: FAILED TO START PYTHON PROCESS:`, err);
+            // Inform supabase about the failure since python won't run to do it
+            supabase.from('diagnostics').update({
+                status: 'failed',
+                report_data: { error: `Python Engine Failed to Boot: ${err.message}` }
+            }).eq('id', validatedParams.diagnosticId).then(() => console.log('Updated supabase with boot failure'));
+        });
+
         pythonProcess.on('close', (code) => {
             console.log(`[Python] Finalizado com código: ${code}`);
+            if (code !== 0) {
+                // Update status on crash
+                supabase.from('diagnostics').update({
+                    status: 'failed',
+                    report_data: { error: `Python Process crashed with exit code ${code}` }
+                }).eq('id', validatedParams.diagnosticId).then(() => console.log('Updated supabase with crash status'));
+            }
         });
 
         return { success: true };
