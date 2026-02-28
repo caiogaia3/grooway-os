@@ -387,7 +387,7 @@ export default function DigitalPredatorScanner() {
 
     return (
       <Tooltip text={tooltip}>
-        <div className={`p-4 rounded-2xl border ${variants[variant]} text-center transition-all hover:bg-white/5 active:scale-95 cursor-help group h-full flex flex-col justify-center min-h-[100px]`}>
+        <div className={`p-4 rounded-2xl border ${variants[variant]} text-center transition-all hover:bg-white/5 active:scale-95 cursor-help group flex flex-col justify-center h-44 w-full`}>
           <p className="text-slate-500 text-[10px] uppercase mb-1.5 font-black tracking-widest flex items-center justify-center gap-1.5 group-hover:text-slate-300 transition-colors">
             {Icon && <Icon className="w-3 h-3 opacity-60" />}
             {label}
@@ -401,7 +401,7 @@ export default function DigitalPredatorScanner() {
               }`}>
               {value}
             </span>
-            {subValue && <span className="text-[10px] text-slate-500 font-mono opacity-80">{subValue}</span>}
+            {subValue && <p className="text-[10px] text-slate-500 font-mono opacity-80 mt-1 line-clamp-2">{subValue}</p>}
           </div>
         </div>
       </Tooltip>
@@ -720,9 +720,9 @@ export default function DigitalPredatorScanner() {
                       <button
                         onClick={handleCreateGroowayProposal}
                         disabled={isGeneratingGroowayProposal}
-                        className="px-4 py-2 text-xs font-black flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-full transition-all shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 hover:scale-105 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed uppercase tracking-wider"
+                        className="px-4 py-2 text-[10px] font-black flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-full transition-all shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 hover:scale-105 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed uppercase tracking-wider"
                       >
-                        {isGeneratingGroowayProposal ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Star className="w-3.5 h-3.5" />}
+                        {isGeneratingGroowayProposal ? <Loader2 className="w-3 h-3 animate-spin" /> : <Star className="w-3 h-3" />}
                         {isGeneratingGroowayProposal ? 'Gerando...' : 'Gerar Proposta Premium'}
                       </button>
 
@@ -731,14 +731,14 @@ export default function DigitalPredatorScanner() {
                           const dossierId = reportData?.id || (reportData?.target_url ? btoa(reportData.target_url).slice(0, 12) : 'demo');
                           window.open(`/d/${dossierId}`, '_blank');
                         }}
-                        className="px-4 py-2 text-xs bg-brand-purple/10 text-brand-purple hover:bg-brand-purple hover:text-white border border-brand-purple/30 rounded-full transition-all font-black flex items-center gap-2 uppercase tracking-wider"
+                        className="px-4 py-2 text-[10px] bg-brand-purple/10 text-brand-purple hover:bg-brand-purple hover:text-white border border-brand-purple/30 rounded-full transition-all font-black flex items-center gap-2 uppercase tracking-wider"
                       >
-                        <Target className="w-3.5 h-3.5" />
+                        <Target className="w-3 h-3" />
                         Compartilhar Dossiê
                       </button>
                       <button
                         onClick={() => setAppState('input')}
-                        className="px-4 py-2 text-xs glass-btn hover:bg-slate-800 rounded-full transition-all font-black flex items-center gap-2 uppercase tracking-wider text-slate-400"
+                        className="px-4 py-2 text-[10px] glass-btn hover:bg-slate-800 rounded-full transition-all font-black flex items-center gap-2 uppercase tracking-wider text-slate-400"
                       >
                         Nova Extração
                       </button>
@@ -746,22 +746,22 @@ export default function DigitalPredatorScanner() {
                   </div>
 
                   {/* Menu de Abas (Tabs UI) */}
-                  <div className="flex flex-wrap md:flex-nowrap gap-2 bg-black/40 p-2 rounded-2xl border border-white/10 mb-6 overflow-x-auto custom-scrollbar">
+                  <div className="flex flex-wrap md:flex-nowrap gap-2 bg-black/40 p-2 rounded-2xl border border-white/10 mb-6 overflow-x-auto custom-scrollbar no-scrollbar-mobile">
                     {[
-                      { id: 'tracking', label: 'Tracking & Dados', icon: <Database className="w-4 h-4" /> },
+                      { id: 'tracking', label: 'Tracking', icon: <Database className="w-4 h-4" /> },
                       { id: 'performance', label: 'UX / SEO', icon: <Smartphone className="w-4 h-4" /> },
-                      { id: 'market', label: 'Pesquisa de Mercado', icon: <Search className="w-4 h-4" /> },
-                      { id: 'social', label: 'Mapeamento Social', icon: <Instagram className="w-4 h-4" /> },
-                      { id: 'gmb', label: 'Google Meu Negócio', icon: <MapPin className="w-4 h-4" /> },
-                      { id: 'keywords', label: 'Keywords & Ads', icon: <KeyRound className="w-4 h-4" /> },
-                      { id: 'cmo', label: 'Boss (Vendas)', icon: <Briefcase className="w-4 h-4" /> },
+                      { id: 'market', label: 'Pesquisa', icon: <Search className="w-4 h-4" /> },
+                      { id: 'social', label: 'Social', icon: <Instagram className="w-4 h-4" /> },
+                      { id: 'gmb', label: 'GMB', icon: <MapPin className="w-4 h-4" /> },
+                      { id: 'keywords', label: 'Keywords', icon: <KeyRound className="w-4 h-4" /> },
+                      { id: 'cmo', label: 'Boss', icon: <Briefcase className="w-4 h-4" /> },
                     ].map((tab) => (
                       <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
-                        className={`flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all whitespace-nowrap flex-1 justify-center ${activeTab === tab.id
-                          ? 'bg-brand-purple text-white shadow-lg shadow-brand-purple/20'
-                          : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                        className={`flex items-center gap-2 px-3 md:px-4 py-2.5 md:py-3 rounded-xl text-[10px] md:text-[11px] font-bold transition-all whitespace-nowrap flex-1 justify-center ${activeTab === tab.id
+                          ? (tab.id === 'performance' ? 'bg-fuchsia-600 text-white shadow-lg shadow-fuchsia-500/40 border border-fuchsia-400/50' : 'bg-brand-purple text-white shadow-lg shadow-brand-purple/20')
+                          : 'text-slate-400 hover:text-slate-200 hover:bg-white/5 border border-transparent'
                           }`}
                       >
                         {tab.icon} {tab.label}
@@ -807,7 +807,7 @@ export default function DigitalPredatorScanner() {
                         </div>
 
                         {/* New row: WhatsApp, Google Ads, Meta Ads */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                           <MetricCard
                             label="WhatsApp"
                             value={trackingSkill.findings.has_whatsapp_button ? '✓ DETECTADO' : '✕ AUSENTE'}
@@ -827,6 +827,13 @@ export default function DigitalPredatorScanner() {
                             value={trackingSkill.findings.has_meta_ads_signals ? '✓ CAMPANHA ATIVA' : 'SEM CAMPANHA'}
                             variant={trackingSkill.findings.has_meta_ads_signals ? "fuchsia" : "default"}
                             tooltip="Sinais de tráfego pago ativos no ecossistema Meta (Instagram/FB)."
+                          />
+                          <MetricCard
+                            label="API Conversão"
+                            value={trackingSkill.findings.has_capi ? 'V1 ATIVO' : 'SEM CAPI'}
+                            status={trackingSkill.findings.has_capi}
+                            variant="purple"
+                            tooltip="API de Conversão: Envio de dados direto do servidor. Indispensável após as mudanças de privacidade do iOS."
                           />
                         </div>
 
@@ -1018,147 +1025,170 @@ export default function DigitalPredatorScanner() {
                           </h3>
 
                           <div className="grid md:grid-cols-3 gap-6 mb-8">
-                            <div className="md:col-span-1 bg-black/40 p-5 rounded-2xl border border-white/5">
-                              <h4 className="text-xs font-black text-brand-purple mb-2 uppercase tracking-widest">Nicho Global Detectado</h4>
-                              <p className="text-slate-100 font-medium text-sm leading-relaxed mb-6">{marketSkill.findings.niche}</p>
+                            <div className="md:col-span-1 bg-black/40 p-5 rounded-2xl border border-white/5 space-y-6">
+                              <div>
+                                <h4 className="text-[10px] font-black text-indigo-400 mb-2 uppercase tracking-widest flex items-center gap-2">
+                                  <Shield className="w-3 h-3" /> Sumário Estratégico
+                                </h4>
+                                <p className="text-slate-300 text-xs leading-relaxed italic border-l-2 border-indigo-500/30 pl-3">
+                                  {marketSkill.findings.executive_summary_clevel || "Análise executiva indisponível."}
+                                </p>
+                              </div>
 
-                              <h4 className="text-xs font-black text-indigo-400 mb-2 uppercase tracking-widest">O Cliente Ideal Mapeado (ICP)</h4>
-                              <p className="text-slate-100 font-medium text-sm leading-relaxed">{marketSkill.findings.target_icp}</p>
+                              <div>
+                                <h4 className="text-xs font-black text-brand-purple mb-2 uppercase tracking-widest">Nicho Global Detectado</h4>
+                                <p className="text-slate-100 font-medium text-sm leading-relaxed">{marketSkill.findings.niche}</p>
+                              </div>
+
+                              <div>
+                                <h4 className="text-xs font-black text-indigo-400 mb-2 uppercase tracking-widest">O Cliente Ideal Mapeado (ICP)</h4>
+                                <p className="text-slate-100 font-medium text-sm leading-relaxed">{marketSkill.findings.target_icp}</p>
+                              </div>
                             </div>
 
                             <div className="md:col-span-2 space-y-4">
                               <h4 className="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2 mb-2 border-b border-white/10 pb-2"><Users className="w-4 h-4 text-blue-400" /> Raio-X do Cliente Final (ICP)</h4>
 
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="bg-black/40 p-4 rounded-2xl border border-blue-500/10">
+                                  <h5 className="text-xs font-black text-blue-400 mb-2 uppercase tracking-widest flex items-center gap-2"><ArrowRight className="w-3 h-3" /> Sonhos e Desejos do ICP</h5>
+                                  <ul className="space-y-1.5 text-slate-300 text-xs">
+                                    {(marketSkill.findings.sonhos_icp || marketSkill.findings.desejos_icp)?.map((dream: string, i: number) => (
+                                      <li key={i} className="flex gap-1.5 leading-snug">
+                                        <span className="text-blue-500 font-bold">★</span> {dream}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
                                 <div className="bg-black/40 p-4 rounded-2xl border border-red-500/10">
                                   <h5 className="text-xs font-black text-red-400 mb-2 uppercase tracking-widest flex items-center gap-2"><Target className="w-3 h-3" /> Dores do Cliente Ideal</h5>
                                   <ul className="space-y-1.5 text-slate-300 text-xs">
-                                    {marketSkill.findings.dores_icp?.map((pain: string, i: number) => (
+                                    {(marketSkill.findings.dores_icp || marketSkill.findings.pains_icp)?.map((pain: string, i: number) => (
                                       <li key={i} className="flex gap-1.5 leading-snug">
                                         <span className="text-red-500 font-bold">✕</span> {pain}
                                       </li>
                                     ))}
                                   </ul>
                                 </div>
-
-                                <div className="bg-gradient-to-r from-orange-500/10 to-transparent p-4 rounded-2xl border border-orange-500/20">
-                                  <h5 className="text-xs font-black text-orange-400 mb-2 uppercase tracking-widest flex items-center gap-2"><ArrowRight className="w-3 h-3" /> Objeções Comuns do ICP</h5>
-                                  <ul className="space-y-1.5 text-slate-200 text-xs font-medium">
-                                    {marketSkill.findings.objecoes_icp?.map((arg: string, i: number) => (
-                                      <li key={i} className="flex gap-1.5 leading-snug">
-                                        <span className="text-orange-400 font-bold">⚠</span> {arg}
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
-
-                                <div className="md:col-span-2 bg-gradient-to-r from-spring-green-400/10 to-transparent p-4 rounded-2xl border border-spring-green-400/20">
-                                  <h5 className="text-xs font-black text-spring-green-400 mb-2 uppercase tracking-widest flex items-center gap-2"><Star className="w-3 h-3" /> Sonhos e Desejos do ICP</h5>
-                                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-slate-200 text-xs font-medium">
-                                    {marketSkill.findings.sonhos_icp?.map((arg: string, i: number) => (
-                                      <li key={i} className="flex gap-1.5 leading-snug">
-                                        <span className="text-spring-green-400 font-bold">⭐</span> {arg}
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
                               </div>
 
-                              <h4 className="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2 mt-6 mb-2 border-b border-white/10 pb-2"><Building2 className="w-4 h-4 text-brand-purple" /> Desafios da Emrpesa e Marketing</h4>
-
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="bg-red-950/20 p-4 rounded-2xl border border-red-500/20">
-                                  <h5 className="text-xs font-black text-red-400 mb-2 uppercase tracking-widest flex items-center gap-2"><AlertTriangle className="w-3 h-3" /> Gargalos de Vendas</h5>
-                                  <ul className="space-y-1.5 text-slate-300 text-xs">
-                                    {marketSkill.findings.dores_empresa_marketing?.map((pain: string, i: number) => (
-                                      <li key={i} className="flex gap-1.5 leading-snug">
-                                        <span className="text-red-500 font-bold">❗</span> {pain}
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
-                                <div className="bg-indigo-950/20 p-4 rounded-2xl border border-indigo-500/20">
-                                  <h5 className="text-xs font-black text-indigo-400 mb-2 uppercase tracking-widest flex items-center gap-2"><Target className="w-3 h-3" /> Desempenho e Aquisição</h5>
-                                  <ul className="space-y-1.5 text-slate-300 text-xs">
-                                    {marketSkill.findings.desafios_empresa_marketing?.map((pain: string, i: number) => (
-                                      <li key={i} className="flex gap-1.5 leading-snug">
-                                        <span className="text-indigo-400 font-bold">→</span> {pain}
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
+                              <div className="bg-gradient-to-r from-orange-500/10 to-transparent p-4 rounded-2xl border border-orange-500/20">
+                                <h5 className="text-xs font-black text-orange-400 mb-2 uppercase tracking-widest flex items-center gap-2"><ArrowRight className="w-3 h-3" /> Objeções Comuns do ICP</h5>
+                                <ul className="space-y-1.5 text-slate-200 text-xs font-medium">
+                                  {marketSkill.findings.objecoes_icp?.map((arg: string, i: number) => (
+                                    <li key={i} className="flex gap-1.5 leading-snug">
+                                      <span className="text-orange-400 font-bold">⚠</span> {arg}
+                                    </li>
+                                  ))}
+                                </ul>
                               </div>
 
-                              <div className="bg-gradient-to-r from-brand-purple/10 to-transparent p-5 rounded-2xl border border-brand-purple/20">
-                                <h4 className="text-xs font-black text-brand-purple mb-3 uppercase tracking-widest flex items-center gap-2"><Activity className="w-3 h-3" /> Brechas de Diferenciação</h4>
-                                <ul className="space-y-2 text-slate-200 text-sm font-medium">
-                                  {marketSkill.findings.brechas_diferenciacao?.map((arg: string, i: number) => (
-                                    <li key={i} className="flex gap-2">
-                                      <span className="text-brand-purple font-bold">✓</span> {arg}
+                              <div className="md:col-span-2 bg-gradient-to-r from-spring-green-400/10 to-transparent p-4 rounded-2xl border border-spring-green-400/20">
+                                <h5 className="text-xs font-black text-spring-green-400 mb-2 uppercase tracking-widest flex items-center gap-2"><Star className="w-3 h-3" /> Sonhos e Desejos do ICP</h5>
+                                <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-slate-200 text-xs font-medium">
+                                  {marketSkill.findings.sonhos_icp?.map((arg: string, i: number) => (
+                                    <li key={i} className="flex gap-1.5 leading-snug">
+                                      <span className="text-spring-green-400 font-bold">⭐</span> {arg}
                                     </li>
                                   ))}
                                 </ul>
                               </div>
                             </div>
-                          </div>
 
-                          {/* Benchmarks Section */}
-                          {marketSkill.findings.competitor_benchmarks && marketSkill.findings.competitor_benchmarks.length > 0 && (
-                            <div className="mt-2 pt-6 border-t border-white/10">
-                              <h4 className="text-sm font-black text-white mb-4 uppercase tracking-wider flex items-center gap-2"><Activity className="w-4 h-4 text-spring-green-400" /> Gigantes do Mercado (Benchmarks Referência)</h4>
-                              <div className="grid md:grid-cols-3 gap-4">
-                                {marketSkill.findings.competitor_benchmarks.map((bench: string, i: number) => (
-                                  <div key={i} className="bg-white/5 rounded-xl p-4 border border-white/5 hover:bg-white/10 transition-colors">
-                                    <p className="text-sm text-slate-300 leading-relaxed">{bench}</p>
-                                  </div>
-                                ))}
+                            <h4 className="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2 mt-6 mb-2 border-b border-white/10 pb-2"><Building2 className="w-4 h-4 text-brand-purple" /> Desafios da Emrpesa e Marketing</h4>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div className="bg-red-950/20 p-4 rounded-2xl border border-red-500/20">
+                                <h5 className="text-xs font-black text-red-400 mb-2 uppercase tracking-widest flex items-center gap-2"><AlertTriangle className="w-3 h-3" /> Gargalos de Vendas</h5>
+                                <ul className="space-y-1.5 text-slate-300 text-xs">
+                                  {marketSkill.findings.dores_empresa_marketing?.map((pain: string, i: number) => (
+                                    <li key={i} className="flex gap-1.5 leading-snug">
+                                      <span className="text-red-500 font-bold">❗</span> {pain}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                              <div className="bg-indigo-950/20 p-4 rounded-2xl border border-indigo-500/20">
+                                <h5 className="text-xs font-black text-indigo-400 mb-2 uppercase tracking-widest flex items-center gap-2"><Target className="w-3 h-3" /> Desempenho e Aquisição</h5>
+                                <ul className="space-y-1.5 text-slate-300 text-xs">
+                                  {marketSkill.findings.desafios_empresa_marketing?.map((pain: string, i: number) => (
+                                    <li key={i} className="flex gap-1.5 leading-snug">
+                                      <span className="text-indigo-400 font-bold">→</span> {pain}
+                                    </li>
+                                  ))}
+                                </ul>
                               </div>
                             </div>
-                          )}
 
-                          {/* Deep Research absorbed here */}
-                          {marketSkill.findings.deep_research_markdown && (
-                            <div className="mt-6 pt-6 border-t border-orange-500/20">
-                              <details className="group">
-                                <summary className="cursor-pointer flex items-center gap-3 mb-4 hover:opacity-80 transition-opacity">
-                                  <Shield className="w-5 h-5 text-orange-400" />
-                                  <span className="text-lg font-bold text-orange-300">Dossiê de Inteligência Corporativa (Deep Research)</span>
-                                  <span className="text-xs text-slate-500 ml-auto group-open:hidden">Clique para expandir ▸</span>
-                                  <span className="text-xs text-slate-500 ml-auto hidden group-open:inline">Clique para fechar ▾</span>
-                                </summary>
-                                <div className="prose prose-invert prose-orange max-w-none text-slate-300 leading-relaxed space-y-4 text-sm bg-[#0B0F19]/50 p-6 rounded-xl border border-white/5 whitespace-pre-wrap custom-scrollbar overflow-y-auto max-h-[60vh]">
-                                  {marketSkill.findings.deep_research_markdown.split('\n').map((line: string, i: number) => {
-                                    if (line.trim().match(/^#{1,3}\s/)) {
-                                      const level = line.match(/^#+/)?.[0].length;
-                                      const text = line.replace(/^#+\s/, '');
-                                      if (level === 1) return <h1 key={i} className="text-2xl font-black text-white mt-8 mb-3 pb-2 border-b border-white/10">{text.replace(/\*\*/g, '')}</h1>;
-                                      if (level === 2) return <h2 key={i} className="text-xl font-bold text-orange-400 mt-6 mb-3 border-l-4 border-orange-500 pl-3">{text.replace(/\*\*/g, '')}</h2>;
-                                      return <h3 key={i} className="text-lg font-bold text-amber-200 mt-5 mb-2">{text.replace(/\*\*/g, '')}</h3>;
-                                    }
-                                    if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
-                                      const text = line.replace(/^[-*]\s/, '');
-                                      const formattedText = text.split(/(\*\*.*?\*\*)/).map((part, idx) => {
-                                        if (part.startsWith('**') && part.endsWith('**')) return <strong key={idx} className="text-white font-bold">{part.slice(2, -2)}</strong>;
-                                        return part;
-                                      });
-                                      return <li key={i} className="ml-4 mb-2 list-disc marker:text-orange-500 text-slate-300">{formattedText}</li>;
-                                    }
-                                    if (line.includes('**')) {
-                                      const formattedText = line.split(/(\*\*.*?\*\*)/).map((part, idx) => {
-                                        if (part.startsWith('**') && part.endsWith('**')) return <strong key={idx} className="text-white font-bold">{part.slice(2, -2)}</strong>;
-                                        return part;
-                                      });
-                                      return <p key={i} className="mb-3 font-medium">{formattedText}</p>;
-                                    }
-                                    if (line.trim() === '') return <br key={i} />;
-                                    return <p key={i} className="mb-3 font-medium">{line}</p>;
-                                  })}
-                                </div>
-                              </details>
+                            <div className="bg-gradient-to-r from-brand-purple/10 to-transparent p-5 rounded-2xl border border-brand-purple/20">
+                              <h4 className="text-xs font-black text-brand-purple mb-3 uppercase tracking-widest flex items-center gap-2"><Activity className="w-3 h-3" /> Brechas de Diferenciação</h4>
+                              <ul className="space-y-2 text-slate-200 text-sm font-medium">
+                                {marketSkill.findings.brechas_diferenciacao?.map((arg: string, i: number) => (
+                                  <li key={i} className="flex gap-2">
+                                    <span className="text-brand-purple font-bold">✓</span> {arg}
+                                  </li>
+                                ))}
+                              </ul>
                             </div>
-                          )}
-
+                          </div>
                         </div>
+
+                        {/* Benchmarks Section */}
+                        {marketSkill.findings.competitor_benchmarks && marketSkill.findings.competitor_benchmarks.length > 0 && (
+                          <div className="mt-2 pt-6 border-t border-white/10">
+                            <h4 className="text-sm font-black text-white mb-4 uppercase tracking-wider flex items-center gap-2"><Activity className="w-4 h-4 text-spring-green-400" /> Gigantes do Mercado (Benchmarks Referência)</h4>
+                            <div className="grid md:grid-cols-3 gap-4">
+                              {marketSkill.findings.competitor_benchmarks.map((bench: string, i: number) => (
+                                <div key={i} className="bg-white/5 rounded-xl p-4 border border-white/5 hover:bg-white/10 transition-colors">
+                                  <p className="text-sm text-slate-300 leading-relaxed">{bench}</p>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Deep Research absorbed here */}
+                        {marketSkill.findings.deep_research_markdown && (
+                          <div className="mt-6 pt-6 border-t border-orange-500/20">
+                            <details className="group">
+                              <summary className="cursor-pointer flex items-center gap-3 mb-4 hover:opacity-80 transition-opacity">
+                                <Shield className="w-5 h-5 text-orange-400" />
+                                <span className="text-lg font-bold text-orange-300">Dossiê de Inteligência Corporativa (Deep Research)</span>
+                                <span className="text-xs text-slate-500 ml-auto group-open:hidden">Clique para expandir ▸</span>
+                                <span className="text-xs text-slate-500 ml-auto hidden group-open:inline">Clique para fechar ▾</span>
+                              </summary>
+                              <div className="prose prose-invert prose-orange max-w-none text-slate-300 leading-relaxed space-y-4 text-sm bg-[#0B0F19]/50 p-6 rounded-xl border border-white/5 whitespace-pre-wrap custom-scrollbar overflow-y-auto max-h-[60vh]">
+                                {marketSkill.findings.deep_research_markdown.split('\n').map((line: string, i: number) => {
+                                  if (line.trim().match(/^#{1,3}\s/)) {
+                                    const level = line.match(/^#+/)?.[0].length;
+                                    const text = line.replace(/^#+\s/, '');
+                                    if (level === 1) return <h1 key={i} className="text-2xl font-black text-white mt-8 mb-3 pb-2 border-b border-white/10">{text.replace(/\*\*/g, '')}</h1>;
+                                    if (level === 2) return <h2 key={i} className="text-xl font-bold text-orange-400 mt-6 mb-3 border-l-4 border-orange-500 pl-3">{text.replace(/\*\*/g, '')}</h2>;
+                                    return <h3 key={i} className="text-lg font-bold text-amber-200 mt-5 mb-2">{text.replace(/\*\*/g, '')}</h3>;
+                                  }
+                                  if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
+                                    const text = line.replace(/^[-*]\s/, '');
+                                    const formattedText = text.split(/(\*\*.*?\*\*)/).map((part, idx) => {
+                                      if (part.startsWith('**') && part.endsWith('**')) return <strong key={idx} className="text-white font-bold">{part.slice(2, -2)}</strong>;
+                                      return part;
+                                    });
+                                    return <li key={i} className="ml-4 mb-2 list-disc marker:text-orange-500 text-slate-300">{formattedText}</li>;
+                                  }
+                                  if (line.includes('**')) {
+                                    const formattedText = line.split(/(\*\*.*?\*\*)/).map((part, idx) => {
+                                      if (part.startsWith('**') && part.endsWith('**')) return <strong key={idx} className="text-white font-bold">{part.slice(2, -2)}</strong>;
+                                      return part;
+                                    });
+                                    return <p key={i} className="mb-3 font-medium">{formattedText}</p>;
+                                  }
+                                  if (line.trim() === '') return <br key={i} />;
+                                  return <p key={i} className="mb-3 font-medium">{line}</p>;
+                                })}
+                              </div>
+                            </details>
+                          </div>
+                        )}
+
                       </div>
                     )}
 
@@ -1170,31 +1200,35 @@ export default function DigitalPredatorScanner() {
                           {getScoreBadge(socialSkill.score)}
                         </h3>
 
-                        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
-                          <div className="bg-black/20 p-4 rounded-2xl border border-white/5 text-center flex flex-col justify-center">
-                            <p className="text-slate-400 text-xs uppercase mb-1 font-semibold tracking-wider">Base Endossada</p>
-                            <p className="text-2xl font-black text-slate-50">{socialSkill.findings.followers ?? '???'}</p>
-                          </div>
-                          <div className="bg-black/20 p-4 rounded-2xl border border-white/5 text-center flex flex-col justify-center">
-                            <p className="text-slate-400 text-xs uppercase mb-1 font-semibold tracking-wider">Acervo Visual</p>
-                            <p className="text-2xl font-black text-slate-50">{socialSkill.findings.posts_count ?? '???'}</p>
-                          </div>
-                          <div className="bg-black/20 p-4 rounded-2xl border border-white/5 text-center flex flex-col justify-center">
-                            <p className="text-slate-400 text-xs uppercase mb-1 font-semibold tracking-wider">Motor Inbound</p>
-                            <p className={`text-xl font-black ${socialSkill.findings.bio_has_link ? 'text-spring-green-400' : 'text-red-400'}`}>
-                              {socialSkill.findings.bio_has_link ? 'BIO COM LINK' : 'SEM ROTA DE FUGA'}
-                            </p>
-                          </div>
-                          <div className="bg-brand-purple/10 p-4 rounded-2xl border border-brand-purple/20 text-center flex flex-col justify-center">
-                            <p className="text-brand-purple text-xs uppercase mb-1 font-bold tracking-wider">Engajamento IA</p>
-                            <p className="text-lg font-black text-white">{socialSkill.findings.engagement_estimate ?? socialSkill.score}</p>
-                          </div>
-                          <div className={`p-4 rounded-2xl border text-center flex flex-col justify-center md:col-span-1 col-span-2 ${socialSkill.findings.is_profile_selling ? 'bg-spring-green-900/20 border-spring-green-500/30' : 'bg-red-900/20 border-red-500/30'}`}>
-                            <p className="text-xs uppercase mb-1 font-bold tracking-wider text-white">O Perfil Vende?</p>
-                            <p className={`text-lg font-black ${socialSkill.findings.is_profile_selling ? 'text-spring-green-400' : 'text-red-400'}`}>
-                              {socialSkill.findings.is_profile_selling ? 'SIM (CONVERSÃO)' : 'NÃO VENDÁVEL'}
-                            </p>
-                          </div>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                          <MetricCard
+                            label="Base Endossada"
+                            value={socialSkill.findings.followers ?? '???'}
+                            tooltip="Volume de seguidores: Representa o alcance potencial direto e a prova social imediata do perfil."
+                          />
+                          <MetricCard
+                            label="Acervo Visual"
+                            value={socialSkill.findings.posts_count ?? '???'}
+                            tooltip="Total de publicações: Indica a consistência histórica e o volume de conteúdo disponível para o público."
+                          />
+                          <MetricCard
+                            label="Motor Inbound"
+                            value={socialSkill.findings.bio_has_link ? 'BIO COM LINK' : 'SEM ROTA DE FUGA'}
+                            status={socialSkill.findings.bio_has_link}
+                            tooltip="Presença de link na bio: O canal crítico para transformar seguidores em leads ou clientes."
+                          />
+                          <MetricCard
+                            label="Engajamento IA"
+                            value={socialSkill.findings.engagement_estimate ?? socialSkill.score}
+                            variant="purple"
+                            tooltip="Estimativa de engajamento: Análise da IA sobre a taxa de interação e relevância do conteúdo postado."
+                          />
+                          <MetricCard
+                            label="O Perfil Vende?"
+                            value={socialSkill.findings.is_profile_selling ? 'SIM (CONVERSÃO)' : 'NÃO VENDÁVEL'}
+                            status={socialSkill.findings.is_profile_selling}
+                            tooltip="Análise de potencial de venda: O perfil possui elementos claros de conversão e oferta?"
+                          />
                         </div>
 
                         {/* Veredito de IA (Gemini/OpenAI) Estratégico Diário */}
@@ -1432,23 +1466,30 @@ export default function DigitalPredatorScanner() {
                         </h3>
 
                         {/* KPIs Row */}
-                        <div className="flex flex-wrap gap-4 mb-6">
-                          <div className="bg-emerald-950/20 px-4 py-3 rounded-lg border border-emerald-500/20 flex-1 min-w-[140px] text-center">
-                            <p className="text-xs text-emerald-400 uppercase font-bold tracking-widest mb-1">Autoridade/Estrelas</p>
-                            <p className="text-2xl font-black text-white">{gmbSkill.findings.estimated_rating}</p>
-                          </div>
-                          <div className="bg-emerald-950/20 px-4 py-3 rounded-lg border border-emerald-500/20 flex-1 min-w-[140px] text-center">
-                            <p className="text-xs text-emerald-400 uppercase font-bold tracking-widest mb-1">Total de Avaliações</p>
-                            <p className="text-2xl font-black text-white">{gmbSkill.findings.reviews_volume}</p>
-                          </div>
-                          <div className="bg-emerald-950/20 px-4 py-3 rounded-lg border border-emerald-500/20 flex-1 min-w-[140px] text-center">
-                            <p className="text-xs text-emerald-400 uppercase font-bold tracking-widest mb-1">Fotos na Ficha</p>
-                            <p className={`text-2xl font-black ${(gmbSkill.findings.photos_count || 0) >= 20 ? 'text-emerald-400' : 'text-orange-400'}`}>{gmbSkill.findings.photos_count || 0}</p>
-                          </div>
-                          <div className="bg-emerald-950/20 px-4 py-3 rounded-lg border border-emerald-500/20 flex-1 min-w-[140px] text-center">
-                            <p className="text-xs text-emerald-400 uppercase font-bold tracking-widest mb-1">Eficácia da Ficha</p>
-                            <p className={`text-2xl font-black ${(gmbSkill.findings.profile_effectiveness_pct || 0) >= 80 ? 'text-emerald-400' : (gmbSkill.findings.profile_effectiveness_pct || 0) >= 50 ? 'text-orange-400' : 'text-red-400'}`}>{gmbSkill.findings.profile_effectiveness_pct || 0}%</p>
-                          </div>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                          <MetricCard
+                            label="Autoridade"
+                            value={gmbSkill.findings.estimated_rating}
+                            variant="success"
+                            tooltip="Nota média de estrelas: O principal fator de confiança para clientes que buscam localmente."
+                          />
+                          <MetricCard
+                            label="Avaliações"
+                            value={gmbSkill.findings.reviews_volume}
+                            tooltip="Quantidade total de reviews: Mais avaliações aumentam a relevância orgânica no Google Maps."
+                          />
+                          <MetricCard
+                            label="Acervo Fotos"
+                            value={gmbSkill.findings.photos_count || 0}
+                            variant={(gmbSkill.findings.photos_count || 0) >= 20 ? "success" : "warning"}
+                            tooltip="Quantidade de fotos: Fichas com mais de 20 fotos recebem consideravelmente mais cliques."
+                          />
+                          <MetricCard
+                            label="Eficácia Ficha"
+                            value={`${gmbSkill.findings.profile_effectiveness_pct || 0}%`}
+                            status={(gmbSkill.findings.profile_effectiveness_pct || 0) >= 80}
+                            tooltip="Grooway Health Score: O quanto sua ficha está otimizada para dominar as buscas locais."
+                          />
                         </div>
 
                         {/* Efficiency Breakdown Checklist */}
@@ -1612,22 +1653,29 @@ export default function DigitalPredatorScanner() {
 
                         {/* KPIs */}
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                          <div className="bg-black/40 p-4 rounded-xl border border-blue-500/20 text-center">
-                            <p className="text-xs uppercase font-bold text-blue-400 mb-1 tracking-widest">Variações Pesquisadas</p>
-                            <p className="text-xl font-black text-white">{keywordSkill.findings.keywords_analyzed?.length || 0}</p>
-                          </div>
-                          <div className="bg-black/40 p-4 rounded-xl border border-blue-500/20 text-center">
-                            <p className="text-xs uppercase font-bold text-blue-400 mb-1 tracking-widest">Termos Relacionados</p>
-                            <p className="text-xl font-black text-white">{keywordSkill.findings.related_queries?.length || 0}</p>
-                          </div>
-                          <div className="bg-black/40 p-4 rounded-xl border border-blue-500/20 text-center">
-                            <p className="text-xs uppercase font-bold text-blue-400 mb-1 tracking-widest">Concorrência Paga</p>
-                            <p className="text-xl font-black text-white">{keywordSkill.findings.paid_competition_map?.reduce((sum: number, p: any) => sum + (p.paid_count || 0), 0) || 0} ads</p>
-                          </div>
-                          <div className="bg-black/40 p-4 rounded-xl border border-blue-500/20 text-center">
-                            <p className="text-xs uppercase font-bold text-blue-400 mb-1 tracking-widest">Status</p>
-                            <p className={`text-sm font-black ${keywordSkill.findings.strategic_readiness?.includes('Dominação') ? 'text-emerald-400' : 'text-orange-400'}`}>{keywordSkill.findings.strategic_readiness || 'Analisando'}</p>
-                          </div>
+                          <MetricCard
+                            label="Variações"
+                            value={keywordSkill.findings.keywords_analyzed?.length || 0}
+                            variant="blue"
+                            tooltip="Variações de busca: Quantidade de termos diferentes analisados pela nossa IA na sua região."
+                          />
+                          <MetricCard
+                            label="Relacionados"
+                            value={keywordSkill.findings.related_queries?.length || 0}
+                            tooltip="Termos relacionados: Oportunidades latentes de busca que seu site pode explorar."
+                          />
+                          <MetricCard
+                            label="Concorrência Paga"
+                            value={`${keywordSkill.findings.paid_competition_map?.reduce((sum: number, p: any) => sum + (p.paid_count || 0), 0) || 0} ads`}
+                            variant="warning"
+                            tooltip="Anúncios ativos: Indica o volume de concorrentes pagando para aparecer nos mesmos termos que você."
+                          />
+                          <MetricCard
+                            label="Status"
+                            value={keywordSkill.findings.strategic_readiness || 'Analisando'}
+                            status={keywordSkill.findings.strategic_readiness?.includes('Dominação')}
+                            tooltip="Maturidade estratégica: O quanto sua empresa está pronta para dominar o topo das buscas."
+                          />
                         </div>
 
                         {/* TOP 10 KEYWORDS TABLE */}
