@@ -28,7 +28,7 @@ export async function runPythonOrchestrator(params: PredatorParams): Promise<Pyt
     try {
         // Definimos o path absoluto para a pasta do agente Python
         // No ambiente local, assumimos que 'performance_agent' está um nível acima da pasta do next
-        const agentDir = path.resolve(process.cwd(), "../performance_agent");
+        const agentDir = path.resolve(process.cwd(), "python_agent");
 
         // Comando para ativar o venv e rodar o main.py
         // Usamos o python3 direto do venv para garantir que as libs estejam lá

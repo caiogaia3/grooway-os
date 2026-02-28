@@ -1,0 +1,176 @@
+{
+    "agency_name": "Grooway",
+    "services": [
+        {
+            "id": "gmb_elite",
+            "name": "GMB Elite",
+            "description": "Gestão e Otimização estratégica do Google Meu Negócio para dominância local.",
+            "pains_solved": [
+                "Perfil GMB incompleto",
+                "Falta de fotos",
+                "Baixa interação em avaliações",
+                "Não aparece no Google Maps",
+                "Concorrência local mais forte"
+            ],
+            "benefits": [
+                "Aumento de chamadas",
+                "Mais rotas no Maps",
+                "Destaque visual na busca local"
+            ],
+            "target_industry": [
+                "Local Business",
+                "Services",
+                "Commerce"
+            ]
+        },
+        {
+            "id": "trafego_pago_sniper",
+            "name": "Tráfego Pago Sniper",
+            "description": "Gestão de Google Ads e Meta Ads focada em conversão e ROI imediato.",
+            "pains_solved": [
+                "Poucos leads",
+                "Vendas estagnadas",
+                "Investimento em anúncios sem retorno",
+                "Site sem visitas qualificadas"
+            ],
+            "benefits": [
+                "Leads prontos para comprar",
+                "Escalabilidade de vendas",
+                "Métricas claras de retorno"
+            ],
+            "target_industry": [
+                "All"
+            ]
+        },
+        {
+            "id": "seo_authority",
+            "name": "SEO Authority (Blog Automato)",
+            "description": "Ranqueamento orgânico de longo prazo com criação de conteúdo automático via Blog Automato.",
+            "pains_solved": [
+                "Dependência de anúncios pagos",
+                "Baixa autoridade no Google",
+                "Não é encontrado organicamente",
+                "Falta de conteúdo relevante no site"
+            ],
+            "benefits": [
+                "Tráfego gratuito e constante",
+                "Autoridade de marca",
+                "Redução de custo de aquisição (CAC)"
+            ],
+            "target_industry": [
+                "All"
+            ]
+        },
+        {
+            "id": "lp_conversao",
+            "name": "Landing Pages de Conversão",
+            "description": "Criação de páginas focadas 100% em transformar visitantes em clientes.",
+            "pains_solved": [
+                "Site confuso",
+                "Visitantes entram mas não compram",
+                "Falta de Call to Action (CTA)",
+                "Site lento ou não mobile-friendly"
+            ],
+            "benefits": [
+                "Aumento imediato na taxa de conversão",
+                "Melhor ROI em anúncios",
+                "Design premium e persuasivo"
+            ],
+            "target_industry": [
+                "All"
+            ]
+        },
+        {
+            "id": "automacao_processos",
+            "name": "Automação de Processos",
+            "description": "Criação de fluxos automáticos para ganhar tempo e escala dentro da empresa.",
+            "pains_solved": [
+                "Processos manuais lentos",
+                "Perda de leads por demora no contato",
+                "Equipe sobrecarregada com tarefas repetitivas"
+            ],
+            "benefits": [
+                "Eficiência operacional",
+                "Redução de erros humanos",
+                "Atendimento ultra-rápido"
+            ],
+            "target_industry": [
+                "All"
+            ]
+        },
+        {
+            "id": "videos_ia_influencers",
+            "name": "Vídeos com Influencers IA",
+            "description": "Criação de vídeos promocionais usando avatares de IA realistas para divulgar produtos e serviços.",
+            "pains_solved": [
+                "Custos altos com estúdio e atores",
+                "Dificuldade em criar conteúdo em vídeo constante",
+                "Baixo engajamento nas redes sociais"
+            ],
+            "benefits": [
+                "Conteúdo de vídeo em escala",
+                "Custo-benefício imbatível",
+                "Inovação tecnológica que atrai atenção"
+            ],
+            "target_industry": [
+                "All"
+            ]
+        },
+        {
+            "id": "fotos_ia_profissional",
+            "name": "Ensaio Fotográfico Profissional IA",
+            "description": "Produção de fotos profissionais de alta qualidade usando inteligência artificial.",
+            "pains_solved": [
+                "Fotos de baixa qualidade no site/redes",
+                "Logística complexa para ensaios presenciais",
+                "Marca com aparência amadora"
+            ],
+            "benefits": [
+                "Imagem de marca premium",
+                "Praticidade total",
+                "Versatilidade de cenários e estilos"
+            ],
+            "target_industry": [
+                "All"
+            ]
+        },
+        {
+            "id": "vfx_imobiliario",
+            "name": "Vídeos VFX de Impacto",
+            "description": "Vídeos com efeitos visuais avançados (VFX) para o setor imobiliário e construção.",
+            "pains_solved": [
+                "Imobiliário parece 'mais do mesmo'",
+                "Dificuldade em mostrar diferenciais de arquitetura",
+                "Baixo impacto visual em anúncios de imóveis"
+            ],
+            "benefits": [
+                "Diferenciação absoluta no mercado",
+                "WOW effect imediato",
+                "Valorização do imóvel/projeto"
+            ],
+            "target_industry": [
+                "Real Estate",
+                "Architects",
+                "Construction"
+            ]
+        },
+        {
+            "id": "analise_performance_digital",
+            "name": "Análise de Performance Digital",
+            "description": "Diagnóstico profundo e consultoria sobre a saúde digital do negócio.",
+            "pains_solved": [
+                "Empresário está 'cego' sobre seu digital",
+                "Não sabe por onde começar a melhorar",
+                "Resultados caindo sem explicação clara"
+            ],
+            "benefits": [
+                "Clareza estratégica",
+                "Plano de ação baseado em dados",
+                "Segurança na tomada de decisão"
+            ],
+            "target_industry": [
+                "All"
+            ]
+        }
+    ]
+}

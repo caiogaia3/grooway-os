@@ -37,8 +37,12 @@ export default function LoginPage() {
                 const form = document.getElementById('login-form') as HTMLFormElement
                 if (form) form.reset()
             }
-        } catch {
-            // redirect throws — this is expected on success
+        } catch (err: any) {
+            // Se for um erro de redirect do Next.js, ele deve ser relançado para que o Next trate
+            if (err.digest?.startsWith('NEXT_REDIRECT')) {
+                throw err;
+            }
+            setError('Ocorreu um erro inesperado. Tente novamente.')
         } finally {
             setLoading(false)
         }
