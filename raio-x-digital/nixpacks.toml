@@ -3,11 +3,6 @@ nixPkgs = ["nodejs_20", "python311", "gcc"]
 
 [phases.install]
 cmds = [
-    # Debug: List all files to find "ghost" files
-    "echo '--- PROJECT ROOT CONTENT ---' && ls -R . | grep -v 'node_modules' | grep -v '.next' | head -n 100",
-    # Final cleanup of possible conflicts
-    "find . -name 'proxy.ts' -delete",
-    "rm -f src/proxy.ts proxy.ts",
     "npm install",
     "python3 -m venv python_agent/venv",
     "python_agent/venv/bin/pip install -r python_agent/requirements.txt"
