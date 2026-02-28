@@ -1,0 +1,5 @@
+[phases.setup]
+nixPkgs = ["...", "python311", "gcc"]
+
+[phases.install]
+cmds = ["npm install", "python3 -m venv python_agent/venv", "python_agent/venv/bin/pip install -r python_agent/requirements.txt"]
