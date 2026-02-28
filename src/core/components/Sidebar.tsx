@@ -8,11 +8,11 @@ const navItems = [
     { href: "/dashboard", label: "Painel", icon: LayoutDashboard },
     { href: "/leads", label: "Leads", icon: Users },
     { href: "/hub", label: "HUB", icon: Zap },
-    { href: "/auditor", label: "CRM", icon: Briefcase },
-    { href: "/leads", label: "Clientes", icon: Contact },
+    { href: "/crm", label: "CRM", icon: Briefcase },
+    { href: "/crm", label: "Clientes", icon: Contact },
     { href: "/financeiro", label: "Financeiro", icon: DollarSign },
     { href: "/analytics", label: "Analytics", icon: BarChart3 },
-    { href: "#automacoes", label: "Automações", icon: Workflow },
+    { href: "/automacoes", label: "Automações", icon: Workflow },
 ];
 
 export function Sidebar() {
@@ -69,6 +69,19 @@ export function Sidebar() {
                     <LogOut className="w-5 h-5" />
                     <span className="hidden md:inline text-[11px] font-black uppercase tracking-widest">Sair</span>
                 </button>
+            </div>
+
+            {/* AI Status Small Widget */}
+            <div className="hidden md:block p-6 mt-auto">
+                <div className="p-4 rounded-[20px] bg-white/[0.02] border border-white/5 space-y-3">
+                    <div className="flex items-center justify-between">
+                        <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest">IA STATUS</span>
+                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_5px_rgba(52,211,153,0.5)] animate-pulse" />
+                    </div>
+                    <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                        <div className="h-full w-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.4)]" />
+                    </div>
+                </div>
             </div>
         </aside>
     );

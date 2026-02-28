@@ -1,125 +1,162 @@
 "use client";
 
 import React from 'react';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ScanSearch, FilePlus, Database, ArrowRight, Zap } from 'lucide-react';
+import {
+    Activity,
+    Target,
+    Zap,
+    TrendingUp,
+    Database,
+    Brain,
+    ShieldCheck,
+    ArrowUpRight,
+    CircleDashed,
+    Sparkles
+} from 'lucide-react';
 
-const hubFeatures = [
-    {
-        id: 'auditor',
-        title: 'Auditor de Presença',
-        description: 'Análise completa de presença digital, SEO, GMB e redes sociais com IA.',
-        icon: ScanSearch,
-        href: '/auditor',
-        color: 'from-purple-500 to-indigo-600',
-        active: true
-    },
-    {
-        id: 'proposals',
-        title: 'Gerador de Propostas',
-        description: 'Crie propostas comerciais industriais de alto impacto em segundos.',
-        icon: FilePlus,
-        href: '/proposals/new',
-        color: 'from-blue-500 to-cyan-600',
-        active: true
-    },
-    {
-        id: 'scraper',
-        title: 'Scraper B2B Leads',
-        description: 'Extração inteligente de leads B2B baseada em perfis ideais de clientes.',
-        icon: Database,
-        href: '/scraper',
-        color: 'from-slate-700 to-slate-800',
-        active: true,
-        comingSoon: false
-    }
+const STATUS_TOOLS = [
+    { id: 'decoder', name: 'DECODER', utilization: 84, status: 'ATIVA', color: 'text-[#A855F7]', icon: Target },
+    { id: 'compiler', name: 'COMPILER', utilization: 62, status: 'ATIVA', color: 'text-cyan', icon: Sparkles },
+    { id: 'crawler', name: 'CRAWLER', utilization: 95, status: 'ATIVA', color: 'text-brand-purple', icon: Activity },
 ];
 
-export default function HubPage() {
+const METRICS = [
+    { label: 'Taxa de Conversão Hub', value: '24.8%', change: '+3.2% ESTE MÊS', color: 'text-cyan' },
+    { label: 'Volume de Dados Processados', value: '1.2M', change: 'RECORD BREAKING', color: 'text-[#A855F7]' },
+    { label: 'ROI Estratégico Médio', value: '18X', change: 'AUDITORIA OK', color: 'text-white' },
+];
+
+const GAPS = [
+    { label: 'Presença Digital', progress: 75, color: 'bg-[#A855F7]' },
+    { label: 'Qualidade Leads', progress: 85, color: 'bg-cyan' },
+    { label: 'Market Share', progress: 45, color: 'bg-white' },
+];
+
+export default function VisaoGeralPage() {
     return (
-        <div className="max-w-6xl mx-auto space-y-12 py-10">
+        <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
             {/* Header */}
-            <header className="text-center space-y-4">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-[10px] font-black uppercase tracking-widest mb-4"
-                >
-                    <Zap className="w-3 h-3 transition-transform group-hover:scale-110" />
-                    Grooway Ecosystem
-                </motion.div>
-                <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="text-5xl md:text-6xl font-black text-white tracking-tighter"
-                >
-                    HUB DE <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-400">INTELIGÊNCIA</span>
-                </motion.h1>
-                <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="text-slate-400 font-medium max-w-2xl mx-auto text-lg"
-                >
-                    Acesse todas as ferramentas de elite para escalar sua operação comercial e domínio de mercado.
-                </motion.p>
-            </header>
-
-            {/* Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
-                {hubFeatures.map((feature, idx) => (
-                    <motion.div
-                        key={feature.id}
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.1 * idx }}
-                        className="relative group h-full"
-                    >
-                        <Link
-                            href={feature.href}
-                            className={`block h-full liquid-glass p-8 rounded-[32px] border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-all duration-500 group relative overflow-hidden flex flex-col ${!feature.active ? 'pointer-events-none grayscale opacity-60' : ''}`}
-                        >
-                            {/* Gradient Glow */}
-                            <div className={`absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-20 blur-3xl transition-opacity duration-500`} />
-
-                            {/* Icon Box */}
-                            <div className={`w-16 h-16 rounded-[24px] bg-gradient-to-br ${feature.color} flex items-center justify-center mb-8 shadow-lg shadow-black/20 group-hover:scale-110 transition-transform duration-500`}>
-                                <feature.icon className="w-8 h-8 text-white" />
-                            </div>
-
-                            {/* Badge */}
-                            {feature.comingSoon && (
-                                <div className="absolute top-8 right-8 px-3 py-1 rounded-full bg-white/10 text-[10px] font-black text-white tracking-widest uppercase border border-white/10">
-                                    Em Breve
-                                </div>
-                            )}
-
-                            {/* Content */}
-                            <div className="space-y-3 flex-1">
-                                <h3 className="text-2xl font-black text-white group-hover:text-purple-400 transition-colors uppercase tracking-tight">
-                                    {feature.title}
-                                </h3>
-                                <p className="text-slate-400 font-medium leading-relaxed italic">
-                                    {feature.description}
-                                </p>
-                            </div>
-
-                            {/* Action */}
-                            {feature.active && (
-                                <div className="mt-8 flex items-center gap-2 text-purple-400 font-black text-xs uppercase tracking-widest group-hover:gap-4 transition-all pb-2">
-                                    Acessar Agora
-                                    <ArrowRight className="w-4 h-4" />
-                                </div>
-                            )}
-                        </Link>
-                    </motion.div>
-                ))}
+            <div className="flex items-center justify-between">
+                <div>
+                    <h1 className="text-4xl font-black text-white tracking-tighter leading-none">
+                        Visão Geral <span className="text-[#A855F7]">Executiva</span>
+                    </h1>
+                    <p className="text-xs font-black text-slate-500 uppercase tracking-[0.3em] mt-2">
+                        HUB DE FERRAMENTAS ESTRATÉGICAS V2.0
+                    </p>
+                </div>
+                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+                    <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">Sistemas Estáveis</span>
+                </div>
             </div>
 
-            {/* Background Glow */}
-            <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-500/5 blur-[150px] rounded-full -z-10 pointer-events-none" />
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                {/* Left: Tools Monitor */}
+                <div className="lg:col-span-4 space-y-6">
+                    <h2 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] px-2">Monitoramento de Ferramentas</h2>
+
+                    {STATUS_TOOLS.map((tool, i) => (
+                        <motion.div
+                            key={tool.id}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: i * 0.1 }}
+                            className="liquid-card border-white/5 p-6 relative group hover:border-[#A855F7]/30 transition-colors"
+                        >
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-center">
+                                    <tool.icon className={`w-6 h-6 ${tool.color}`} />
+                                </div>
+                                <div className="flex-1">
+                                    <h3 className="text-lg font-black text-white">{tool.name}</h3>
+                                    <p className="text-[9px] font-bold text-slate-500">UTILIZAÇÃO: {tool.utilization}%</p>
+                                </div>
+                                <span className="px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-[8px] font-black text-emerald-400">ATIVA</span>
+                            </div>
+                        </motion.div>
+                    ))}
+
+                    <div className="liquid-card border-white/5 p-6 bg-white/[0.01]">
+                        <p className="text-[11px] text-slate-400 font-medium italic leading-relaxed text-center">
+                            "A eficiência operacional subiu <span className="text-emerald-400 font-black">12%</span> nas últimas 24 horas devido à automação otimizada do Crawler."
+                        </p>
+                    </div>
+                </div>
+
+                {/* Right: Global Performance */}
+                <div className="lg:col-span-8 liquid-card border-white/5 p-8 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-cyan/5 blur-[100px]" />
+
+                    <div className="flex items-center justify-between mb-12">
+                        <h2 className="text-2xl font-black text-white tracking-tight italic">RESUMO DE PERFORMANCE GLOBAL</h2>
+                        <span className="px-3 py-1 bg-white/5 rounded-md text-[9px] font-black text-slate-400 tracking-widest">LIVE DATA</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+                        {METRICS.map((m, i) => (
+                            <div key={i} className="space-y-2">
+                                <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">{m.label}</p>
+                                <h3 className={`text-5xl font-black tracking-tighter ${m.color}`}>{m.value}</h3>
+                                <p className="text-[9px] font-black text-emerald-400 flex items-center gap-1">
+                                    {m.change.includes('RECORD') ? <Zap className="w-3 h-3 fill-emerald-400" /> : <TrendingUp className="w-3 h-3" />}
+                                    {m.change}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-white/5">
+                        {/* Gaps Identified */}
+                        <div className="space-y-6">
+                            <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
+                                <div className="w-1.5 h-1.5 rounded-full bg-[#A855F7]" />
+                                GAPS IDENTIFICADOS
+                            </h4>
+                            <div className="space-y-4">
+                                {GAPS.map((g, i) => (
+                                    <div key={i} className="space-y-2">
+                                        <div className="flex justify-between text-[9px] font-black text-slate-500 uppercase tracking-widest">
+                                            <span>{g.label}</span>
+                                        </div>
+                                        <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                                            <motion.div
+                                                className={`h-full ${g.color}`}
+                                                initial={{ width: 0 }}
+                                                animate={{ width: `${g.progress}%` }}
+                                                transition={{ delay: 0.5 + i * 0.1, duration: 1 }}
+                                            />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* AI Insight */}
+                        <div className="liquid-card bg-white/[0.02] border-[#A855F7]/10 p-6">
+                            <h4 className="text-[10px] font-black text-[#A855F7] uppercase tracking-[0.2em] mb-4">INSIGHT DE IA</h4>
+                            <p className="text-xs text-slate-400 font-medium leading-relaxed">
+                                Otimize o <span className="text-white font-bold">Compiler</span> para audiências B2B Tech. A tendência atual indica um aumento de 15% na taxa de resposta para propostas com foco em eficiência energética.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Footer Brand */}
+            <div className="flex items-center justify-between pt-8 border-t border-white/5">
+                <div className="flex items-center gap-2">
+                    <Zap className="w-4 h-4 text-[#A855F7] fill-[#A855F7]" />
+                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">HUB CENTRALIZADO</span>
+                </div>
+                <div className="text-[10px] font-black text-slate-600 uppercase tracking-widest">
+                    VERSÃO DA ENGINE: <span className="text-slate-400">4.9.0-GOLD</span>
+                </div>
+                <div className="text-[10px] font-black text-slate-600 uppercase tracking-widest italic">
+                    COPYRIGHT © 2024 PREMIUM AGENCY OS
+                </div>
+            </div>
         </div>
     );
 }
