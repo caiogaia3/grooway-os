@@ -31,6 +31,24 @@ export async function triggerAnalysisAction(params: TriggerAnalysisInput) {
         console.log(`[*] Triggering Python analysis for: ${params.url}`);
         console.log(`    CWD: ${pythonRoot}`);
 
+        // --- HACK EXTREMO PARA O NIXPACKS / EASYPANEL ---
+        // O Easypanel deleta qualquer coisa que instalamos na máquina de Build
+        // Então instalamos em tempo real na máquina efêmera toda vez que o botão é clicado!
+        try {
+            console.log(`[*] Instalando dependências de IA "On-The-Fly" no container ativo...`);
+            const onTheFlyPip = spawnSync('python3', [
+                '-m', 'pip', 'install', '-r', 'requirements.txt', '--break-system-packages'
+            ], {
+                cwd: pythonRoot,
+                encoding: 'utf-8',
+                stdio: 'inherit' // Permite ver o output nos logs
+            });
+            console.log(`[*] Pip on-the-fly terminou.`);
+        } catch (e) {
+            console.log(`[!] Falha no Hack do PIP On-The-Fly:`, e);
+        }
+        // ------------------------------------------------
+
         // Log python properties on server environment before execution
         try {
             console.log(`[V] node process.cwd():`, process.cwd());
