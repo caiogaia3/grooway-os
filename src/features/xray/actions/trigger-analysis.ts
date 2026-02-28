@@ -1,6 +1,6 @@
 "use server";
 
-import { spawn } from 'child_process';
+import { spawn, spawnSync } from 'child_process';
 import fs from 'fs';
 import { supabase } from '@/core/lib/supabase';
 import { TriggerAnalysisSchema, TriggerAnalysisInput } from '@/core/lib/validation';
@@ -30,6 +30,17 @@ export async function triggerAnalysisAction(params: TriggerAnalysisInput) {
 
         console.log(`[*] Triggering Python analysis for: ${params.url}`);
         console.log(`    CWD: ${pythonRoot}`);
+
+        // Log python properties on server environment before execution
+        try {
+            console.log(`[V] node process.cwd():`, process.cwd());
+            const pythonPath = spawnSync('which', ['python3'], { encoding: 'utf-8' });
+            console.log(`[V] which python3:`, pythonPath.stdout.trim());
+            const pipFreeze = spawnSync('python3', ['-m', 'pip', 'freeze'], { encoding: 'utf-8' });
+            console.log(`[V] pip freeze packages:`, pipFreeze.stdout.slice(0, 100).replace(/\n/g, ', '));
+        } catch (e) {
+            console.log(`[V] Failed to check python paths`, e);
+        }
 
         // In the Dockerfile, we explicitly install dependencies to the system global Python3 via break-system-packages
         // So we strictly invoke 'python3' and it will resolve from PATH.
