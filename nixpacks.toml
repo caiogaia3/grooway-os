@@ -1,6 +1,8 @@
-[providers]
-node = "20"
-python = "3.11"
+providers = ["node", "python"]
+
+[variables]
+NIXPACKS_NODE_VERSION = "20"
+NIXPACKS_PYTHON_VERSION = "3.11"
 
 [phases.setup]
 nixPkgs = ["...", "python311Packages.pip"]
