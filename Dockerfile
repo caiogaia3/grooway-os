@@ -1,36 +1,40 @@
 FROM node:20-bookworm-slim
 
-# Install Python and its dependencies
+# Default Environment Variables to prevent UI build failing
+ENV NEXT_PUBLIC_SUPABASE_URL=true
+ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=true
+
+# Install Python and core dependencies globally inside this isolated OS container
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
-    python3-venv \
+    libgl1 \
+    libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
+
+# Break system packages is safe inside a Docker container
+RUN rm -f /usr/lib/python3.11/EXTERNALLY-MANAGED
 
 # Create app directory
 WORKDIR /app
 
-# Copy package.json and lock files
-COPY package.json package-lock.json* ./
+# Copy dependency definitions
+COPY package.json package-lock.json ./
 
-# Install Node modules
-RUN npm ci || npm install
+# Install NO dependencies purely (safest on Easypanel)
+RUN npm install
 
-# Copy the rest of the application
+# Copy application source
 COPY . .
 
-# Set up Python Environment safely inside the /app directory
+# Install Python libraries globally
 WORKDIR /app/intelligence
-RUN python3 -m venv venv
-RUN ./venv/bin/pip install --upgrade pip
-RUN ./venv/bin/pip install -r requirements.txt
+RUN python3 -m pip install --upgrade pip --break-system-packages
+RUN python3 -m pip install -r requirements.txt --break-system-packages
 WORKDIR /app
 
 # Build Next.js application
 RUN npm run build
-
-# Expose the listening port
-EXPOSE 3000
 
 # Start the application
 CMD ["npm", "start"]

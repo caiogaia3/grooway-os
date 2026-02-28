@@ -30,14 +30,10 @@ export async function triggerAnalysisAction(params: TriggerAnalysisInput) {
 
         console.log(`[*] Triggering Python analysis for: ${params.url}`);
         console.log(`    CWD: ${pythonRoot}`);
-        console.log(`    Expected Python: ${venvPython}`);
 
-        let execPython = venvPython;
-
-        if (!fs.existsSync(venvPython)) {
-            console.log(`[!] Venv Python not found at ${venvPython}, falling back to system python3`);
-            execPython = 'python3';
-        }
+        // In the Dockerfile, we explicitly install dependencies to the system global Python3 via break-system-packages
+        // So we strictly invoke 'python3' and it will resolve from PATH.
+        const execPython = 'python3';
 
         // Spawn process
         const pythonProcess = spawn(execPython, [scriptPath, jsonInput], {
