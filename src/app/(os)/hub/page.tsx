@@ -29,10 +29,10 @@ const hubFeatures = [
         title: 'Scraper B2B Leads',
         description: 'Extração inteligente de leads B2B baseada em perfis ideais de clientes.',
         icon: Database,
-        href: '#',
+        href: '/scraper',
         color: 'from-slate-700 to-slate-800',
-        active: false,
-        comingSoon: true
+        active: true,
+        comingSoon: false
     }
 ];
 

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Users, Search, ExternalLink, Eye, Clock,
@@ -149,16 +150,18 @@ export default function LeadsDashboard() {
                                             className="group hover:bg-white/[0.02] transition-colors relative"
                                         >
                                             <td className="px-8 py-6">
-                                                <div className="font-black text-white group-hover:text-purple-400 transition-colors uppercase tracking-tight text-lg">{lead.company_name || 'Empresa S/N'}</div>
-                                                <div className="text-[10px] font-mono text-slate-500 mt-1 flex items-center gap-1.5 grayscale group-hover:grayscale-0 transition-all">
-                                                    <Zap className="w-3 h-3 text-purple-500/50" />
-                                                    {lead.target_url}
-                                                </div>
+                                                <Link href={`/leads/${lead.id}`} className="block">
+                                                    <div className="font-black text-white group-hover:text-purple-400 transition-colors uppercase tracking-tight text-lg">{lead.company_name || 'Empresa S/N'}</div>
+                                                    <div className="text-[10px] font-mono text-slate-500 mt-1 flex items-center gap-1.5 grayscale group-hover:grayscale-0 transition-all">
+                                                        <Zap className="w-3 h-3 text-purple-500/50" />
+                                                        {lead.target_url}
+                                                    </div>
+                                                </Link>
                                             </td>
                                             <td className="px-8 py-6">
                                                 <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-tighter ${lead.status === 'analyzed'
-                                                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                                                        : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                                                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                                                    : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
                                                     }`}>
                                                     <div className={`w-1 h-1 rounded-full ${lead.status === 'analyzed' ? 'bg-emerald-500' : 'bg-blue-500'} animate-pulse`} />
                                                     {lead.status === 'analyzed' ? 'CONCLUÍDO' : 'PENDENTE'}

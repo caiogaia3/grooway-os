@@ -13,13 +13,6 @@ const navSections = [
         ]
     },
     {
-        title: "Principal",
-        items: [
-            { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-            { href: "/leads", label: "Leads", icon: Users },
-        ]
-    },
-    {
         title: "HUB",
         items: [
             { href: "/hub", label: "Hub Central", icon: Zap },
