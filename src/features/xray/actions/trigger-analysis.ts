@@ -48,12 +48,15 @@ export async function triggerAnalysisAction(params: TriggerAnalysisInput) {
         // We don't wait for it to finish (background task)
         // Python will update Supabase once done
 
+        let pythonStderr = '';
+
         pythonProcess.stdout.on('data', (data) => {
             console.log(`[Python STDOUT]: ${data}`);
         });
 
         pythonProcess.stderr.on('data', (data) => {
             console.error(`[Python STDERR]: ${data}`);
+            pythonStderr += data.toString();
         });
 
         pythonProcess.on('error', (err) => {
@@ -71,7 +74,7 @@ export async function triggerAnalysisAction(params: TriggerAnalysisInput) {
                 // Update status on crash
                 supabase.from('diagnostics').update({
                     status: 'failed',
-                    report_data: { error: `Python Process crashed with exit code ${code}` }
+                    report_data: { error: `Python Process crashed with exit code ${code}. Stderr: ${pythonStderr}` }
                 }).eq('id', validatedParams.diagnosticId).then(() => console.log('Updated supabase with crash status'));
             }
         });
