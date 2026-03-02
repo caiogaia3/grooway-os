@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { Database, Target, Zap, TrendingUp, AlertTriangle, ShieldCheck, CheckCircle2, Flame, EyeOff, Rocket, Fingerprint, Bug, Activity, Terminal, ExternalLink, Package } from 'lucide-react';
+import { Database, Target, Zap, TrendingUp, AlertTriangle, ShieldCheck, CheckCircle2, Flame, EyeOff, Rocket, Fingerprint, Bug, Activity, Terminal, ExternalLink } from 'lucide-react';
 
 interface TrackingPanelProps {
     trackingSkill: {
@@ -31,6 +31,8 @@ interface TrackingPanelProps {
     };
     getScoreBadge: (score: number) => React.ReactNode;
 }
+
+const Package = (props: any) => <Database {...props} />;
 
 const CompactCard = ({
     label,
@@ -179,7 +181,7 @@ export const TrackingPanel = ({ trackingSkill, getScoreBadge }: TrackingPanelPro
                                 <Terminal className="w-4 h-4 text-indigo-400" />
                             </div>
                             <div>
-                                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">DataLayer (Ecommerce/Dev)</span>
+                                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">DataLayer (Ecommerce)</span>
                                 <p className={`text-sm font-black tracking-tight ${findings.has_datalayer ? 'text-emerald-400' : 'text-slate-500'}`}>
                                     {findings.has_datalayer ? 'ESTRUTURADO' : 'DESATIVADO'}
                                 </p>
@@ -195,19 +197,19 @@ export const TrackingPanel = ({ trackingSkill, getScoreBadge }: TrackingPanelPro
                 <div className="lg:col-span-1 bg-gradient-to-br from-indigo-900/40 to-slate-950 border border-indigo-500/30 rounded-2xl p-6 flex flex-col justify-center">
                     <h4 className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em] mb-3">Veredito do Especialista</h4>
                     <p className="text-base text-white font-bold leading-relaxed italic">
-                        "{findings.executive_verdict || 'Análise de impacto em processamento...'}"
+                        {findings.executive_verdict ? `"${findings.executive_verdict}"` : 'Realize um novo escaneamento para gerar a análise inteligente de impacto.'}
                     </p>
                     <div className="mt-6 pt-6 border-t border-indigo-500/20">
                         <div className="flex justify-between items-end">
                             <span className="text-[10px] font-bold text-slate-400 uppercase">Risco de Perda de Dados</span>
                             <span className={`text-2xl font-black ${(findings.risk_score_percentage || 0) > 50 ? 'text-rose-500' : 'text-emerald-400'}`}>
-                                {findings.risk_score_percentage}%
+                                {findings.risk_score_percentage !== undefined ? `${findings.risk_score_percentage}%` : '--%'}
                             </span>
                         </div>
                         <div className="w-full h-1.5 bg-slate-800 rounded-full mt-2 overflow-hidden">
                             <div
                                 className={`h-full transition-all duration-1000 ${(findings.risk_score_percentage || 0) > 50 ? 'bg-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.5)]' : 'bg-emerald-500'}`}
-                                style={{ width: `${findings.risk_score_percentage}%` }}
+                                style={{ width: `${findings.risk_score_percentage || 0}%` }}
                             />
                         </div>
                     </div>
@@ -229,7 +231,9 @@ export const TrackingPanel = ({ trackingSkill, getScoreBadge }: TrackingPanelPro
                                     </div>
                                 ))
                             ) : (
-                                <div className="text-[11px] text-slate-500 italic p-3 border border-white/5 rounded-xl">Inspecionando pontos de falha...</div>
+                                <div className="text-[11px] text-slate-500 italic p-3 border border-white/5 rounded-xl">
+                                    Nenhum alerta crítico gerado. Tente um novo scan para forçar a análise forense.
+                                </div>
                             )}
                         </div>
                     </div>
@@ -251,7 +255,9 @@ export const TrackingPanel = ({ trackingSkill, getScoreBadge }: TrackingPanelPro
                                     </div>
                                 ))
                             ) : (
-                                <div className="text-[11px] text-slate-500 italic p-3 border border-white/5 rounded-xl">Otimização técnica em processamento...</div>
+                                <div className="text-[11px] text-slate-500 italic p-3 border border-white/5 rounded-xl">
+                                    Dados de otimização ausentes neste registro.
+                                </div>
                             )}
                         </div>
                     </div>
