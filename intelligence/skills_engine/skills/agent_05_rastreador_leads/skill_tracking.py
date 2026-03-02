@@ -269,8 +269,10 @@ class TrackingSkill(PredatorSkill):
                     "waste_estimate": "Estimativa de impacto financeiro (perda de leads)",
                     "internal_boss_ammo": "Munição de dor sobre desperdício de dinheiro para o Boss.",
                     "alchemist_briefing": "Dica para o Agente 07 focar na oferta de 'Recuperação de Leads'.",
-                    "strategic_actions": ["Ação técnica 1", "Ação técnica 2"],
-                    "traffic_verdict": "Veredito final de 2-3 linhas para o dossiê."
+                    "traffic_verdict": "Veredito final de 2-3 linhas para o dossiê.",
+                    "ui_strengths": ["Ponto forte 1", "Ponto forte 2"],
+                    "ui_weaknesses": ["Ponto fraco 1 (Furo no balde)", "Ponto fraco 2"],
+                    "ui_improvements": ["Oportunidade de melhoria 1 (Ação estratégica)", "Oportunidade de melhoria 2"]
                 }}
                 """
 
