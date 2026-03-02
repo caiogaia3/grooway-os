@@ -110,97 +110,69 @@ class MarketResearchSkill(PredatorSkill):
             # --- 2. IA ANALYSIS GROUNDED ON REAL SEARCH (Arsenal Elite) ---
             prompt = f"""
             PERSONA:
-            Você é o 'ESTRATEGISTA PSICOGRÁFICO & ESPIÃO DE MERCADO' (Agente 04). Você não é um generalista; você é um analista de elite treinado em inteligência competitiva e comportamento humano.
-            Seu objetivo é dissecar a alma do mercado e os medos mais profundos da empresa alvo.
+            Você é o 'ESTRATEGISTA PSICOGRÁFICO & ESPIÃO DE MERCADO' (Agente 04). Você é um analista de elite especializado em ler as entrelinhas do mercado.
             
-            ARSENAL:
-            - 'The Shadow Avatar': Mapeamento do que o cliente final REALMENTE quer (e o que ele tem medo de admitir).
-            - 'The Anchor of Inefficiency': Identificação de por que a empresa alvo está presa em um ciclo de vendas medíocre.
-            - 'Radar de Concorrência Local': Análise real baseada nos snippets do Google.
+            SUA MISSÃO: Realizar um 'Espelhamento de Dores' (Mirror of Pains) explorando dois lados:
+            
+            LADO A: A EMPRESA PESQUISADA ({company_name})
+            - Sonhos da Empresa: O que o dono quer alcançar? (Previsibilidade, escala, sair do operacional).
+            - Dores de Aquisição: Por que o marketing deles é um gargalo? (Lead caro, falta de processo, site amador).
+            - Objeções à Agência: Por que eles têm medo de contratar marketing? (Traumas passados, medo de queimar caixa).
 
-            DADOS DE CAMPO:
-            - Empresa Alvo: {company_name}
-            - Localização: {city}
-            - Contexto Digital (Site): "{text_context}"
-            - Radar de Concorrência Google (Realidade Local):
-            {apify_context}
+            LADO B: O CLIENTE FINAL (ICP) do segmento "{report['findings']['niche']}"
+            - Sonhos do Cliente: O que ele ganha ao contratar o serviço desse nicho? (Paz de espírito, lucro, status).
+            - Dores do Cliente: O que tira o sono dele em relação ao problema que essa empresa resolve?
+            - Objeções do Cliente: Por que ele hesita em fechar com empresas como a {company_name}?
 
-            SUA MISSÃO - ENTREGUE UM ARQUIVO DE INTELIGÊNCIA EM JSON COM:
+            DADOS DE CONTEXTO:
+            - Local: {city}
+            - Site: "{text_context}"
+            - Radar Google: {apify_context}
 
-            1. PSICOGRAFIA PROFUNDA DO CLIENTE IDEAL (ICP):
-               - DORES REAIS: O que tira o sono dele à noite? (Ex: Medo de ser enganado, medo do negócio quebrar, medo de parecer incompetente).
-               - SONHOS E DESEJOS: O que ele quer que mude na vida dele se contratar esse serviço? Como ele quer ser visto pelos outros?
-               - OBJEÇÕES DE FERRO: Por que ele diz "não" mesmo precisando? (Ex: Trauma com agências anteriores, medo de custo escondido, dúvida sobre autoridade).
-
-            2. RADIOGRAFIA COMERCIAL DA EMPRESA ALVO:
-               - DORES DE NEGÓCIO: Por que eles estão perdendo para os rivais de {city}? (Ex: Ciclo de venda muito longo, dependência de indicação, site que parece amador perto dos concorrentes).
-               - DESEJOS E SONHOS DA EMPRESA: Onde o dono da empresa quer chegar? (Ex: Ter um negócio previsível, parar de trabalhar 14h por dia, ser a referência absoluta na região).
-               - OBJEÇÕES E GARGALOS INTERNOS: O que impede eles de escalarem? (Ex: Processo comercial inexistente, medo de investir em anúncios, incapacidade de comunicar valor premium).
-
-            3. THREAT MATRIX (CONCORRÊNCIA):
-               - Use os nomes Reais listados no Radar. Critique de forma ácida: "O Rival X domina no Google Maps mas peca no atendimento", "O Rival Y tem um site mobile melhor que o nosso alvo".
-
-            4. VEREDITO DO ESPIÃO:
-               - Seja implacável. Se a empresa está perdendo dinheiro por ser "genérica", diga isso. Use um tom consultivo e direto ao ponto.
-
-            JSON OUTPUT FORMAT (MANDATÓRIO):
+            JSON OUTPUT FORMAT:
             {{
-                "niche": "Segmento exato e sofisticado",
-                "executive_summary_clevel": "Um parágrafo de impacto sobre o posicionamento atual vs potencial.",
-                "target_icp": "Perfil psicológico denso do cliente",
-                "dores_icp": ["Dor visceral 1", "Dor visceral 2", "Dor 3"],
-                "sonhos_icp": ["Desejo profundo 1", "Sonho de status"],
-                "objecoes_icp": ["Medo do investimento falhar", "Dúvida sobre entrega"],
-                "desejos_icp": ["Desejo imediato 1", "Desejo 2"],
+                "niche": "Segmento exato",
+                "executive_summary_clevel": "Análise densa sobre o GAP entre a oferta atual e o desejo do mercado.",
                 
-                "dores_empresa_marketing": ["Gargalo comercial 1", "Perda de leads 2"],
-                "sonhos_empresa": ["Previsibilidade", "Autoridade Local"],
-                "desejos_empresa": ["Desejo de escala", "Desejo de equipe"],
-                "objecoes_venda_empresa": ["Trauma com marketing", "Mentalidade de preço baixo"],
+                "company_profile": {{
+                    "dreams": ["...", "..."],
+                    "acquisition_pains": ["...", "..."],
+                    "sales_objections": ["...", "..."]
+                }},
                 
-                "desafios_empresa_marketing": ["Desafio técnico 1", "Desafio 2"],
-                "brechas_diferenciacao": ["Brecha 1", "Brecha 2"],
-                
-                "commoditization_verdict": "Veredito técnico sobre a briga por preço vs valor",
-                "blue_ocean_map": "Como quebrar a paridade com os rivais de {city}?",
-                "competitor_benchmarks": ["Benchmark real 1 + análise ácida", "Benchmark real 2 + análise ácida"],
-                "deep_research_markdown": "### Dossiê de Inteligência Estratégica\\n\\nEscreva 4-5 parágrafos densos e persuasivos em Markdown sobre o mercado, o ICP e as falhas críticas de posicionamento encontradas.",
-                "market_verdict": "Sentença final do espião: Por que eles perdem dinheiro hoje?",
-                "internal_boss_ammo": "3 argumentos de fechamento letais que o Boss usará para provar que a Grooway é a única solução."
+                "icp_psychography": {{
+                    "dreams": ["...", "..."],
+                    "deep_pains": ["...", "..."],
+                    "buying_objections": ["...", "..."]
+                }},
+
+                "competitor_benchmarks": ["Benchmark 1 + Análise Ácida", "..."],
+                "deep_research_markdown": "### Dossiê de Inteligência Estratégica\\n\\nEscreva 6-8 parágrafos densos divididos em: Panorama Local, Psicologia do ICP, Falhas de Posicionamento e Oceano Azul.",
+                "market_verdict": "Veredito final do espião sobre por que eles não são líderes hoje.",
+                "internal_boss_ammo": "3 argumentos de fechamento brutais baseados nessa pesquisa."
             }}
+            """
             """
 
             # Ativação do LLM (Gemini com fallback OpenAI)
             json_data = self._call_llm_json(prompt)
 
             if json_data and isinstance(json_data, dict):
-                    # Compatibilidade de arrays que o front espera iterar
-                    for key in ["dores_icp", "sonhos_icp", "objecoes_icp", "desejos_icp", 
-                                "dores_empresa_marketing", "sonhos_empresa", "desejos_empresa", 
-                                "objecoes_venda_empresa", "desafios_empresa_marketing", "brechas_diferenciacao"]:
-                        if key not in json_data:
-                            json_data[key] = []
-                    
                     report["findings"] = json_data
+                    
+                    # Ensure legacy/flat keys for backward compatibility or simple UI logic
+                    report["findings"]["dores_icp"] = json_data.get("icp_psychography", {}).get("deep_pains", [])
+                    report["findings"]["sonhos_icp"] = json_data.get("icp_psychography", {}).get("dreams", [])
+                    report["findings"]["objecoes_icp"] = json_data.get("icp_psychography", {}).get("buying_objections", [])
+                    
+                    report["findings"]["dores_empresa_marketing"] = json_data.get("company_profile", {}).get("acquisition_pains", [])
+                    report["findings"]["sonhos_empresa"] = json_data.get("company_profile", {}).get("dreams", [])
+                    report["findings"]["objecoes_venda_empresa"] = json_data.get("company_profile", {}).get("sales_objections", [])
                     
                     # Injeção no Briefing do Arsenal
                     verdict = json_data.get("market_verdict", "")
                     if verdict:
                         briefing["recomendacoes"].append(f"SENTENÇA DO ESPIÃO DE MERCADO: {verdict}")
-                    
-                    commoditization = json_data.get("commoditization_verdict", "")
-                    if "Commodity" in str(commoditization) or "Comoditizado" in str(commoditization):
-                        report["score"] -= 25
-                        briefing["pontos_negativos"].append(f"Veredito de Comoditização: {commoditization}")
-                    
-                    blue_ocean = json_data.get("blue_ocean_map", "")
-                    if blue_ocean:
-                        briefing["brechas_diferenciacao"].append(f"Oceano Azul Identificado: {blue_ocean}")
-                        
-                    threats = json_data.get("competitor_benchmarks", [])
-                    if threats:
-                        for idx, t in enumerate(threats[:3]):
-                            briefing["pontos_negativos"].append(f"Ameaça Local {idx+1}: {t}")
                     
                     report["internal_briefing_for_boss"] = json_data.get("internal_boss_ammo", "")
 

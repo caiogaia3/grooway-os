@@ -15,6 +15,7 @@ import { ResultsTabs } from '@/features/xray/components/ResultsTabs';
 import { ResultsSummary, getScoreBadge } from '@/features/xray/components/ResultsSummary';
 import { DiagnosticModal } from '@/features/xray/components/DiagnosticModal';
 import { HistoryModal } from '@/features/xray/components/HistoryModal';
+import { ScoreRateModal } from '@/features/xray/components/ScoreRateModal';
 
 // Tabs
 import { TrackingPanel } from '@/features/xray/components/tabs/TrackingPanel';
@@ -58,6 +59,7 @@ export default function AuditorPage() {
     const [showDiagnosticModal, setShowDiagnosticModal] = useState(false);
     const [showValueProposition, setShowValueProposition] = useState(false);
     const [showHistory, setShowHistory] = useState(false);
+    const [showScoreRate, setShowScoreRate] = useState(false);
     const [valuePropositionData, setValuePropositionData] = useState<any>(null);
     const [isSaving, setIsSaving] = useState(false);
     const [shareLink, setShareLink] = useState<string | null>(null);
@@ -100,6 +102,16 @@ export default function AuditorPage() {
             alert('A análise falhou: ' + xrayStatus.error);
         }
     }, [xrayStatus, companyName]);
+
+    // Helper to get all agent scores as a map
+    const getAgentScores = () => {
+        if (!reportData?.skills_results) return {};
+        const scores: Record<string, number> = {};
+        reportData.skills_results.forEach((s: any) => {
+            scores[s.id] = s.score;
+        });
+        return scores;
+    };
 
     // Request permissions on mount
     React.useEffect(() => {
@@ -239,11 +251,12 @@ export default function AuditorPage() {
                                 onShareReport={handleShareReport}
                                 onGenerateProposal={handleGenerateProposal}
                                 onOpenPDF={() => { }}
+                                onOpenScoreRate={() => setShowScoreRate(true)}
                                 isSaving={isSaving}
                                 shareLink={shareLink}
                             />
 
-                            <ResultsTabs activeTab={activeTab} onTabChange={setActiveTab} />
+                            <ResultsTabs activeTab={activeTab} onTabChange={setActiveTab} scores={getAgentScores()} />
 
                             <div className="min-h-[500px]">
                                 {activeTab === 'cmo' && <CMOPanel cmoSkill={reportData?.skills_results.find((s: any) => s.id === 'cmo')} getScoreBadge={getScoreBadge} />}
@@ -306,6 +319,11 @@ export default function AuditorPage() {
             <HistoryModal
                 isOpen={showHistory}
                 onClose={() => setShowHistory(false)}
+            />
+
+            <ScoreRateModal
+                isOpen={showScoreRate}
+                onClose={() => setShowScoreRate(false)}
             />
 
             <div className="hidden">

@@ -158,31 +158,60 @@ class PerformanceSkill(PredatorSkill):
                 headings = [h.get_text(strip=True) for h in self.soup.find_all(['h1', 'h2', 'h3'])[:10]]
                 prompt = f"""
                 ARSENAL DO 'PERITO DE CONVERSÃO' (AGENTE 02). 
-                DADOS: {pts}% Efficacy | {round(lt, 2)}s Load | {hemorrhage}% ROI Hemorrhage | Blog Mapeado: {has_blog}.
-                CONTEXTO: {headings}
+                DADOS TÉCNICOS: {pts}% Eficácia | {round(lt, 2)}s Load | {hemorrhage}% ROI Hemorrhage | Blog Mapeado: {has_blog}.
+                TAGS: H1: {has_h1}, Meta: {has_meta}, Mobile: {is_mobile}, Form: {has_form}, CTAs: {cta_count}.
+                CONTEXTO (Headings): {headings}
                 
-                MISSÃO:
-                1. VEREDITO DO VASO SANITÁRIO DE ADS: O site queima dinheiro ou converte?
-                2. IMPOSTO DA LENTIDÃO: Como a demora técnica expulsa clientes.
-                3. TÁTICA DE CONTEÚDO: Elabore UMA FRASE muito curta e incisiva de copywriting sobre como eles poderiam explorar ou monetizar o Blog (ou a falta dele) para atrair leads para a equipe comercial. 
-                
-                JSON OUTPUT:
+                SUA MISSÃO: Realizar uma análise médica/clínica profunda de 4 pilares:
+                1. Responsividade (Mobile)
+                2. Velocidade & Performance
+                3. Autoridade SEO (H1/Meta)
+                4. Funil de Conversão (Forms/CTAs)
+
+                Para cada pilar, você DEVE entregar: 
+                - Ponto Forte (O que está bom?)
+                - Ponto Fraco (Onde está a falha?)
+                - Plano de Melhoria: Explicando PORQUE mudar, PARA QUÊ serve e COMO fazer.
+
+                JSON OUTPUT (Siga RIGOROSAMENTE):
                 {{
-                  "internal_boss_ammo": "Pitch letal",
-                  "roi_verdict": "Veredito final",
-                  "blog_exploration_sample": "Frase sobre o blog",
-                  "tactical_actions": ["Ação 1", "2"]
+                  "clinical_audit": {{
+                    "responsiveness": {{
+                      "strength": "...",
+                      "weakness": "...",
+                      "improvement": {{ "why": "...", "for_what": "...", "how": "..." }}
+                    }},
+                    "performance": {{
+                      "strength": "...",
+                      "weakness": "...",
+                      "improvement": {{ "why": "...", "for_what": "...", "how": "..." }}
+                    }},
+                    "seo_authority": {{
+                      "strength": "...",
+                      "weakness": "...",
+                      "improvement": {{ "why": "...", "for_what": "...", "how": "..." }}
+                    }},
+                    "conversion_funnel": {{
+                      "strength": "...",
+                      "weakness": "...",
+                      "improvement": {{ "why": "...", "for_what": "...", "how": "..." }}
+                    }}
+                  }},
+                  "roi_verdict": "Veredito executivo de 1 frase de impacto.",
+                  "blog_exploration_sample": "Como monetizar conteúdo neste nicho.",
+                  "internal_boss_ammo": "Argumento de fechamento brutal para o BOSS."
                 }}
                 """
                 res = self._call_llm_json(prompt)
-                if res:
+                if res and isinstance(res, dict):
                     ui_analysis = res.get("roi_verdict", "")
                     boss_ammo = res.get("internal_boss_ammo", "")
                     blog_sample = res.get("blog_exploration_sample", "")
+                    clinical_audit = res.get("clinical_audit", {})
+                    
                     b_rec.append(f"VEREDITO: {ui_analysis}")
                     if blog_sample:
                         b_rec.append(f"TÁTICA DE CONTEÚDO: {blog_sample}")
-                    b_rec.extend(res.get("tactical_actions", []))
             except Exception as ui_err:
                 print(f"  [Site Agent] Falha na cognição Arsenal: {ui_err}")
 
@@ -201,6 +230,7 @@ class PerformanceSkill(PredatorSkill):
                 "has_social_proof": has_proof,
                 "has_blog": has_blog,
                 "ui_clinical_analysis": ui_analysis,
+                "clinical_audit": clinical_audit,
                 "blog_exploration_sample": blog_sample,
                 "conversion_hemorrhage_pct": hemorrhage,
                 "evidences": evid,
