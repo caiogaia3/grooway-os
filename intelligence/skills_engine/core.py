@@ -51,7 +51,7 @@ class PredatorSkill(abc.ABC):
                 from google.genai import types
                 client = genai.Client(api_key=gemini_key)
                 response = client.models.generate_content(
-                    model='gemini-2.0-flash',
+                    model='gemini-flash-latest',
                     contents=prompt,
                     config=types.GenerateContentConfig(
                         temperature=temperature,

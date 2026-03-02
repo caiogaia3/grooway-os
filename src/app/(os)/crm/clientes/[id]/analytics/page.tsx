@@ -81,7 +81,7 @@ export default function ClientAnalyticsPage({ params }: { params: { id: string }
   ];
 
   return (
-    <div className="min-h-screen bg-[#050508] p-4 lg:p-6 text-white font-sans selection:bg-purple-500/30 overflow-hidden flex flex-col">
+    <div className="min-h-screen bg-[#050508] p-4 lg:p-6 text-white font-sans selection:bg-purple-500/30 flex flex-col">
       {/* Header Section */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-6 shrink-0">
         <div>
@@ -117,20 +117,20 @@ export default function ClientAnalyticsPage({ params }: { params: { id: string }
       </div>
 
       {activeTab === "report" ? (
-        /* Report View - Full Viewport Iframe */
+        /* Report View - Full Viewport Iframe optimized */
         <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
+          initial={{ opacity: 0, scale: 0.99 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="flex-1 min-h-[700px] bg-white/5 border border-white/10 rounded-[32px] overflow-hidden relative group"
+          className="flex-1 w-full bg-white/5 border border-white/10 rounded-[32px] overflow-hidden relative min-h-[calc(100vh-220px)]"
         >
           <iframe
             src={LOOKER_URL}
-            className="w-full h-full border-none"
+            className="w-full h-full border-none absolute inset-0"
             allowFullScreen
             loading="lazy"
           />
-          {/* Subtle Overlay Glow */}
-          <div className="absolute inset-0 pointer-events-none border-[12px] border-[#050508] rounded-[32px] z-10" />
+          {/* Subtle Border Glow Overlay - Doesn't block interaction */}
+          <div className="absolute inset-0 pointer-events-none border-[1px] border-white/10 rounded-[32px] z-10" />
         </motion.div>
       ) : (
         /* AI Analyst View - Keep existing widgets and Gemini console */
