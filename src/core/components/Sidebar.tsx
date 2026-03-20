@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, Zap, Briefcase, Contact, DollarSign, BarChart3, Workflow, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, Users, Zap, Briefcase, Contact, DollarSign, BarChart3, Workflow, Settings, LogOut, Crosshair } from "lucide-react";
 
 const navItems = [
     { href: "/dashboard", label: "Painel", icon: LayoutDashboard },
@@ -11,6 +11,7 @@ const navItems = [
     { href: "/crm", label: "CRM", icon: Briefcase },
     { href: "/financeiro", label: "Financeiro", icon: DollarSign },
     { href: "/analytics", label: "Analytics", icon: BarChart3 },
+    { href: "/trafego", label: "Tráfego", icon: Crosshair },
     { href: "/automacoes", label: "Automações", icon: Workflow },
 ];
 
@@ -18,7 +19,7 @@ export function Sidebar() {
     const pathname = usePathname();
 
     // Automatically collapse sidebar if we are inside a workspace with its own secondary menu (like /crm or /hub)
-    const isCollapsed = pathname.startsWith("/crm") || pathname.startsWith("/hub");
+    const isCollapsed = pathname.startsWith("/crm") || pathname.startsWith("/hub") || pathname.startsWith("/trafego");
 
     // "md:w-64" becomes "md:w-20" if collapsed
     const widthClass = isCollapsed ? "md:w-20" : "md:w-64";

@@ -9,8 +9,9 @@
 
 **Ao resolver um erro novo:** adicionar em `docs/erros-e-solucoes.md` (Sintoma → Causa → Detecção → Fix → Prevenção)
 
-**Protocolo Claude:**
-- Ao completar uma etapa: atualizar `context.md`
+**Protocolo Claude (AUTOMÁTICO — sem esperar pedido):**
+- Ao completar qualquer tarefa/etapa: atualizar `context.md` (o que foi feito, próximos passos, decisões novas)
+- Ao resolver um erro: perguntar se resolveu → se sim, registrar em `docs/erros-e-solucoes.md`
 - Antes de qualquer commit: `grep -rn 'className=\\"' src/` → deve retornar zero
 
 ---
