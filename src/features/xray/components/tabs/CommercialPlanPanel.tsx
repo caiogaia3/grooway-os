@@ -26,7 +26,7 @@ export const CommercialPlanPanel = ({
                         </span>
                         Plano Comercial High-Ticket
                     </h3>
-                    <p className=\"text-base font-medium text-slate-400 mt-2 px-1\">
+                    <p className="text-base font-medium text-slate-400 mt-2 px-1">
                         Pacotes de venda da Agência estrategicamente alinhados às dores detectadas.
                     </p>
                 </div>

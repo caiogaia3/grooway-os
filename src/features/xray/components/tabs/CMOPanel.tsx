@@ -71,7 +71,7 @@ export const CMOPanel = ({ cmoSkill, getScoreBadge }: CMOPanelProps) => {
                             <Briefcase className="w-5 h-5 text-primary" />
                             Veredito Executivo
                         </h3>
-                        <p className=\"text-sm font-medium text-slate-400 leading-relaxed\">
+                        <p className="text-sm font-medium text-slate-400 leading-relaxed">
                             Análise consolidada baseada no cruzamento de dados técnicos e inteligência artificial.
                         </p>
                         <div className="pt-4 border-t border-white/5">

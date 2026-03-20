@@ -110,7 +110,7 @@ export const TrackingPanel = ({ trackingSkill, getScoreBadge }: TrackingPanelPro
                         {findings.maturity_level && (
                             <div className="text-right mr-4 hidden md:block">
                                 <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Maturidade</p>
-                                <p className=\"text-sm font-black text-indigo-400 uppercase italic\">{findings.maturity_level}</p>
+                                <p className="text-sm font-black text-indigo-400 uppercase italic">{findings.maturity_level}</p>
                             </div>
                         )}
                         {getScoreBadge(trackingSkill.score)}

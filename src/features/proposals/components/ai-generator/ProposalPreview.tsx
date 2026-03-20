@@ -1,7 +1,7 @@
 'use client';
 
 import { ProposalData } from './ProposalGenerator';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { CheckCircle2, ShieldCheck, Zap, BarChart3, Clock, Download } from 'lucide-react';
 
 interface ProposalPreviewProps {

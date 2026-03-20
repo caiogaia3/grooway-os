@@ -34,7 +34,7 @@ export const SocialPanel = ({ socialSkill, getScoreBadge }: SocialPanelProps) =>
                         <Instagram className="w-6 h-6 text-[#E1306C]" />
                         Inteligência de Posicionamento Social
                     </h3>
-                    <p className=\"text-base font-medium text-slate-400 mt-1\">
+                    <p className="text-base font-medium text-slate-400 mt-1">
                         Análise de presença digital, autoridade e motor de conversão social.
                     </p>
                 </div>
@@ -110,7 +110,7 @@ export const SocialPanel = ({ socialSkill, getScoreBadge }: SocialPanelProps) =>
                                 <span className="w-8 h-8 rounded-xl bg-cyan/10 flex items-center justify-center text-cyan font-black text-sm shrink-0 border border-cyan/20">
                                     {idx + 1}
                                 </span>
-                                <p className=\"text-base text-slate-300 font-medium leading-relaxed pt-1\">{idea}</p>
+                                <p className="text-base text-slate-300 font-medium leading-relaxed pt-1">{idea}</p>
                             </motion.div>
                         ))}
                     </div>

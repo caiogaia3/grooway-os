@@ -34,7 +34,7 @@ export const GMBPanel = ({ gmbSkill, getScoreBadge }: GMBPanelProps) => {
                         <MapPin className="w-6 h-6 text-emerald-400" />
                         Auditoria de Presença Local (GMB)
                     </h3>
-                    <p className=\"text-base font-medium text-slate-400 mt-1\">
+                    <p className="text-base font-medium text-slate-400 mt-1">
                         Diagnóstico de autoridade no Google Maps e eficácia da ficha comercial.
                     </p>
                 </div>

@@ -50,7 +50,7 @@ export const PerformancePanel = ({ performanceSkill, getScoreBadge }: Performanc
             <div className="liquid-card p-12 text-center">
                 <Smartphone className="w-12 h-12 text-slate-700 mx-auto mb-4" />
                 <p className="text-slate-400 text-lg font-bold">Dados de Performance Ausentes</p>
-                <p className=\"text-slate-500 text-base mt-2 font-medium\">O agente de UX/SEO não conseguiu processar esta página.</p>
+                <p className="text-slate-500 text-base mt-2 font-medium">O agente de UX/SEO não conseguiu processar esta página.</p>
             </div>
         );
     }

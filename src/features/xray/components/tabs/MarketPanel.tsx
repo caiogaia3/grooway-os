@@ -112,7 +112,7 @@ export const MarketPanel = ({ marketSkill }: MarketPanelProps) => {
                         <Compass className="w-6 h-6 text-blue-400" />
                         Radar de Inteligência Psicográfica
                     </h3>
-                    <p className=\"text-base font-medium text-slate-400 mt-1\">
+                    <p className="text-base font-medium text-slate-400 mt-1">
                         Espelhamento de mercado: Análise interna da empresa vs. Perfil do cliente ideal.
                     </p>
                 </div>
