@@ -34,6 +34,12 @@ export default async function ProposalsDashboard() {
                         Catálogo de Serviços
                     </Link>
                     <Link
+                        href="/proposals/generator"
+                        className="flex items-center justify-center gap-2 bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 border border-purple-500/20 px-4 py-2 rounded-lg font-medium transition-colors w-full sm:w-auto text-sm"
+                    >
+                        Gerador IA
+                    </Link>
+                    <Link
                         href="/proposals/new"
                         className="flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-colors w-full sm:w-auto text-sm"
                     >
