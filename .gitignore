@@ -4,6 +4,7 @@ node_modules/
 out/
 build/
 .DS_Store
+**/Icon?
 *.pem
 
 # Python
@@ -26,4 +27,6 @@ brain/
 
 # Turbopack - exclude Python venv symlinks
 intelligence/venv/
+intelligence/intelligent_env/
+*_env/
 google_credentials.json
