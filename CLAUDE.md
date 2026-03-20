@@ -1,17 +1,17 @@
 # Claude Code Configuration — groowayOS
 
-## 📖 LEIA PRIMEIRO — Context da Sessão
+## 📖 LEIA PRIMEIRO — Antes de Qualquer Ação
 
-Antes de responder qualquer pergunta, leia:
-```
-./context.md (se existir)
-```
+**Ao iniciar sessão, leia nesta ordem:**
 
-Este arquivo contém o estado atual, decisões tomadas, erros resolvidos e próximos passos.
+1. `./context.md` — estado atual, decisões arquiteturais, próximos passos
+2. `./docs/erros-e-solucoes.md` — erros já vistos + soluções confirmadas
+
+**Ao resolver um erro novo:** adicionar em `docs/erros-e-solucoes.md` (Sintoma → Causa → Detecção → Fix → Prevenção)
 
 **Protocolo Claude:**
-- Ao completar uma etapa: "Claude, atualize o context.md"
-- Ao iniciar nova sessão: "Leia context.md e confirme o estado"
+- Ao completar uma etapa: atualizar `context.md`
+- Antes de qualquer commit: `grep -rn 'className=\\"' src/` → deve retornar zero
 
 ---
 

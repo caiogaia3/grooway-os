@@ -60,8 +60,8 @@ export const CommercialPlanPanel = ({
                                     <span className="text-[10px] w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-300 flex items-center justify-center font-bold">0{idx + 1}</span>
                                 </h4>
                                 <div className="space-y-4">
-                                    <p className=\"text-base text-slate-300 leading-relaxed bg-white/5 p-3 rounded-xl\">{srv.por_que_vender}</p>
-                                    <p className=\"text-base text-emerald-100/80 font-bold flex items-center gap-1\"><ArrowRight className="w-3" /> {srv.impacto_esperado}</p>
+                                    <p className="text-base text-slate-300 leading-relaxed bg-white/5 p-3 rounded-xl">{srv.por_que_vender}</p>
+                                    <p className="text-base text-emerald-100/80 font-bold flex items-center gap-1"><ArrowRight className="w-3" /> {srv.impacto_esperado}</p>
                                 </div>
                             </div>
                         ))}

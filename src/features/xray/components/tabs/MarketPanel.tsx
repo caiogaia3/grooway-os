@@ -136,11 +136,11 @@ export const MarketPanel = ({ marketSkill }: MarketPanelProps) => {
                     <div className="grid grid-cols-1 gap-4 w-full md:w-72">
                         <div className="p-4 rounded-3xl bg-white/[0.03] border border-white/5">
                             <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-1">Nicho Alvo</span>
-                            <p className=\"text-sm text-white font-bold\">{findings.niche}</p>
+                            <p className="text-sm text-white font-bold">{findings.niche}</p>
                         </div>
                         <div className="p-4 rounded-3xl bg-white/[0.03] border border-white/5">
                             <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-1">Perfil Psicológico</span>
-                            <p className=\"text-sm text-white font-bold\">{findings.target_icp}</p>
+                            <p className="text-sm text-white font-bold">{findings.target_icp}</p>
                         </div>
                     </div>
                 </div>
@@ -175,7 +175,7 @@ export const MarketPanel = ({ marketSkill }: MarketPanelProps) => {
                     <h4 className="text-[10px] font-black text-emerald-400 mb-4 uppercase tracking-[0.2em] flex items-center gap-2">
                         <SearchCheck className="w-4 h-4" /> Veredito do Espião
                     </h4>
-                    <p className=\"text-base text-slate-300 leading-relaxed font-bold italic\">
+                    <p className="text-base text-slate-300 leading-relaxed font-bold italic">
                         {findings.market_verdict}
                     </p>
                 </div>

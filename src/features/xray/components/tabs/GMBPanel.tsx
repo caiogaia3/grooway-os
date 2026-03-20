@@ -87,7 +87,7 @@ export const GMBPanel = ({ gmbSkill, getScoreBadge }: GMBPanelProps) => {
                                     className="p-4 bg-orange-500/5 rounded-2xl border border-orange-500/10 flex flex-col gap-1"
                                 >
                                     <span className="text-sm font-bold text-slate-100">{item.item}</span>
-                                    <span className=\"text-sm text-orange-300/60 font-medium\">{item.description}</span>
+                                    <span className="text-sm text-orange-300/60 font-medium">{item.description}</span>
                                 </motion.div>
                             ))}
                         </div>
@@ -108,7 +108,7 @@ export const GMBPanel = ({ gmbSkill, getScoreBadge }: GMBPanelProps) => {
                                             <Star key={star} className={`w-3 h-3 ${star <= review.stars ? 'text-yellow-400 fill-yellow-400' : 'text-slate-700'}`} />
                                         ))}
                                     </div>
-                                    <p className=\"text-sm text-slate-300 leading-relaxed italic\">&rdquo;{review.text || "Avaliação sem comentário"}&rdquo;</p>
+                                    <p className="text-sm text-slate-300 leading-relaxed italic">&rdquo;{review.text || "Avaliação sem comentário"}&rdquo;</p>
                                 </div>
                             ))}
                         </div>
@@ -128,7 +128,7 @@ export const GMBPanel = ({ gmbSkill, getScoreBadge }: GMBPanelProps) => {
                                 <span className="w-8 h-8 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-black text-sm shrink-0 border border-emerald-500/20">
                                     {idx + 1}
                                 </span>
-                                <p className=\"text-base text-slate-300 font-medium leading-relaxed pt-1\">{tip}</p>
+                                <p className="text-base text-slate-300 font-medium leading-relaxed pt-1">{tip}</p>
                             </div>
                         ))}
                     </div>
