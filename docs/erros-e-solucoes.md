@@ -1,9 +1,10 @@
 # groowayOS — Erros & Soluções
 
-> **Memória viva do projeto.** Atualizar sempre que um erro for resolvido.
+> **Memória viva do projeto.** Leitura condicional — Claude lê SOMENTE quando a tarefa envolve debugging ou zona com histórico de erro.
 >
-> **Claude:** Leia este arquivo antes de implementar qualquer feature ou corrigir qualquer bug.
-> Ao resolver um novo erro, adicionar no formato: **Sintoma → Causa → Detecção → Fix → Prevenção**
+> **Ao resolver um erro:** adicionar no formato: Sintoma → Causa → Detecção → Fix → Prevenção
+> **Graduação do RADAR:** itens recorrentes (3+ vezes) viram padrões de prevenção aqui
+> **Promoção a regra:** fix aplicado 3+ vezes → vira regra no CLAUDE.md (seção Regras Operacionais)
 
 ---
 
@@ -125,3 +126,17 @@ Ao resolver um erro novo, adicionar na categoria correta com o formato:
 
 **Prevenção:** Como evitar na próxima vez
 ```
+
+---
+
+## 🎓 Padrões Graduados do RADAR
+
+Itens recorrentes do RADAR que se tornaram regras de prevenção:
+
+| Padrão | Regra | Zona | Graduado em |
+|---|---|---|---|
+| escaped quotes JSX | `grep` obrigatório antes de commit | Build/Deploy | 2026-03-20 |
+| motion/react import | Regra: sempre `framer-motion` | Build/Deploy | 2026-03-20 |
+
+> Quando um padrão aqui for aplicado 3+ vezes, ele sobe para CLAUDE.md como Regra Operacional.
+

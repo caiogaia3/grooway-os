@@ -1,138 +1,93 @@
 # Claude Code Configuration — groowayOS
 
-## 📖 LEIA PRIMEIRO — Antes de Qualquer Ação
+## 📖 Ao iniciar sessão
 
-**Ao iniciar sessão, leia nesta ordem:**
+1. `./context.md` — estado atual + zona ativa (source of truth)
+2. `./RADAR.md` — **somente a zona indicada no context.md**
 
-1. `./context.md` — estado atual, decisões arquiteturais, próximos passos
-2. `./docs/erros-e-solucoes.md` — erros já vistos + soluções confirmadas
-
-**Ao resolver um erro novo:** adicionar em `docs/erros-e-solucoes.md` (Sintoma → Causa → Detecção → Fix → Prevenção)
-
-**Protocolo Claude (AUTOMÁTICO — sem esperar pedido):**
-- Ao completar qualquer tarefa/etapa: atualizar `context.md` (o que foi feito, próximos passos, decisões novas)
-- Ao resolver um erro: perguntar se resolveu → se sim, registrar em `docs/erros-e-solucoes.md`
-- Antes de qualquer commit: `grep -rn 'className=\\"' src/` → deve retornar zero
+> `docs/erros-e-solucoes.md` → ler **somente** se a tarefa envolve debugging ou zona com histórico de erro.
+> `docs/architecture.md` → ler **somente** se a tarefa envolve módulo de Tráfego, Deploy, ou Segurança.
 
 ---
 
-## 🎯 O Projeto
+## 🛰️ Protocolo RADAR (Obrigatório)
 
-**groowayOS** — Sistema Operacional para agência de marketing digital Grooway.
+**Arquivo:** `./RADAR.md` | **Skill mestre:** `/arsenal/pessoal/skills/SKILL_radar.md`
 
-Stack:
-- **Frontend:** Next.js 16 + React 19 + TypeScript + Tailwind CSS 4
-- **Backend:** Python 3.9+ (intelligence/), Node.js (Next.js server actions)
-- **Database:** Supabase (PostgreSQL + RLS)
-- **AI:** Google Gemini (primary) + OpenAI GPT-4o-mini (fallback)
-- **Deploy:** VPS Hostinger via Easypanel (CI/CD via GitHub push)
+**Ao ENTRAR numa zona:**
+- Ler itens da zona no RADAR
+- No caminho? → resolve de carona. Fora? → ignora.
 
-Módulos principais:
-- CRM (leads, clientes, pipeline)
-- Predator Orchestrator (10 agentes de diagnóstico)
-- Proposals (gerador de propostas com IA)
-- Tráfego (em construção — agente Google Ads copiloto)
+**Durante TRABALHO:**
+- Notou algo? → anota no RADAR: `- prefixo descrição (DD/MM)`
+- Prefixos: `!` = bloqueia deploy, `?` = investigar, sem prefixo = oportunístico
+- NÃO para o trabalho
+
+**Ao SAIR da zona:**
+- Resolveu item → deleta a linha
+- Padrão recorrente? → gradua pra `erros-e-solucoes.md`
+- Atualizar emoji da zona (🔴🟡🟢⚪)
+
+**🚗 Princípio da Carona:** mesmo caminho → resolve. Caminho oposto → anota. NUNCA desvia rota.
+
+**Auto-higiene (a cada sessão):** itens com 14+ dias sem ação → revisar se ainda são relevantes. Se não, deletar.
 
 ---
 
 ## 🤖 Modo Autônomo
 
-Claude opera em modo autônomo neste projeto:
-- Executa ações de rotina SEM pedir aprovação (criar arquivos, editar, rodar scripts)
+- Executa ações de rotina SEM pedir aprovação (criar/editar arquivos, rodar scripts)
 - Pede confirmação APENAS para: `git push`, deletar arquivos, mudanças de schema em produção
-- Ao iniciar sessão: lê `context.md` e confirma estado sem precisar ser solicitado
+- Antes de qualquer commit: `grep -rn 'className=\\"' src/` → deve retornar zero
+- Ao completar tarefa: atualizar `context.md`
+- Ao resolver erro: perguntar se resolveu → se sim, registrar em `docs/erros-e-solucoes.md`
 
 ---
 
-## 📚 Arsenal — Ferramentas Disponíveis
+## 🎯 O Projeto
 
-**Catálogo completo:**
-- `/Users/CaioGaia/Documents/PROJETOS /arsenal/CATALOG.md`
-- `/Users/CaioGaia/Documents/PROJETOS /arsenal/pessoal/CATALOG.md`
+**groowayOS** — OS para agência de marketing digital Grooway.
 
-**UI/UX — USAR SEMPRE no frontend:**
-- `/Users/CaioGaia/Documents/PROJETOS /arsenal/comunidade/skills/ui-ux-pro-max-skill/`
-- 161 regras de design + 67 estilos UI — consultar antes de criar qualquer componente
+| Stack | Tech |
+|---|---|
+| Frontend | Next.js 16 + React 19 + TypeScript + Tailwind CSS 4 |
+| Backend | Python 3.9+ (intelligence/), Node.js (server actions) |
+| Database | Supabase (PostgreSQL + RLS) |
+| AI | Google Gemini (primary) + OpenAI GPT-4o-mini (fallback) |
+| Deploy | VPS Hostinger via Easypanel (CI/CD via GitHub push) |
 
-**Segurança (OBRIGATÓRIO antes de deploy):**
-- `/Users/CaioGaia/Documents/PROJETOS /arsenal/templates/securitycoderules.md`
-- Cobre: auth, RLS, APIs, data protection, LangGraph, code quality
+Módulos: CRM, Predator Orchestrator, Proposals, Tráfego V2 (Mission Control), Minerador de Leads B2B
 
-**Workflows disponíveis:**
-- `/build-saas` → planejamento técnico (7 etapas)
-- `/scale-2026` → planejamento estratégico (8 etapas)
+> Detalhes de arquitetura, deploy, segurança e arsenal → `docs/architecture.md`
 
 ---
 
-## 📋 Regras que se Aplicam a Este Projeto
-
-Leis obrigatórias do arsenal:
+## 📋 Regras Operacionais
 
 | Regra | Aplicação |
 |---|---|
-| rule-01 (security-isolation) | Frontend NUNCA acessa Service Role key |
-| rule-03 (multi-tenant-shield) | RLS em TODAS as tabelas Supabase |
-| rule-05 (session-hardening) | Cookies: httpOnly, secure, sameSite |
-| rule-06 (clean-architecture) | Services finos, lógica nos services/ |
-| rule-10 (test-first) | TDD — testes antes da implementação |
-| rule-12 (conventional-commits) | Commits: feat/fix/docs/refactor |
-
-**Referência:** `/Users/CaioGaia/Documents/PROJETOS /arsenal/pessoal/rules/`
+| security-isolation | Frontend NUNCA acessa Service Role key |
+| multi-tenant-shield | RLS em TODAS as tabelas Supabase |
+| clean-architecture | Services finos, lógica nos services/ |
+| conventional-commits | `feat:` / `fix:` / `docs:` / `refactor:` |
+| framer-motion only | NUNCA usar `motion/react` — sempre `framer-motion` |
+| escaped quotes | `grep -rn 'className=\\"' src/` = zero antes de commit |
 
 ---
 
-## 🚀 Deploy — Easypanel (Hostinger VPS)
+## 🧠 Sistema Adaptativo (Meta-regras)
 
-- **Plataforma:** Easypanel na VPS Hostinger
-- **CI/CD:** Push para `main` → Easypanel faz build automático
-- **Variáveis de ambiente:** Configuradas no painel Easypanel (NÃO no .env commitado)
-- **Build:** nixpacks.toml já configurado no projeto
-- **Sem:** vercel.json, netlify.toml ou configurações de outras plataformas
+O combo `CLAUDE.md + context.md + RADAR.md + erros-e-solucoes.md` é um sistema vivo:
 
----
+1. **RADAR aprende:** itens recorrentes (3+ vezes na mesma zona) graduam para `erros-e-solucoes.md` como padrão de prevenção
+2. **Context se poda:** manter apenas a sessão atual + 1 anterior. Histórico velho → git log
+3. **Erros amadurecem:** se um fix foi aplicado 3+ vezes, ele vira regra no CLAUDE.md (seção Regras Operacionais)
+4. **Zonas convergem:** zona 🟢 por 3+ sessões → colapsar itens e marcar ⚪ (limpa)
+5. **Protocolos evoluem:** se uma regra nunca é usada em 5+ sessões → questionar se ainda é relevante
 
-## 🗂️ Estrutura Crítica do Projeto
-
-```
-grooway-os/
-├── intelligence/                    # Python — orquestrador e agentes
-│   ├── main.py                     # PredatorOrchestrator (entry point)
-│   ├── skills_engine/
-│   │   ├── core.py                 # PredatorSkill base class (HERDAR AQUI)
-│   │   └── skills/                 # 10 agentes especializados
-│   └── mcp_servers/                # MCPs: Google Ads, Meta Ads, Sheets
-├── src/
-│   ├── app/
-│   │   ├── (os)/crm/clientes/      # CRM — módulo de clientes
-│   │   ├── actions/                # Server actions (ponte Next.js ↔ Python)
-│   │   └── ...
-│   └── core/lib/supabase/          # Clientes Supabase (client/server/middleware)
-└── genesis/                        # Migrations SQL versionadas
-    ├── v1/                         # Schema inicial
-    └── v2/                         # Novas migrations (ICP, tráfego, etc.)
-```
-
----
-
-## 🔒 Padrões de Segurança
-
-- NUNCA commit `.env` ou secrets
-- Supabase: usar `createServerClient` em server actions (nunca client-side para dados sensíveis)
-- Tokens de API dos clientes: tabela `client_api_tokens` com RLS — frontend não acessa direto
-- Google Ads / Meta Ads: tokens sempre via server action, nunca expostos no browser
-
----
-
-## 📝 Convenções de Código
-
-- **Commits:** `feat:`, `fix:`, `docs:`, `refactor:`, `test:` (Conventional Commits)
-- **Branches:** `feature/nome`, `fix/nome`, `docs/nome`
-- **Python:** Herdar de `PredatorSkill`, retornar schema padrão (`pontos_negativos`, `pontos_positivos`, `brechas_diferenciacao`, `recomendacoes`)
-- **TypeScript:** Zod para validação de inputs, sempre tipar com interfaces
-- **Testes:** Rodar `npm test` (frontend) e `pytest` (intelligence/) antes de push
+**Sync Arsenal:** mudou o protocolo? Se é estrutural + genérico → atualiza `SKILL_radar.md` no arsenal
 
 ---
 
 **Projeto iniciado:** 2026-03-20
-**Deploy:** Easypanel / Hostinger VPS
 **Arsenal:** `/Users/CaioGaia/Documents/PROJETOS /arsenal/`
