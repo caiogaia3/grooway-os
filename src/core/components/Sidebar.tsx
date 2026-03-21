@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, Zap, Briefcase, Contact, DollarSign, BarChart3, Workflow, Settings, LogOut, Crosshair } from "lucide-react";
+import { LayoutDashboard, Users, Zap, Briefcase, Contact, DollarSign, BarChart3, Workflow, Settings, LogOut, Crosshair, Database } from "lucide-react";
 
 const navItems = [
     { href: "/dashboard", label: "Painel", icon: LayoutDashboard },
@@ -11,6 +11,7 @@ const navItems = [
     { href: "/crm", label: "CRM", icon: Briefcase },
     { href: "/financeiro", label: "Financeiro", icon: DollarSign },
     { href: "/analytics", label: "Analytics", icon: BarChart3 },
+    { href: "/scraper", label: "Minerador", icon: Database },
     { href: "/trafego", label: "Tráfego", icon: Crosshair },
     { href: "/automacoes", label: "Automações", icon: Workflow },
 ];
@@ -40,7 +41,7 @@ export function Sidebar() {
             </div>
 
             {/* Navigation - Nodes */}
-            <nav className="flex-1 py-8 space-y-4 px-4 overflow-y-auto no-scrollbar">
+            <nav className="flex-1 py-8 space-y-2 px-4 overflow-y-auto no-scrollbar">
                 {navItems.map((item) => {
                     const isFuture = item.href.startsWith('#');
                     // Avoid matching /crm/clientes as active for /crm
@@ -52,20 +53,24 @@ export function Sidebar() {
                             key={item.href + item.label}
                             href={item.href}
                             title={isCollapsed ? item.label : undefined}
-                            className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-center md:justify-start'} gap-4 p-3.5 rounded-2xl transition-all duration-300 group relative ${isActive
-                                ? "sidebar-link-active"
-                                : "text-slate-500 hover:text-white hover:bg-white/5"
+                            className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-center md:justify-start'} gap-4 p-3.5 rounded-2xl transition-all duration-300 group relative overflow-hidden ${isActive
+                                ? "bg-white/[0.04] border border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]"
+                                : "hover:bg-white/[0.02] border border-transparent hover:border-white/[0.02]"
                                 }`}
                         >
-                            <item.icon className={`w-5 h-5 shrink-0 transition-all ${isActive ? "text-white glow-purple-neon" : "group-hover:scale-110"}`} />
+                            {/* Hover accent light */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.02] to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
+                            
+                            <item.icon className={`w-5 h-5 shrink-0 transition-all duration-300 relative z-10 ${isActive ? "text-brand-purple drop-shadow-[0_0_8px_rgba(168,85,247,0.5)] scale-110" : "text-slate-500 group-hover:text-slate-300 group-hover:scale-110"}`} />
+                            
                             {!isCollapsed && (
-                                <span className={`hidden md:inline min-w-0 truncate text-[11px] font-black uppercase tracking-widest ${isActive ? "text-white" : "text-slate-400 group-hover:text-white"}`}>
+                                <span className={`hidden md:inline min-w-0 truncate text-[11px] font-black uppercase tracking-[0.15em] relative z-10 transition-colors duration-300 ${isActive ? "text-white drop-shadow-md" : "text-slate-500 group-hover:text-slate-300"}`}>
                                     {item.label}
                                 </span>
                             )}
 
                             {isActive && (
-                                <div className="absolute right-0 w-1 h-8 bg-purple-500 rounded-l-full shadow-[0_0_10px_#A855F7]" />
+                                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-brand-purple rounded-l-full shadow-[0_0_15px_#A855F7]" />
                             )}
                         </Link>
                     );

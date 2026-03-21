@@ -24,6 +24,26 @@
 - `docs/erros-e-solucoes.md` — memória viva de erros do projeto
 - Supabase: 1 projeto ativo (GroowayOS), org renomeada para "Grooway"
 - Build Easypanel: corrigido (escaped quotes JSX + import motion/react)
+- `RADAR.md` — sistema de inteligência operacional implementado (scout persistente)
+- `SKILL_radar.md` — skill mestre criada no arsenal pessoal
+- `CLAUDE.md` — protocolo RADAR integrado (princípio da carona)
+
+**Concluído — Integração Minerador de Leads B2B (2026-03-20):**
+- `genesis/v2/migrations/004_leads_scraper.sql` — tabelas empresas_leads, contatos_leads, pipeline_jobs + trigger auto-score + RPC pgvector
+- `intelligence/leads_pipeline/` — módulo completo: pipeline.py (orquestrador), maps_scraper.py, web_enricher.py, social_enricher.py, company_analyzer.py, employee_finder.py, email_enricher.py, embedding_generator.py, social_search_enricher.py, linktree_resolver.py
+- `intelligence/api.py` — endpoints: `/leads-pipeline/start`, `/leads-pipeline/status/{id}`, `/leads/mover-funil`, `/leads/search` + Supabase-backed job store
+- `src/app/actions/leads_pipeline.ts` — server actions bridge (4 funções)
+- `src/app/(os)/scraper/page.tsx` — UI funcional: prospecção, progresso real-time, tabela com expandable rows, seleção batch, score badges
+- `src/app/(os)/scraper/funil/page.tsx` — Kanban de funil com 6 estágios (lead_novo → ganho/perdido), cards com contatos e move otimista
+- `src/core/components/Sidebar.tsx` — nav item "Minerador" adicionado com ícone Database
+- Pasta `/temp/leads-pro-app/` deletada após integração completa
+
+---
+
+## 📍 Zona Atual
+- **Zona:** TRÁFEGO + GOOGLE ADS API (V2 Inteligência Suprema)
+- **Trabalhando em:** Concluindo a Fase 4 Front-end (Mission Control, Naming Standards atualizado) e avançando para a Engine.
+- RADAR: 10 abertos | 1 zona 🟡 | 0 zonas 🔴 | varredura: 20/03
 
 ---
 
@@ -31,66 +51,21 @@
 
 | Decisão | Escolha | Motivo |
 |---|---|---|
-| Deploy | VPS Hostinger via Easypanel | Já configurado |
-| CI/CD | GitHub push → Easypanel auto-build | Já configurado |
-| Python backend | FastAPI separado (porta 8000) | 2 serviços independentes no Easypanel |
-| Módulo Tráfego no frontend | Seção separada no sidebar | Não dentro do CRM |
-| Segmento cliente | Lista fechada (10 opções) | Padronização para relatórios |
+| Módulo Sentinela | Machine Learning Causal baseada em CRMs externos | Otimizar campanhas pela "Venda Real" e não cliques |
+| Lances e Circuit Breakers | Limits rígidos (Pausa em 3x CPA) criados em Python | Controle de Danos determinístico (evitar surtos de LLM) |
+| Otimização Preditiva (Fase 4) | LLM analisa métricas a cada 3 dias -> sugere JSON de Mutates no backend | Loop de feedback: Soft-scale (+20%) ou pausa de keywords ruins, com opção de 1-click approve no Frontend |
+| UI/UX Tráfego | Interface "Mission Control" | Focar interações em decisões de alto valor ("Sankey diagrams", Alertas 1-click) |
 | Import Decoder | Snapshot (cópia no momento da conversão) | Mais simples e previsível |
-| Agente de Tráfego | Modo copiloto (usuário aprova antes de subir) | Segurança com budget real |
 
 ---
 
-## Hierarquia de Agentes (Visão do Sistema)
-
-```
-Especialista de Marketing Sênior  [Fase 2 — ESTRATÉGICO]
-│  ICP, posicionamento, conteúdo, scripts de vídeo
-│
-└── Tribunal Boss  [existe no Predator — ANALÍTICO]
-     │  Diagnóstico + compilação de dados
-     │
-     └── Agentes Especialistas  [OPERACIONAL]
-          ├── Gestor de Tráfego  ← BACKEND PRONTO, FALTA FRONTEND
-          ├── Agente de Conteúdo [futuro]
-          └── Agente de SEO [futuro]
-```
-
----
-
-## Pipeline Prospect → Cliente
-
-```
-Decoder (diagnóstico) → Proposta → "Converter em Cliente"
-                                         ↓
-                              clients + client_icp (pré-preenchido do Decoder)
-                                         ↓
-                              Módulo Tráfego → gera campanha → aprova → sobe
-```
-
----
-
-## Próximos Passos (em ordem)
-
-### AGORA — Frontend Tráfego
-- [ ] Sidebar: adicionar item "Tráfego" em `src/core/components/Sidebar`
-- [ ] `/trafego/` — overview de clientes com tráfego ativo
-- [ ] `/trafego/[clienteId]/` — ICP form + botão "Gerar Campanha"
-- [ ] `/trafego/[clienteId]/review` — cards editáveis de campanha
-- [ ] Server action `generate_campaign.ts` → chama FastAPI Python
-
-### DEPOIS — Integração
-- [ ] Configurar segundo serviço no Easypanel (intelligence/ com Dockerfile)
-- [ ] Integrar mcp-google-ads para subir campanha aprovada
-- [ ] Variáveis de ambiente no Easypanel: `INTELLIGENCE_API_URL`, `INTELLIGENCE_API_KEY`
-
-### CONCLUÍDO
-- [x] Aplicar migration 003 no Supabase
-- [x] Criar `intelligence/api.py` — FastAPI
-- [x] Criar `intelligence/Dockerfile`
-- [x] Criar `intelligence/skills_engine/skills/agent_traffic_manager/`
-- [x] Fix build: escaped quotes JSX + motion/react import
-- [x] Criar `docs/erros-e-solucoes.md`
+### AGORA — Gestor de Tráfego V2 (Fases 1, 2 e 3 Concluídas)
+- [x] Backend: Adicionar lógica no Python para Nomenclatura Estrita (`[Cliente] Objetivo | Rede...`).
+- [x] Backend: Expandir `google_ads_server.py` para injetar Tracking Templates na MCC e MUTATE massivo.
+- [x] Backend: Cron Job / Endpoint de `Circuit Breaker` (trava de sangramento 3x CPA).
+- [x] Backend: Webhooks de `Offline Conversions` prontos no FastAPI para fechar loop CRM -> Ads.
+- [x] Frontend: Criar o "Cockpit Global" e o layout Sankey da Aba Tráfego (`/trafego`).
+- [ ] Backend: Engine do Autopilot LLM (Fase 4 - Otimização e Soft-Scaling).
 
 ---
 
@@ -105,6 +80,9 @@ Decoder (diagnóstico) → Proposta → "Converter em Cliente"
 | `intelligence/skills_engine/skills/agent_06_maestro_ads/` | Keywords — reusar no traffic manager |
 | `intelligence/mcp_servers/mcp-google-ads/` | API Google Ads — pronto com OAuth2 |
 | `genesis/v2/migrations/003_clients_and_icp.sql` | Schema clients + ICP + campaigns |
+| `genesis/v2/migrations/004_leads_scraper.sql` | Schema leads scraper + pipeline_jobs |
+| `intelligence/leads_pipeline/pipeline.py` | Orquestrador ABM pipeline (5 etapas) |
+| `src/app/actions/leads_pipeline.ts` | Server actions → Python leads pipeline |
 | `src/core/lib/supabase/` | Clientes Supabase (client/server/middleware) |
 | `src/app/(os)/crm/` | CRM existente — referência de padrão de código |
 | `docs/erros-e-solucoes.md` | Memória viva de erros e soluções |
@@ -120,6 +98,8 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
 INTELLIGENCE_API_URL=http://grooway-intelligence:8000
 INTELLIGENCE_API_KEY=
+APIFY_API_TOKEN=
+HUNTER_API_KEY=
 GOOGLE_ADS_DEVELOPER_TOKEN=
 GOOGLE_ADS_CLIENT_ID=
 GOOGLE_ADS_CLIENT_SECRET=
